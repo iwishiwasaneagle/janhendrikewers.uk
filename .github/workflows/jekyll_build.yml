@@ -24,9 +24,9 @@ jobs:
           build_only: true
           
       - name: "Set up SSH agent"
-        uses: webfactory/ssh-agent@v0.1.1
+      - uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+            ssh-private-key: ${{ secrets.SSH_KEY }}
           
       - name: "Add GitHub to the SSH known hosts file"
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
