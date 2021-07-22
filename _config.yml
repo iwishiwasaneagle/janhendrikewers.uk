@@ -21,4 +21,4 @@ github: iwishiwasanealge # username
 twitter: jhewers
 linkedin: jh-ewers
 
-exclude: [vendor]
+exclude: [vendor,utils]

@@ -15,9 +15,18 @@
     {% endif %}
 
     <!-- Bootstrap -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
-    crossorigin="anonymous">
+    <link rel="preload"
+          as="style"
+          onload="this.rel = 'stylesheet'" 
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+          integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+          crossorigin="anonymous">
+    <noscript>
+          <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+            integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+            crossorigin="anonymous">
+    </noscript>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,12 +37,20 @@
 
 	<!-- Custom styles for this template -->
   <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}static/css/main.css" />
-	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+
+  <link rel="preload"
+        as="style"
+        onload="this.rel = 'stylesheet'" 
+	      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  <noscript>
+        <link rel="stylesheet" 
+        type="text/css"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  </noscript>
+
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
   <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}static/css/syntax.css" />
 
-    <!-- Firebase Analytics -->
-    {% include analytics.html %}
   </head>
   <!-- Main Body-->
   <body>
@@ -60,7 +77,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{{ site.baseurl }}static/js/ie10-viewport-bug-workaround.js"></script>
 	  
-	  <!-- Mathjax Support -->
+	  <!-- Mathjax Support
     <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
@@ -74,7 +91,7 @@
   });
     </script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
+    </script> -->
 	  
   </body>
 </html>
