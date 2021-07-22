@@ -11,17 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - uses: actions/cache@v2
+      - uses: ruby/setup-ruby@v1
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
-      - uses:  helaili/jekyll-action@v2
-        with:
-          build_only: true
+          ruby-version: 3.0
+          bundler-cache: true
+          
+      - name: Build website
+        run: JEKYLL_ENV=production bundle exec jekyll build
           
       - name: "Set up SSH agent"
         uses: webfactory/ssh-agent@v0.5.3
@@ -33,3 +29,8 @@ jobs:
         
       - name: Upload to server
         run: rsync -avr --rsh "ssh" --exclude 'utils/**' --delete-after --delete-excluded _site/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.WWW_DIR }}
+      
+      - name: Ensure correct permissions
+        run: | 
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "find ${{ secrets.WWW_DIR }} -type d -exec chmod 755 {} \;"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "find ${{ secrets.WWW_DIR }} -type f -exec chmod 644 {} \;"
