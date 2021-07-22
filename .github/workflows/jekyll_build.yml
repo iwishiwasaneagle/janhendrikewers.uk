@@ -11,6 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
 
       - uses:  helaili/jekyll-action@v2
         with:
@@ -19,5 +26,5 @@ jobs:
       - name: Upload to DO
         run: | 
           eval $(ssh-agent -s)
-          echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+          echo "${{ secrets.SSH_KEY }}" | tr -d '\r' | ssh-add -
           rsync -avr --rsh "ssh" --exclude 'utils/**' --delete-after --delete-excluded _site/ www@138.68.159.66:/var/www/janhendrikewers.uk/html
