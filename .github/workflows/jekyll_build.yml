@@ -28,7 +28,7 @@ jobs:
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
         
       - name: Upload to server
-        run: rsync -avr --rsh "ssh" --exclude 'utils/**' --delete-after --delete-excluded _site/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.WWW_DIR }}
+        run: rsync -avr --rsh "ssh" --exclude 'utils/**' --exclude={'utils/**'} --delete-after --delete-excluded _site/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.WWW_DIR }}
       
       - name: Ensure correct permissions
         run: | 
