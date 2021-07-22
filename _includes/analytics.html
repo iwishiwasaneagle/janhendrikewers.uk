@@ -1,10 +1,16 @@
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-analytics.js"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', '{{ site.google_analytics }}', 'auto');
-  ga('send', 'pageview');
-
+  var firebaseConfig = {
+    apiKey: "AIzaSyAHoBEuW79aZdeO4ZXrGopAlT6wiA5ofsw",
+    authDomain: "personal-website-ac034.firebaseapp.com",
+    databaseURL: "https://personal-website-ac034.firebaseio.com",
+    projectId: "personal-website-ac034",
+    storageBucket: "personal-website-ac034.appspot.com",
+    messagingSenderId: "833656218217",
+    appId: "1:833656218217:web:caafd3b12fa4339d3438f8",
+    measurementId: "G-ENH6ZXJBKC"
+  };
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
 </script>
