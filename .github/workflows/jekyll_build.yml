@@ -15,6 +15,7 @@ jobs:
         with:
           ruby-version: 3.0
           bundler-cache: true
+          
       - name: Build website
         run: JEKYLL_ENV=production bundle exec jekyll build
           
@@ -28,3 +29,8 @@ jobs:
         
       - name: Upload to server
         run: rsync -avr --rsh "ssh" --exclude 'utils/**' --delete-after --delete-excluded _site/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.WWW_DIR }}
+      
+      - name: Ensure correct permissions
+        run: | 
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "find ${{ secrets.WWW_DIR }} -type d -exec chmod 755 {} \;"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "find ${{ secrets.WWW_DIR }} -type f -exec chmod 644 {} \;"
