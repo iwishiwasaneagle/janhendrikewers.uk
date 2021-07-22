@@ -23,11 +23,13 @@ jobs:
         with:
           build_only: true
           
-      - name: Upload to DO
-        run: | 
-          eval $(ssh-agent -s)
-          echo "${{ secrets.SSH_KEY }}" | tr -d '\r' | ssh-add -
-          mkdir -p ~/.ssh
-          chmod 700 .ssh
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-          rsync -avr --rsh "ssh" --exclude 'utils/**' --delete-after --delete-excluded _site/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.WWW_DIR }}
+      - name: "Set up SSH agent"
+        uses: webfactory/ssh-agent@v0.1.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+          
+      - name: "Add GitHub to the SSH known hosts file"
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+        
+      - name: Upload to server
+        run: rsync -avr --rsh "ssh" --exclude 'utils/**' --delete-after --delete-excluded _site/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.WWW_DIR }}
