@@ -1,4 +1,4 @@
-name: Build and deploy to GitHub Pages
+name: Build and deploy to server
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  github-pages:
+  Deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
