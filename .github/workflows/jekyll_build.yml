@@ -11,17 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - uses: actions/cache@v2
+      - uses: ruby/setup-ruby@v1
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
-      - uses:  helaili/jekyll-action@v2
-        with:
-          build_only: true
+          ruby-version: 3.0
+          bundler-cache: true
+      - name: Build website
+        run: JEKYLL_ENV=production bundle exec jekyll build
           
       - name: "Set up SSH agent"
         uses: webfactory/ssh-agent@v0.5.3
