@@ -2,7 +2,7 @@
 
 [![Build and deploy to server](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/jekyll_build.yml/badge.svg)](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/jekyll_build.yml)
 
-*Uses the [sustatin](https://jekyllt.github.io/sustain) template*
+*Uses the [sustain](https://jekyllt.github.io/sustain) template*
 
 ## Copyright & License
 
