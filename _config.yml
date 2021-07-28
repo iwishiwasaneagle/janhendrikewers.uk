@@ -20,5 +20,6 @@ email: jh.ewers@gmail.com
 github: iwishiwasaneagle # username
 twitter: jhewers
 linkedin: jh-ewers
+google_analytics: G-D63RVP8Q8M
 
 exclude: [vendor,utils]
