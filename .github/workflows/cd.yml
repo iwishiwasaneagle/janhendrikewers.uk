@@ -1,9 +1,6 @@
-name: Build and deploy to server
-
+name: CD
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
   workflow_dispatch:
 
@@ -18,7 +15,7 @@ jobs:
           bundler-cache: true
           
       - name: Build website
-        run: JEKYLL_ENV=production bundle exec jekyll build
+        run: JEKYLL_ENV=production bundle exec jekyll build --lsi
           
       - name: "Set up SSH agent"
         uses: webfactory/ssh-agent@v0.5.3

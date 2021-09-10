@@ -17,9 +17,10 @@ author: Jan-Hendrik Ewers
 description: Personal blog and resume for Jan-Hendrik Ewers.
 avatar: profile.png
 email: jh.ewers@gmail.com
-github: iwishiwasaneagle # username
+github: iwishiwasaneagle
 twitter: jhewers
 linkedin: jh-ewers
 google_analytics: G-D63RVP8Q8M
+disqus: janhendrikewers
 
 exclude: [vendor,utils]
