@@ -1,13 +1,11 @@
 ---
 layout: post
-title: Testing out LaTex with Jekyll
+title: Adding LaTex to Jekyll
 tags:
 - Latex
 - Jekyll
 - Markdown
 ---
-
-# Adding LaTex to Jekyll
 
 I'm about to start my PhD and a logical conclusion from that is that I will be writing a lot on LaTex. If I plan to write any blogs or such about the progress then this LaTex support is needed! Luckily for me [iangoodfellow](http://www.iangoodfellow.com/blog/jekyll/markdown/tex/2016/11/07/latex-in-markdown.html) has written a short guide on this already!
 
