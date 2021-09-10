@@ -1,9 +1,6 @@
-name: Build and deploy to server
-
+name: CD
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
   workflow_dispatch:
 
