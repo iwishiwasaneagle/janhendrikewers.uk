@@ -1,6 +1,6 @@
 # My personal website
-
-[![Build and deploy to server](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/jekyll_build.yml/badge.svg)](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/jekyll_build.yml)
+[![CI](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/ci.yml)
+[![CD](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/cd.yml/badge.svg?branch=master)](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/cd.yml)
 
 *Uses the [sustain](https://jekyllt.github.io/sustain) template*
 
