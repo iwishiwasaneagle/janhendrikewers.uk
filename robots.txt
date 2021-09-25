@@ -1,2 +1,3 @@
 User-agent: *
+Allow: /static/pdf/cv.pdf
 Disallow: /static/*
