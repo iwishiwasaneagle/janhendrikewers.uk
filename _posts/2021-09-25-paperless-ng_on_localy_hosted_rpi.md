@@ -115,7 +115,7 @@ Actually setting up paperless-ng is incredibly simple thanks to `docker-compose`
 We download the previously mentioned `docker-compose.yml` using `curl`:
 
 ```bash
-curl https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/docker/compose/docker-compose.sqlite-tika.yml -o docker-compose.yml
+curl https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/docker/compose/docker-compose.sqlite.yml -o docker-compose.yml
 ```
 
 I have then adjusted the file as follows:
