@@ -187,7 +187,7 @@ Once you've added an email account, you must add a rule to scrape your incoming 
 
 The following is the setup that works for me:
 
-![Add rule screen](/static/img/2021-09-24-paperless-ng_on_locally_hosted_rpi/2021-09-25-paperless-ng_on_localy_hosted_rpi-add_email_rule.png
+![Add rule screen](/static/img/2021-09-24-paperless-ng_on_locally_hosted_rpi/2021-09-25-paperless-ng_on_localy_hosted_rpi-add_email_rule.png)
 
 ## Conclusion
 
