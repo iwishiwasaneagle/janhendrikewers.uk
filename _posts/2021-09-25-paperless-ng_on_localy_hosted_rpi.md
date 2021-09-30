@@ -113,10 +113,10 @@ And that's it! Samba is now set up for any **verified** user to use on your loca
 
 Actually setting up paperless-ng is incredibly simple thanks to `docker-compose` (install it by following [this great tutorial](https://dev.to/elalemanyo/how-to-install-docker-and-docker-compose-on-raspberry-pi-1mo)). Firstly we'll download the config files for sqlite. Sqlite is lower power than postgres but obviously isn't as powerful. If this instance of paperless-ng was being hosted on a more powerful machine, use postgres.
 
-We download the previously mentioned `docker-compose.yml` using `curl` as below. Note we're using the non-Tika version as neither the `Tika` nor `Gotenberg` docker images have `arm` support.
+We download the previously mentioned `docker-compose.yml` using `curl` as below. Note we're using the `arm` flavour of the paperless-ng docker-compoes file as normal apache/tika does not support our architecture. For more info head to [iwishiwasaneagle/apache-tika-arm](https://hub.docker.com/repository/docker/iwishiwasaneagle/apache-tika-arm).
 
 ```bash
-curl https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/docker/compose/docker-compose.sqlite.yml -o docker-compose.yml
+curl https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/docker/compose/docker-compose.sqlite-tika.arm.yml -o docker-compose.yml
 ```
 
 I have then adjusted the file as follows:
