@@ -5,7 +5,6 @@ ads: true
 tags:
   - paperless-ng
   - raspberry-pi
-  - self-hosted
   - backups
 ---
 
