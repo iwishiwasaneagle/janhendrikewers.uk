@@ -1,5 +1,5 @@
 # My personal website
-[![CI](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/ci.yml)
+[![CI](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/ci.yml/badge.svg)](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/ci.yml)
 [![CD](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/cd.yml/badge.svg?branch=master)](https://github.com/iwishiwasaneagle/janhendrikewers.uk/actions/workflows/cd.yml)
 
 *Uses the [sustain](https://jekyllt.github.io/sustain) template*
