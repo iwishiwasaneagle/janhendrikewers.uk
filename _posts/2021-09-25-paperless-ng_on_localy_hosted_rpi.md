@@ -12,6 +12,8 @@ tags:
 
 In this tutorial I will outline how I have set up my locally hosted paperless-ng instance with samba and email.
 
+{% include toc.md %}
+
 ## External HDD
 
 Raspberry Pis run the OS from a SD card. Typical sizes of these cards are anywhere from 4gb to 64gb. However, if you're serious about a scalable archiving, then a larger SD card will be required. 128gb cards are dead cheap these days at around £35, but nothing beats a good old 1tb external HDD. If you're content with storing all your data on the SD card, then skip ahead to the [next section](#samba). You can always come back and add extra storage so don't worry about this step too much if all you're wanting to do is get paperless-ng set up.
@@ -179,7 +181,7 @@ Navigate to [http://localhost:9003/admin/paperless_mail/mailaccount/](http://loc
 
 This would be my setup for the aforementioned throwaway **gmail** account:
 
-![Add email scree](/static/img/2021-09-24-paperless-ng_on_locally_hosted_rpi/2021-09-25-paperless-ng_on_localy_hosted_rpi-add_email.png)
+![Add email screen](/static/img/2021-09-24-paperless-ng_on_locally_hosted_rpi/2021-09-25-paperless-ng_on_localy_hosted_rpi-add_email.png)
 
 ### 2. Add a email rule that works for **you**
 
