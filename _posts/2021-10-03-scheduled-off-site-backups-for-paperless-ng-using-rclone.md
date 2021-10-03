@@ -8,7 +8,7 @@ tags:
   - backups
 ---
 
-I've recently done some work in setting up myself a [Paperless-NG instance on a a Raspberry Pi]({% post_url 2021-09-25-paperless-ng_on_localy_hosted_rpi %}) at home. Since I don't have a lot of resources (i.e. money) to throw at it, all my data resides on a single portable hard drive; not ideal. However, being a PhD student, my university gives me 1TB of OneDrive cloud storage which I'm putting to good use for cheap, off-site data storage.
+I've recently done some work in setting up myself a [Paperless-NG instance on a a Raspberry Pi]({% post_url 2021-09-25-paperless-ng_on_localy_hosted_rpi %}) at home. Since I don't have a lot of resources (i.e. money) to throw at it, all my data resides on a single portable hard drive; not ideal. However, being a PhD student, my university gives me 1TB of OneDrive cloud storage which I'm putting to good use for cheap, off-site data storage. Whilst this guide is for OneDrive, rclone does support [43 different remotes](https://rclone.org/docs/) so you can adapt this guide to your needs.
 
 In this guide we will set up 2 "remotes" with [RClone](https://rclone.org/) and then use [rclone_jobber](https://github.com/wolfv6/rclone_jobber) to easily back up our data.
 
