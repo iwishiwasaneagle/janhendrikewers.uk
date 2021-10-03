@@ -66,4 +66,3 @@ There's two resources I result on the regular when using Markdown and/or Latex:
 1. [This Markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) by `adam-p`
 2. [This table generator](https://www.tablesgenerator.com/) to get plaintext, markdown, latex, etc. tables with formatting and more. Super useful.
 3. [This MathJax cheatsheet](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference) by `MJD`
- 
