@@ -14,6 +14,9 @@ In this guide we will set up 2 "remotes" with [RClone](https://rclone.org/) and 
 
 {% include toc.md %}
 
+> Edit 04/10/2021: Some good comments were made on that other services exist that solve this issue out-of-the-box. I like `rclone` with `rclone_jobber` as it seamlessly does snapshots. It's low cost and easy to set up. Please do consider other methods before mindlessly committing to mine.
+> <iframe id="reddit-embed" src="https://www.redditmedia.com/r/selfhosted/comments/q0l771/mods_remove_if_not_allowed_i_wrote_a_wee_guide_on/hfa7m2v/?depth=1&amp;showmore=false&amp;embed=true&amp;showmedia=false&amp;showedits=false&amp;created=2021-10-04T09%3A47%3A44.498Z" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" scrolling="no" width="640" height="293"></iframe>
+
 ## RClone
 
 First of all, install RClone with whatever package manager you're using. For raspberry pi, `sudo apt-get install rclone` will suffice.
