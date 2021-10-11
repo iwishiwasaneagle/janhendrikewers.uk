@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Scheduling Backups To OneDrive For Paperless-ng Using RClone
-ads: true
 tags:
   - paperless-ng
   - raspberry-pi

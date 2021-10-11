@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Adding LaTex to Jekyll
-ads: true
 tags:
 - Latex
 - Jekyll
