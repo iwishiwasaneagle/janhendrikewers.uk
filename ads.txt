@@ -1,0 +1,4 @@
+---
+layout: null
+---
+google.com, pub-{{ site.google_ads }}, DIRECT, f08c47fec0942fa0
