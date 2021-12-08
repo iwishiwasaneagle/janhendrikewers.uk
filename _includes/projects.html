@@ -3,6 +3,10 @@
   <h3>Projects</h3>
   <div class="panel panel-default">
     <div class="panel-body">
+        <h5 id='jsim'>
+            <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/jsim">jSim</a></strong> 
+            - 
+        </h5>
         <h5>
             <img src="https://spotify.janhendrikewers.uk/favicon.ico" width=16 height=16/>&nbsp;&nbsp;<strong><a href="https://spotify.janhendrikewers.uk">Autonoma</a></strong>
             - We automate your playlists through native Spotify features. Save a song on the go and let our backend deal with the rest. Choose from multiple settings to make Autonoma behave just the way you want it to!
@@ -11,15 +15,15 @@
             <img src="https://boxofhope.co.uk/favicon.ico" width=16 height=16/></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/boxofhope">Box of Hope</a></strong>
             - Box Of Hope is a C++ event driven platform to protect you during the COVID-19 pandemic. BOH uses NFC and WiFi technology to ensure your mask usage is on point and employs sterilizing UV LEDs to clean your fabric mask.
         </h5>
-        <h5>
+        <h5 id='opp4sar'>
             <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/OPP_4_SAR">Optimum Path Planning for Search and Rescue</a></strong>
-            - Jan-Hendrik Ewers has been working on Optimal Path Planning (OPP) for (4) Search and Rescue (SAR) for their Masters Thesis. This repository it the codebase for said thesis.
+            - 
         </h5>
-        <h5>
+        <h5 id='wiringPi'>
             <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/wiringPi-mock">wiringPi-mock</a></strong>
-            - A dummy wiringPi library, for compiling on non-raspberry pi platforms
+            - 
         </h5>
-        <h5>
+        <h5 id='memer'>
             <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/memer">memer</a></strong>
             - CLI tool to quickly convert normal text into things your friends will hate!
         </h5>
@@ -27,3 +31,31 @@
   </div>
 </div>
 </section>
+
+<script>
+    const projects = [
+        {
+            id:'jsim',
+            repo:'iwishiwasaneagle/jsim'
+        },
+        {
+            id:'opp4sar',
+            repo:'iwishiwasaneagle/OPP_4_SAR'
+        },
+        {
+            id:'wiringPi',
+            repo:'iwishiwasaneagle/wiringPi-mock'
+        },
+        {
+            id:'memer',
+            repo:'iwishiwasaneagle/memer'
+        }
+        ];
+
+    projects.forEach((project) => {
+        $.ajax('https://api.github.com/repos/'+project.repo).done(function(json){
+
+            $('#'+project.id).append(json.description)
+        }); 
+    });
+</script>
