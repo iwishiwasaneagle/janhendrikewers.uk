@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Paperless-ng On Raspberry Pi With Email And Samba
+date: '2021-09-25'
+categories: post
 tags:
   - paperless-ng
   - raspberry-pi

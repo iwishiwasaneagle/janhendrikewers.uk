@@ -4,23 +4,52 @@ title: Blog
 ---
 
 <div class="container">
-<h3>Archive</h3>
-  <div class="panel panel-default">
-    <div class="panel-body">
-		{% for post in site.posts %}
-			<div class="row">
-				 <div class="col-sm-4 col-md-4 col-lg-4">
-					 <h5 style="text-align: right">
-					 	{{ post.date | date: "%B %e, %Y" }}
-					 </h5>
-				 </div>
-				 <div class="col-sm-8 col-md-8 col-lg-8">
-					 <h5 style="text-align: left">
-					 	<strong><a href="{{ post.url }}">{{ post.title }}</a></strong> - <a href="{{ post.url }}#disqus_thread">Leave a comment</a>
-					 </h5>
-				 </div>
+	<h3 class='text-center'>Blog Posts</h3>
+	
+	{%- assign posts = site.posts | where:"categories","post" -%}
+	{%- assign groupByYear = posts | group_by_exp:"post","post.date | date:'%Y' " -%}
+	<!-- total posts: {{ posts.size }} -->
+
+	<div class='col-sm-12 col-md-12 col-lg-12'>
+		{%- for year in groupByYear -%}
+		<div class='col ps-4 pe-4'>
+			<h4 class="fs-4 text-center fw-bold">{{ year.name }}</h4>
+			{%- for item in year.items -%}
+				<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+					<div class="col-sm-4 col-md-4 col-lg-4">
+
+						<h5 class='text-sm-start text-md-end text-lg-end '>
+							{{ item.date | date: "%B %e, %Y" }}
+						</h5>
+					</div>
+					<div class="col-sm-8 col-md-8 col-lg-8">
+						<h5 class='text-start'>
+							<strong><a href="{{ item.url }}">{{ item.title }}</a></strong> - <a href="{{ item.url }}#disqus_thread">Leave a comment</a>
+						</h5>
+					</div>
 			</div>
-	    {% endfor %}
+		{%- endfor -%}
+		</div>
+		{%- endfor -%}
 	</div>
-  </div>
+
+	
+	<!-- <div class="panel panel-default">
+		<div class="panel-body">
+			{% for post in site.posts %}
+				<div class="row">
+					<div class="col-sm-4 col-md-4 col-lg-4">
+						<h5 style="text-align: right">
+							{{ post.date | date: "%B %e, %Y" }}
+						</h5>
+					</div>
+					<div class="col-sm-8 col-md-8 col-lg-8">
+						<h5 style="text-align: left">
+							<strong><a href="{{ post.url }}">{{ post.title }}</a></strong> - <a href="{{ post.url }}#disqus_thread">Leave a comment</a>
+						</h5>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div> -->
 </div>

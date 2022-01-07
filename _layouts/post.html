@@ -7,20 +7,25 @@ layout: layout
 
 <div class="container">
 	<div class="blog-post">
-		<h3>
-		  <strong><a href="{{ page.url }}">{{ page.title }}</a></strong>
-		</h3>
+		<p class='fs-3 fw-bold'>
+		  {{ page.title }}
+		</p>
 	</div>
 	<div class="blog-title">
-		<h4>
+		<p class='fs-5'>
 		{{ page.date | date: "%B %e, %Y" }}
 			&nbsp;&nbsp;
 			{% for tag in page.tags %}
-			 <span class="label label-success">{{ tag }}</span>
+
+			 <span class="badge rounded-pill bg-primary">{{ tag }}</span>
+
 			{% endfor %}
-			{% include socials/share-buttons.html %}
-		</h4>
+		</p>
+		{% include socials/share-buttons.html %}
 	</div>
+	
+	<hr/>
+	
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div class="blogpost">
@@ -29,17 +34,17 @@ layout: layout
 			   <div class="related-posts">
 				   <h5>Related Posts</h5>
 				   {% for post in site.related_posts limit:3 %}
-						<div class="row">
-							 <div class="col-sm-4 col-md-4 col-lg-4">
-								 <h6 style="text-align: right">
-								 	{{ post.date | date: "%B %e, %Y" }}
-								 </h6>
-							 </div>
-							 <div class="col-sm-8 col-md-8 col-lg-8">
-								 <h6 style="text-align: left">
-								 	<strong><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></strong>
-								 </h6>
-							 </div>
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									{{ post.date | date: "%B %e, %Y" }}
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="{{ post.url }}">{{ post.title }}</a>
+								</h6>
+							</div>
 						</div>
 					{% endfor %}
 			   </div>
