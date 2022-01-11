@@ -13,6 +13,8 @@ jobs:
         with:
           ruby-version: 3.0
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      
+      - run: bundle info classifier-reborn
           
       - name: Build website
         run: JEKYLL_ENV=production bundle exec jekyll build --trace --lsi
