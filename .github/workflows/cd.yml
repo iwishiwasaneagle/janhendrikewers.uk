@@ -17,7 +17,9 @@ jobs:
       - run: bundle info classifier-reborn
           
       - name: Build website
-        run: JEKYLL_ENV=production bundle exec jekyll build --trace --lsi
+        run: |
+          bundle info classifier-reborn
+          JEKYLL_ENV=production bundle exec jekyll build --trace --lsi
           
       - name: "Set up SSH agent"
         uses: webfactory/ssh-agent@v0.5.3
