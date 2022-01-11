@@ -1,7 +1,7 @@
 ---
 layout: post
 title: My literature workflow 1 month into my PhD d
-date: '2022-01-07'
+date: '2022-01-11'
 categories: post
 tags:
   - paperless-ng

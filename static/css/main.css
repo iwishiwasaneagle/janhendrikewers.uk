@@ -103,3 +103,9 @@ body {
 div.footer{
   border-bottom: 5px solid #2196f3;
 }
+
+/* Search Bar
+-------------------------------------------------- */
+:root {
+  --aa-primary-color-rgb: $primary;
+}

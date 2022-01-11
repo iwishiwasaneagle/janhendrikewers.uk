@@ -25,4 +25,11 @@ google_ads: 4960626434138868
 orcid: 0000-0002-8498-1410
 utterances: iwishiwasaneagle/janhendrikewers.uk
 
+algolia:
+  application_id: '2PA5ICUOKI'
+  index_name: 'personal_website'
+  public_key: '0959bf81c3e205f75ceb34c1fd0b378a'
+  files_to_exclude: ['blog.html', 'atom.html', 'index.html', '404.html']
+
+
 exclude: [vendor,utils]
