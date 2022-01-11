@@ -15,7 +15,7 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           
       - name: Build website
-        run: JEKYLL_ENV=production bundle exec jekyll build --lsi
+        run: JEKYLL_ENV=production bundle exec jekyll build # --lsi
           
       - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.5.3
