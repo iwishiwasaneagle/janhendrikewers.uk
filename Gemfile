@@ -4,7 +4,7 @@ gem "jekyll", "~> 4.2.0"
 
 gem "webrick", "~> 1.7"
 
-gem 'classifier-reborn'
+gem "classifier-reborn"
 
 group :jekyll_plugins do
   gem 'jekyll-algolia', "~> 1.7.1"
