@@ -30,6 +30,13 @@ algolia:
   index_name: 'personal_website'
   public_key: '0959bf81c3e205f75ceb34c1fd0b378a'
   files_to_exclude: ['blog.html', 'atom.html', 'index.html', '404.html']
+  settings:                                                                      
+    searchableAttributes:                                                        
+      - title                                                                    
+      - headings                                                                 
+      - unordered(content)                                                       
+      - unordered(tags)                                                          
+      - unordered(url)   
 
 
 exclude: [vendor,utils]
