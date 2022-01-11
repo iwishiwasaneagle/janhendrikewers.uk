@@ -15,7 +15,7 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
           
       - name: Build website
-        run: JEKYLL_ENV=production bundle exec jekyll build --trace # --lsi
+        run: JEKYLL_ENV=production bundle exec jekyll build --trace --lsi
           
       - name: "Set up SSH agent"
         uses: webfactory/ssh-agent@v0.5.3
@@ -32,3 +32,6 @@ jobs:
         run: | 
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "find ${{ secrets.WWW_DIR }} -type d -exec chmod 755 {} \;"
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "find ${{ secrets.WWW_DIR }} -type f -exec chmod 644 {} \;"
+
+      - name: "Auto-index website"
+        run: ALGOLIA_API_KEY=${{ secrets.ALGOLIA_ADMIN_KEY }} bundle exec jekyll algolia
