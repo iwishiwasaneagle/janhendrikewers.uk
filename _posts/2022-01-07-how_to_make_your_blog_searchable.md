@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to make your blog searchable using Algolia 
+title: How To Make Your Blog Searchable Using Algolia 
 date: '2022-01-07'
 categories: post
 tags:
