@@ -19,7 +19,7 @@ Add the following code to `_layouts/post.html`:
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 {% endhighlight %}
 
-**Note:** `cdn.mathjax.org` has been deprecated. Please use `cdnjs.cloudflare.com` as per https://www.mathjax.org/cdn-shutting-down/
+**Note:** `cdn.mathjax.org` has been deprecated. Please use `cdnjs.cloudflare.com` as per [https://www.mathjax.org/cdn-shutting-down/](https://www.mathjax.org/cdn-shutting-down/)
 
 Then you can write normal MathJax expressions such as
 
