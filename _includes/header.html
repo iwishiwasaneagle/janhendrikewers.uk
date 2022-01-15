@@ -46,8 +46,7 @@
         // {% raw %}
         templates: {
           item({ item, createElement, components }) {
-            return createElement('div', null,
-              createElement('a', { href: item.url, class: "text-decoration-none text-body" },
+            return createElement('a', { href: item.url, class: "text-decoration-none text-body" }, createElement('div', null, 
                 components.Highlight({ hit: item, attribute: 'title', tagName: 'strong' })
               ),
             );
