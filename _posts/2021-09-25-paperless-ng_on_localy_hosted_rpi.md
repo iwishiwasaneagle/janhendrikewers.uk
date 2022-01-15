@@ -21,7 +21,7 @@ Raspberry Pis run the OS from a SD card. Typical sizes of these cards are anywhe
 
 First thing you'll need to do is find the path to your hard drive. This is `/dev/sda` for me.
 
-```bash
+{% highlight bash %}
 ubuntu@ubuntu:~$ sudo lsblk
 NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 loop0         7:0    0  48.9M  1 loop /snap/core18/2073
@@ -36,26 +36,26 @@ sda           8:0    0 931.5G  0 disk
 mmcblk0     179:0    0  29.8G  0 disk
 ├─mmcblk0p1 179:1    0   256M  0 part /boot/firmware
 └─mmcblk0p2 179:2    0  29.6G  0 part /
-```
+{% endhighlight %}
 
 For reliable mounting, I like to use the UUID of the hard drive as the device path can change with mounts. This is found with `fdisk -l` as outlined below. Your UUID **will** be different.
 
-```bash
+{% highlight bash %}
 ubuntu@ubuntu:~$ sudo fdisk -l /dev/sda | grep identifier
 Disk identifier: 8CCB7408-46A1-4C76-BE9A-DBCD294DBF3F
-```
+{% endhighlight %}
 
 Next step is to create a mount point for the partition. Please excuse my hard drive naming convention...
 
-```bash
+{% highlight bash %}
 sudo mkdir -p /media/PORTABLE_UN/
-```
+{% endhighlight %}
 
 Next, add the following to `fstab` via your favourite editor (`sudo vim /etc/fstab`). **Important:** change your UUID and mount locations as needed. I like formatting my portable drives using `exfat` as this format is easily read on Windows machines too.
 
-```fstab
+{% highlight fstab %}
 UUID=8CCB7408-46A1-4C76-BE9A-DBCD294DBF3F   /mount/PORTABLE_UN  exfat   defaults,uid=1000,gid=1000,umask=022   0   0
-```
+{% endhighlight %}
 
 `uid=1000` is the user id, `guid=1000` is the group id, `umask=022` this will set permissions so that the owner has read, write, execute. Group and Others will have read and execute.
 
@@ -67,38 +67,38 @@ Samba is a great solution for a locally hosted, networked instance of paperless-
 
 Firstly install samba and the associated common binaries.
 
-```bash
+{% highlight bash %}
 sudo apt-get install samba samba-common-bin
-```
+{% endhighlight %}
 
 Then we create a folder somewhere on the filesystem. This tutorial uses a [portable hard drive](#external-hdd) and thus we create a folder called `paperless` on it. You can use any folder you desire though. Just make sure to change the steps as needed.
 
-```bash
+{% highlight bash %}
 mkdir -p /media/PORTABLE_UN/paperless
-```
+{% endhighlight %}
 
 Add the following to the end of `/etc/samba/smb.conf`
 
-```conf
+{% highlight conf %}
 [piperless-ng]
 path = /media/PORTABLE_UN/paperless
 writeable=Yes
 create mask=0777
 directory mask=0777
 public=no
-```
+{% endhighlight %}
 
 Samba security works by allowing selected users access to partitions **if `public=no`**. This means your `$USER` is being added to the known list of users with access. For me this is `ubuntu` as I'm using [ubuntu server](https://ubuntu.com/download/raspberry-pi). The user is granted permission with `sudo smbpasswd -a $USER`.
 
 After all these changes have been made, restart `smbd` on the RPi.
 
-```bash
+{% highlight bash %}
 sudo systemctl restart smbd
-```
+{% endhighlight %}
 
 It's always good practice to test that a service is properly configured after slaving away at the configs! For this particular case, the following gives us a quick overview:
 
-```bash
+{% highlight bash %}
 $ smbclient -Uubuntu -L //192.168.0.73/
         Sharename       Type      Comment
         ---------       ----      -------
@@ -106,7 +106,7 @@ $ smbclient -Uubuntu -L //192.168.0.73/
         piperless-ng    Disk
         IPC$            IPC       IPC Service (ubuntu server (Samba, Ubuntu))
 SMB1 disabled -- no workgroup available
-```
+{% endhighlight %}
 
 Note that my RPis ip address is `192.168.0.73` and my samba user is `ubuntu`.
 
@@ -118,13 +118,13 @@ Actually setting up paperless-ng is incredibly simple thanks to `docker-compose`
 
 We download the previously mentioned `docker-compose.yml` using `curl` as below. Note we're using the `arm` flavour of the paperless-ng docker-compoes file as normal apache/tika does not support our architecture. For more info head to [iwishiwasaneagle/apache-tika-arm](https://hub.docker.com/repository/docker/iwishiwasaneagle/apache-tika-arm).
 
-```bash
+{% highlight bash %}
 curl https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/docker/compose/docker-compose.sqlite-tika.arm.yml -o docker-compose.yml
-```
+{% endhighlight %}
 
 I have then adjusted the file as follows:
 
-```diff
+{% highlight diff %}
 48c48
 <       - 8000:8000
 ---
@@ -145,7 +145,7 @@ I have then adjusted the file as follows:
 < volumes:
 <   data:
 <   media:
-```
+{% endhighlight %}
 
 - I change the outward facing port from `8000` to `9003` as this suits my needs.
 - The `data` and `media` docker volumes are changed to folders on my HDD to save space on the SD card.
@@ -154,17 +154,17 @@ I have then adjusted the file as follows:
 
 Next pull the docker images with `docker-compose pull` and create a paperless-ng superuser with:
 
-```bash
+{% highlight bash %}
 docker-compose run --rm webserver createsuperuser
-```
+{% endhighlight %}
 
 Enter any username and password you'd like.
 
 And finally to run your own instance of paperless-ng, run the following:
 
-```bash
+{% highlight bash %}
 docker-compose up
-```
+{% endhighlight %}
 
 ## Email
 

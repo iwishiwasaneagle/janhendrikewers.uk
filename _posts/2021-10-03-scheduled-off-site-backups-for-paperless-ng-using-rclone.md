@@ -32,7 +32,7 @@ What we're going to do is create the first "remote" within OneDrive (in green on
 
 Connecting to OneDrive via rclone is stupid easy. First run `rclone config` *on the raspberry pi*:
 
-```bash
+{% highlight bash %}
 $ rclone config
 Current remotes:
 
@@ -47,12 +47,12 @@ c) Copy remote
 s) Set configuration password
 q) Quit config
 e/n/d/r/c/s/q>
-```
+{% endhighlight %}
 
 As you can see, this opens a empty menu for us with a couple commands. Hit `n` for new and type in a descriptive name such as `onedrive_uni`. After this you will see roughly 43+ different remote types for you to chose. At the time of writing, the OneDrive remote was number 26.
 
 
-```bash
+{% highlight bash %}
 Type of storage to configure.
 Enter a string value. Press Enter for the default ("").
 Choose a number from below, or type in your own value
@@ -73,11 +73,11 @@ Choose a number from below, or type in your own value
 43 / seafile
    \ "seafile"
 Storage> 26
-```
+{% endhighlight %}
 
 The next 2 options are `client_id` and `client_secret` which we can leave blank. The next options is region which will *probably* be "Microsoft Cloud Global" (i.e. option 1) for you.
 
-```bash
+{% highlight bash %}
 OAuth Client Id
 Leave blank normally.
 Enter a string value. Press Enter for the default ("").
@@ -98,13 +98,13 @@ Choose a number from below, or type in your own value
  4 / Azure and Office 365 operated by 21Vianet in China
    \ "cn"
 region> 1
-```
+{% endhighlight %}
 
 The next options allows you to edit the advanced configuration (which I have never needed to), so leave that blank and hit enter.
 
 This next step is different if you're doing this on a headless machine (such as via SSH) or one with a monitor. I will go over how to do the headless setup, but this is very similar to the non-headless one. Hit `n` and press enter.
 
-```bash
+{% highlight bash %}
 For this to work, you will need rclone available on a machine that has
 a web browser available.
 
@@ -119,7 +119,7 @@ Then paste the result.
 
 Enter a string value. Press Enter for the default ("").
 config_token>
-```
+{% endhighlight %}
 As you can see, the next step requires rclone on a non-headless machine. If you're doing the setup via SSH, this will most likely be the machine you're physically at.
 
 1. Execute `rclone authorize "onedrive"
@@ -129,7 +129,7 @@ As you can see, the next step requires rclone on a non-headless machine. If you'
 
 Next up is the type of configuration which is "OneDrive Personal or Business" and will (most likely) be yours too.
 
-```bash
+{% highlight bash %}
 Type of connection
 Enter a string value. Press Enter for the default ("onedrive").
 Choose a number from below, or type in an existing value
@@ -148,7 +148,7 @@ Choose a number from below, or type in an existing value
  7 / Sharepoint server-relative path (advanced, e.g. /teams/hr)
    \ "path"
 config_type> 1
-```
+{% endhighlight %}
 
 The next two options are left on their defaults.
 
@@ -160,13 +160,13 @@ As before, select the correct remote type which this time is "Encrypt/Decrypt a 
 
 The next step will ask for the location of your remote. For this guide we are focusing on OneDrive but you could chose **any** remote. To keep my OneDrive organised, I chose `onedrive_uni:backups/`.
 
-```bash
+{% highlight bash %}
 Remote to encrypt/decrypt.
 Normally should contain a ':' and a path, e.g. "myremote:path/to/dir",
 "myremote:bucket" or maybe "myremote:" (not recommended).
 Enter a string value. Press Enter for the default ("").
 remote> onedrive_uni:backups/
-```
+{% endhighlight %}
 
 The next two steps focusing on the levels of encryption. I usually go for "standard" for filename encryption, and "true" for directory encryption.
 
@@ -174,7 +174,7 @@ Be very careful in these next steps as once you've entered your password and sal
 
 My configuration for the password and salt can be seen below. I chose 128 bit keys but you can go for whatever you like.
 
-```bash
+{% highlight bash %}
 Password or pass phrase for encryption.
 y) Yes type in my own password
 g) Generate random password
@@ -209,7 +209,7 @@ configuration file, so keep this generated password in a safe place.
 y) Yes (default)
 n) No
 y/n> y
-```
+{% endhighlight %}
 
 Once again, leave the final two options as default.
 
@@ -219,7 +219,7 @@ Strictly speaking, `rclone_jobber` is not required. A bash one-liner using `rclo
 
 Execute the following 3 lines
 
- ```bash
+ {% highlight bash %}
 # Clone the repo
 $ git clone https://github.com/wolfv6/rclone_jobber /opt/rclone_jobber
 
@@ -231,7 +231,7 @@ $ cp examples/job_backup_to_remote.sh ./
 
 # Create the filter_rules file
 $ touch filter_rules
-```
+{% endhighlight %}
 
 The original script uses environmental variables, but I prefer hard-coding these values. Skip these steps if you would rather not.
 
@@ -243,7 +243,7 @@ The original script uses environmental variables, but I prefer hard-coding these
 
 My final `job_backup_to_remote.sh` looks like this:
 
-```bash
+{% highlight bash %}
 #!/usr/bin/env sh
 
 ################################### license ##################################
@@ -265,15 +265,15 @@ options="--filter-from=$rclone_jobber/filter_rules -L -v" <-- Optional -L (follo
 monitoring_URL="REDACTED"
 
 $rclone_jobber/rclone_jobber.sh "$source" "$dest" "$move_old_files_to" "$options" "$(basename $0)" "$monitoring_URL"
-```
+{% endhighlight %}
 
 We then need to create the `filter_rules` file. My current setup just excludes the `consume` and `export` directories and looks like:
 
-```
+{% highlight bash %}
 $ cat filter_rules
 - consume/**
 - export/**
-```
+{% endhighlight %}
 
 ## Cron
 
@@ -281,9 +281,9 @@ To automate this process we need to use a scheduler, such as `cron`. `cron` is g
 
 Begin editing the crontab with `cron -e`. Add the following to the end of it:
 
-```cron
+{% highlight cron %}
 0 2 * * * /opt/rclone_jobber/job_backup_to_remote.sh
-```
+{% endhighlight %}
 
 This reads as "run `/opt/rclone_jobber/job_backup_to_remote.sh` at 2:00 am every day". You may edit this to suit your needs. Note, however, that rclone is smart enough to only update the backup with new data.
 

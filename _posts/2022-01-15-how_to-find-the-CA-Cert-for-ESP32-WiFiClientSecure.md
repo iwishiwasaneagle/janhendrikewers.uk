@@ -13,7 +13,7 @@ I just spent the last 2 hours trawling through source code (whilst getting incre
 
 This is an example for [www.howsmyssl.com](www.howsmyssl.com) so you must change the address in the command as you require. The correct cert in this example it to pick the 3rd one in the chain, with `i:0 = Digital Signature Trust Co.` as it is the parent certificate.
 
-```raw
+{% highlight raw %}
 $ openssl s_client -showcerts -connect www.howsmyssl.com:443
 
 depth=2 C = US, O = Internet Security Research Group, CN = ISRG Root X1
@@ -47,18 +47,18 @@ MIIFYDCCBEigAwIBAgIQQAF3ITfU6UK47naqPGQKtzANBgkqhkiG9w0BAQsFADA/
 Dfvp7OOGAN6dEOM4+qR9sdjoSYKEBpsr6GtPAQw4dy753ec5
 -----END CERTIFICATE-----
 ...
-```
+{% endhighlight %}
 
 Then in your C++ code, use it as shown below:
 
-```c++
+{% highlight c++ %}
 const char promCert[] = \
 "-----BEGIN CERTIFICATE-----\n" \
 "MIIFYDCCBEigAwIBAgIQQAF3ITfU6UK47naqPGQKtzANBgkqhkiG9w0BAQsFADA/\n" \
 ...
 "Dfvp7OOGAN6dEOM4+qR9sdjoSYKEBpsr6GtPAQw4dy753ec5\n" \
 "-----END CERTIFICATE-----\n";
-```
+{% endhighlight %}
 
 It's very important to ensure that you have copy/pasted the cert **EXACTLY** as it was shown with `openssl`. That includes the begin, and end certificate lines For a complete example, have a look at the [official example][1].
 

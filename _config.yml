@@ -36,7 +36,11 @@ algolia:
       - headings                                                                 
       - unordered(content)                                                       
       - unordered(tags)                                                          
-      - unordered(url)   
+      - unordered(url)  
+
+# More › http://kramdown.gettalong.org/quickref.html
+# Options › http://kramdown.gettalong.org/options.html
+kramdown:
 
 
 exclude: [vendor,utils]

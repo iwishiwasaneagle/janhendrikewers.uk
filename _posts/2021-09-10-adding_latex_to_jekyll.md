@@ -15,15 +15,15 @@ I'm about to start my PhD and a logical conclusion from that is that I will be w
 
 Add the following code to `_layouts/post.html`:
 
-```html
+{% highlight html %}
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-```
+{% endhighlight %}
 
 **Note:** `cdn.mathjax.org` has been deprecated. Please use `cdnjs.cloudflare.com` as per https://www.mathjax.org/cdn-shutting-down/
 
 Then you can write normal MathJax expressions such as
 
-```latex
+{% highlight latex %}
 \vec{\alpha}
 =
 \begin{bmatrix}
@@ -37,7 +37,7 @@ Then you can write normal MathJax expressions such as
     0
 \end{bmatrix}
 $$
-```
+{% endhighlight %}
 
 to get
 

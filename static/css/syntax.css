@@ -1,4 +1,13 @@
-.highlight  { background: #ffffff; }
+.highlight  { 
+    background: #e8f5e9;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+pre{
+    margin-bottom: 0;
+}
+
 .highlight .c { color: #999988; font-style: italic } /* Comment */
 .highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
 .highlight .k { font-weight: bold } /* Keyword */
@@ -63,3 +72,11 @@
 .highlight .lineno {-webkit-user-select: none;-moz-user-select: none; -o-user-select: none;}
 .lineno::-moz-selection {background-color: transparent;} /* Mozilla specific */
 .lineno::selection {background-color: transparent;} /* Other major browsers */
+.highlight .lineno {
+    color: #707771;
+    text-align: end;
+    padding-right: 4px;
+    margin-right: 4px;
+    border-right: 2px solid #b6c2b7;
+    border-radius: 1px;
+}
