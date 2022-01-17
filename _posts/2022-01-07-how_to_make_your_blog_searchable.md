@@ -8,7 +8,7 @@ tags:
   - search
 ---
 
-I got bored today and decided I needed a tool to let readers search my {{site.posts | size}} blog posts. Writing my own backend API and such was too tedious so I got inspiration from the [Bootstrap docs](https://getbootstrap.com/docs/5.1/getting-started/introduction/) and decided to look into Algolia. Lukily for me, the kind folks at Algolia have already created a [Jekyll tool](https://github.com/algolia/jekyll-algolia) for me to use!
+I got bored today and decided I needed a tool to let readers search my {{site.posts | size}} blog posts. Writing my own backend API and such was too tedious so I got inspiration from the [Bootstrap docs](https://getbootstrap.com/docs/5.1/getting-started/introduction/) and decided to look into Algolia. Luckily for me, the kind folks at Algolia have already created [Jekyll tool](https://github.com/algolia/jekyll-algolia) and [autocomplete.js][ac.js] for me to use!
 
 In this post I will talk you through my installation and implementation of Algolia.
 
@@ -18,7 +18,7 @@ In this post I will talk you through my installation and implementation of Algol
 
 ### Setup
 
-Just add `jekyll-algolia` to your Gemfile like so
+The very first step is to add `jekyll-algolia` to your Gemfile like so
 
 {% highlight ruby %}
 group :jekyll_plugins do
@@ -26,7 +26,7 @@ group :jekyll_plugins do
 end
 {% endhighlight %}
 
-and run `bundle install`. The next step is to configure the plugin to work with the Algolia API in order to _index_ your posts. For this you have to provide your account credentials. Luckily for you there is a [free community tier](https://www.algolia.com/users/sign_up/hacker)!
+and run `bundle install`. The next, configure the plugin to work with the Algolia API[^fn1] in order to _index_ your posts. This is what makes your blog searchable. For this you have to provide your account credentials. Luckily for you there is a [free community tier](https://www.algolia.com/users/sign_up/hacker)!
 
 You can find your credentials at [algolia.com/account/api-keys/](https://www.algolia.com/account/api-keys/) and place them into your `_config.yml`.
 
@@ -56,7 +56,7 @@ to the end of my `Deploy` job, to ensure that the index is uploaded once everyth
 
 ## Frontend
 
-Indexes are uploaded, the website is updated. Now the only thing that remains is implementing a functional search box... yikes. [`Autocomplete`](https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete/) is to the rescue!
+Indexes are uploaded, the website is updated. Now the only thing that remains is implementing a functional search box... yikes. [`autocomplete.js`][ac.js] is to the rescue!
 
 ### Installation
 
@@ -138,3 +138,8 @@ Algolia has built a very excellent set of tools for us casuals to play around wi
 At the time of writing this post, I have 3 published blog posts so it works very well 100% of the time as all posts are being shown. It wil be interesting to see how my setup scales over time.
 
 If you have any comments, questions, or queries, then please use the comment section below!
+
+---
+
+  [ac.js]: https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete/
+  [^fn1]: This website is continuously being updated by me, so you'll find my up-to-date config for I use `jekyll-algolia` [here](https://github.com/iwishiwasaneagle/janhendrikewers.uk/blob/master/_config.yml).
