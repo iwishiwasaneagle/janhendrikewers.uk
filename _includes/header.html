@@ -11,7 +11,7 @@
         <li><a href="/static/pdf/cv.pdf" class="nav-link px-2 link-dark">RESUME</a></li>
       </ul>
       
-      <div id="autocomplete" class=''></div>
+      <div id="autocomplete" class="nav-link"></div>
 
     </header>
 
@@ -21,6 +21,7 @@
     '{{site.algolia.public_key}}',
   );
   const { autocomplete, getAlgoliaResults } = window['@algolia/autocomplete-js'];
+
   autocomplete({
     container: '#autocomplete',
     placeholder: 'Search for posts',
@@ -58,8 +59,6 @@
         },
         // {% endraw %}
       },
-      
-
     ]
   }      
 });
