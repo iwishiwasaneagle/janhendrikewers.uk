@@ -142,4 +142,4 @@ If you have any comments, questions, or queries, then please use the comment sec
 ---
 
   [ac.js]: https://www.algolia.com/doc/ui-libraries/autocomplete/introduction/what-is-autocomplete/
-  [^fn1]: This website is continuously being updated by me, so you'll find my up-to-date config for I use `jekyll-algolia` [here](https://github.com/iwishiwasaneagle/janhendrikewers.uk/blob/master/_config.yml).
+  [^fn1]: This website is continuously being updated by me, so you'll find my up-to-date config for `jekyll-algolia` [here](https://github.com/iwishiwasaneagle/janhendrikewers.uk/blob/master/_config.yml).
