@@ -60,7 +60,6 @@ eeeeeeeee, 9, 1
 As you can see above, we can easily filter for words that have multiples if the set object containing that word has a length less than 5.
 
 ```python
-
 filtered_words = []
 scores = []
 
