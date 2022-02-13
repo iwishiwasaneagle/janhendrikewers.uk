@@ -1,5 +1,4 @@
 <div class="container">
-
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
         <img src="/static/img/favicon.ico" class="img-fluid"> 
@@ -10,58 +9,5 @@
         <li><a href="/projects.html" class="nav-link px-2 link-dark">PROJECTS</a></li>
         <li><a href="/static/pdf/cv.pdf" class="nav-link px-2 link-dark">RESUME</a></li>
       </ul>
-      
-      <div id="autocomplete" class="nav-link"></div>
-
     </header>
-
-<script>
-  const searchClient = algoliasearch(
-    '{{ site.algolia.application_id }}',
-    '{{site.algolia.public_key}}',
-  );
-  const { autocomplete, getAlgoliaResults } = window['@algolia/autocomplete-js'];
-
-  autocomplete({
-    container: '#autocomplete',
-    placeholder: 'Search for posts',
-  getSources({ query }) {
-    return [
-      {
-        sourceId: 'posts',
-        getItems() {
-          return getAlgoliaResults({
-            searchClient,
-            queries: [
-              {
-                indexName: '{{ site.algolia.index_name }}',
-                query,
-                params: {
-                  hitsPerPage: 5,
-                  snippetEllipsisText: '…',
-                },
-              },
-            ],
-          });
-        },
-        // {% raw %}
-        templates: {
-          item({ item, createElement, components }) {
-            return createElement('a', { href: item.url, class: "text-decoration-none text-body" }, createElement('div', null, 
-                components.Highlight({ hit: item, attribute: 'title', tagName: 'strong' })
-              ),
-            );
-          },
-          noResults(){
-            return 'No Results';
-          }
-
-        },
-        // {% endraw %}
-      },
-    ]
-  }      
-});
-</script>
-
 </div>

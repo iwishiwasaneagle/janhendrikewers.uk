@@ -8,6 +8,61 @@ tags:
   - search
 ---
 
+**Note**: I've decided to remove the search from the header for now because it didn't look great. A working example is found below:
+
+<div id="autocomplete" class="nav-link"></div>
+
+<script>
+  const searchClient = algoliasearch(
+    '{{ site.algolia.application_id }}',
+    '{{site.algolia.public_key}}',
+  );
+  const { autocomplete, getAlgoliaResults } = window['@algolia/autocomplete-js'];
+
+  autocomplete({
+    container: '#autocomplete',
+    placeholder: 'Search for posts',
+    openOnFocus: true,
+  getSources({ query }) {
+    return [
+      {
+        sourceId: 'posts',
+        getItems() {
+          return getAlgoliaResults({
+            searchClient,
+            queries: [
+              {
+                indexName: '{{ site.algolia.index_name }}',
+                query,
+                params: {
+                  hitsPerPage: 5,
+                  snippetEllipsisText: '…',
+                },
+              },
+            ],
+          });
+        },
+        // {% raw %}
+        templates: {
+          item({ item, createElement, components }) {
+            return createElement('a', { href: item.url, class: "text-decoration-none text-body" }, createElement('div', null, 
+                components.Highlight({ hit: item, attribute: 'title', tagName: 'strong' })
+              ),
+            );
+          },
+          noResults(){
+            return 'No Results';
+          }
+
+        },
+        // {% endraw %}
+      },
+    ]}
+});
+</script>
+
+---
+
 I got bored today and decided I needed a tool to let readers search my {{site.posts | size}} blog posts. Writing my own backend API and such was too tedious so I got inspiration from the [Bootstrap docs](https://getbootstrap.com/docs/5.1/getting-started/introduction/) and decided to look into Algolia. Luckily for me, the kind folks at Algolia have already created [Jekyll tool](https://github.com/algolia/jekyll-algolia) and [autocomplete.js][ac.js] for me to use!
 
 In this post I will talk you through my installation and implementation of Algolia.
