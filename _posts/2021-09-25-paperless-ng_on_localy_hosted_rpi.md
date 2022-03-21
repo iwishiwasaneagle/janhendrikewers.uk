@@ -13,6 +13,8 @@ tags:
 
 In this tutorial I will outline how I have set up my locally hosted paperless-ng instance with samba and email.
 
+**Note**: Paperless-NG is now being maintained in a new fork. See [this post]({% post_url 2022-03-21-upgrading_from_paperless-ng_to_paperless_ngx %}) for more information on upgrading.
+
 {% include toc.md %}
 
 ## External HDD

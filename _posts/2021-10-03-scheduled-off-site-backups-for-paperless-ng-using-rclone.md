@@ -13,6 +13,8 @@ I've recently done some work in setting up myself a [Paperless-NG instance on a 
 
 In this guide we will set up 2 "remotes" with [RClone](https://rclone.org/) and then use [rclone_jobber](https://github.com/wolfv6/rclone_jobber) to easily back up our data.
 
+**Note**: Paperless-NG is now being maintained in a new fork. See [this post]({% post_url 2022-03-21-upgrading_from_paperless-ng_to_paperless_ngx %}) for more information on upgrading.
+
 {% include toc.md %}
 
 > Edit 04/10/2021: Some good comments were made on that other services exist that solve this issue out-of-the-box. I like `rclone` with `rclone_jobber` as it seamlessly does snapshots. It's low cost and easy to set up. Please do consider other methods before mindlessly committing to mine.
