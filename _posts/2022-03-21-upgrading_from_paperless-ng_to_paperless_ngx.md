@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Upgrading from Paperless-NG to Paperless-NGX
-date: '2022-03-21'
+date: "2022-03-21"
 categories: post
 tags:
   - paperless-ng
@@ -9,7 +9,7 @@ tags:
   - paperless-ngx
 ---
 
-As of February 2022, the paperless-ng community created a [new fork][paperless-ngx] to continue development due to the inactivity on the [original repo][jonaswinkler-ng] [^1]. This has means new docker images, new configs, etc. 
+As of February 2022, the paperless-ng community created a [new fork][paperless-ngx] to continue development due to the inactivity on the [original repo][jonaswinkler-ng] [^1]. This has means new docker images, new configs, etc.
 
 This post serves as a quick amendment to my previous posts on how to set up paperless-ng on [a raspberry pi with samba][paperless-ng-on-locally-hosted-pi] and with [automated backups using rclone][paperless-ng-with-automated-backups].
 
@@ -42,11 +42,34 @@ As of [v1.6.0][v1.6.0], it is suggested to use [named volumes][named-volumes-com
 
 I personally haven't bothered with this, as redis is meant to be a cache and not permanent storage.
 
-## *Fin.*
+## In Action
+
+And just like that, I've upgrade from Paperless-NG 1.5.0 to Paperless-NGX 1.6.0. So far I can't really notice any major differences _but that's the point_. It's a continuation of the project, not an entirely new version!
+
+```bash
+ubuntu@ubuntu:~/paperless$ vim docker-compose.yml
+ubuntu@ubuntu:~/paperless$ docker-compose stop paperless
+Stopping paperless ... done
+ubuntu@ubuntu:~/paperless$ docker-compose up --no-deps --build paperless
+279a020076a7: Pull complete
+...
+5624cdf6a4f1: Pull complete
+Digest: sha256:f2f2d77cb7898a338314a59103b1b403807a7fa479b78489edb0ebb8de477d15
+Status: Downloaded newer image for ghcr.io/paperless-ngx/paperless-ngx:latest
+Recreating paperless ... done
+Attaching to paperless
+paperless                 | Paperless-ngx docker container starting...
+paperless                 | Creating directory /tmp/paperless
+...
+```
+
+## _Fin._
 
 That's it for **now**. I'm involved in a [PR #27][pr-27] to use a [Apache Tika][apache-tika-arm] container with ARM support. Once that gets merged I will probably update this post, as well as create a new and more in-depth longer one.
 
-----
+And remember, always create a backup before changing your system! I have my [rlcone setup][paperless-ng-with-automated-backups] but still like doing a quick `tar -czvf paperless paperless.tar.gz` before an upgrade _just in case_.
+
+---
 
 [^1]: Discussions can be found in [#1599](https://github.com/jonaswinkler/paperless-ng/issues/1599) and [#1632](https://github.com/jonaswinkler/paperless-ng/issues/1632).
 
@@ -60,8 +83,6 @@ That's it for **now**. I'm involved in a [PR #27][pr-27] to use a [Apache Tika][
 [v1.6.0]: https://github.com/paperless-ngx/paperless-ngx/releases/tag/ngx-1.6.0
 [named-volumes-commit]: https://github.com/paperless-ngx/paperless-ngx/commit/bad4be4cbc7254611e720bad8fca4517f24fe210
 [pr-104]: https://github.com/paperless-ngx/paperless-ngx/pull/104
-
 [ghcr-io]: https://github.com/features/packages
-
 [pr-27]: https://github.com/paperless-ngx/paperless-ngx/pull/27
 [apache-tika-arm]: https://github.com/iwishiwasaneagle/tika-docker
