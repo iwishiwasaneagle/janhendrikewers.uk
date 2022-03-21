@@ -37,4 +37,4 @@ jobs:
         run: ALGOLIA_API_KEY=${{ secrets.ALGOLIA_ADMIN_KEY }} bundle exec jekyll algolia
       
       - name: Tell google to reindex
-        run: curl "https://www.google.com/ping?sitemap=https://janhendrikewers.uk/sitemap.xml"
+        run: curl "https://www.google.com/ping?sitemap=https://${{ secrets.WWW_DIR }}/sitemap.xml"
