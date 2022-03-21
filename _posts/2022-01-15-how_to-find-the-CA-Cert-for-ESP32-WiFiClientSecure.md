@@ -11,7 +11,7 @@ tags:
 
 I just spent the last 2 hours trawling through source code (whilst getting increasingly annoyed) to figure out where the f**k the CA Certificate comes from. Initially I thought I could use the one from the browser, but that didn't work. So finally I came across a StackOverflow comment saying to use `openssl`. Hopefully this short post will enlighten some other frustrated soul!
 
-This is an example for [www.howsmyssl.com](www.howsmyssl.com) so you must change the address in the command as you require. The correct cert in this example it to pick the 3rd one in the chain, with `i:0 = Digital Signature Trust Co.` as it is the parent certificate.
+This is an example for [www.howsmyssl.com](https://www.howsmyssl.com) so you must change the address in the command as you require. The correct cert in this example it to pick the 3rd one in the chain, with `i:0 = Digital Signature Trust Co.` as it is the parent certificate.
 
 {% highlight raw %}
 $ openssl s_client -showcerts -connect www.howsmyssl.com:443
