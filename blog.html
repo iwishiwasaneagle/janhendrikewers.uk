@@ -4,7 +4,7 @@ title: Blog
 ---
 
 <div class="container">
-	<h3 class='text-center'>Blog Posts Archive</h3>
+	<h1 class='text-center'>Blog Posts Archive</h1>
 	
 	{%- assign posts = site.posts | where:"categories","post" -%}
 	{%- assign groupByYear = posts | group_by_exp:"post","post.date | date:'%Y' " -%}
