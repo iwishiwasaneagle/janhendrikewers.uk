@@ -47,7 +47,6 @@ title: My Books
 
       <div class="bookshelf">
         {% for book in year.items %}
-        <a href="https://www.goodreads.com/search?q={{book.title}}">
             <div class="book">
               <div class="side spine">
                 <span class="spine-title"> {{book.title}} </span>
@@ -56,10 +55,10 @@ title: My Books
               <div class="side top"></div>
               <div
                 class="side cover"
-                style="background-image:  url({{book.cover}});"
+                style="background-image:  url({{book.cover}}); cursor: pointer;"
+                onclick="window.location='https://www.goodreads.com/search?q={{book.title}}';"
               ></div>
             </div>
-        </a>
         {% endfor %}
       </div>
       <hr />
