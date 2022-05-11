@@ -1,0 +1,41 @@
+---
+layout: page
+---
+
+{% assign books = site.data.bookshelf %}
+<link rel="stylesheet" href="/static/css/bookshelf.css" />
+<div class="container">
+  <div class="blog-post">
+    <h1 class="fs-3 fw-bold">{{ page.title }}</h1>
+  </div>
+  <div class="blogpost">{{content}}</div>
+
+  {% assign groupByYear = books | group_by_exp:"book","book.dateread | date:'%Y'
+  " %}
+  <hr />
+  {% for year in groupByYear %}
+
+  <h2 class="fs-3 fw-bold text-start">
+    {% if year.name == nil %} Other {% else %} {{year.name}}{% endif %}
+  </h2>
+
+  <div class="bookshelf">
+    {% for book in year.items %}
+    <div class="book">
+      <div class="side spine">
+        <span class="spine-title"> {{book.title}} </span>
+        <span class="spine-author"> {{book.author}} </span>
+      </div>
+      <div class="side top"></div>
+      <div
+        class="side cover"
+        style="background-image:  url({{book.cover}}); cursor: pointer;"
+        onclick="window.location='https://www.goodreads.com/search?q={{book.title}}';"
+      ></div>
+    </div>
+    {% endfor %}
+  </div>
+  <hr />
+  {% endfor %}
+</div>
+<script src="/static/js/bookshelf.js"></script>

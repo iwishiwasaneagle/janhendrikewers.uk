@@ -1,6 +1,8 @@
 # top level stuff you probably don't need to touch
 highlighter: rouge
 markdown: kramdown
+include:
+ - _pages
 rdiscount:
   extensions: [smart]
 permalink: /:title.html
