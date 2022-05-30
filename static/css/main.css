@@ -109,3 +109,33 @@ div.footer{
 :root {
   --aa-primary-color-rgb: $primary;
 }
+
+/* Tables 
+-------------------------------------------------- */
+tr{ 
+  border-bottom: 1px solid rgba(105, 105, 105, 0.404);}
+th{
+  background-color: #b7d8f3;
+}
+th:first-child{
+  border-top-left-radius: 8px;
+}
+th:last-child{
+  border-top-right-radius: 8px;
+}
+tr:nth-child(even) {
+  background-color: #dbecec80;
+}
+th, td {
+  padding: 8px;
+  border-right: 1px solid rgba(105, 105, 105, 0.404);
+}
+td:last-child{
+  border-right: 0px;
+}
+th:last-child{
+  border-right: 0px;
+}
+tr:last-child{
+  border-bottom: 0px;
+}

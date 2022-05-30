@@ -1,0 +1,7 @@
+Library,Module,URL
+Numpy , numpy , https://docs.scipy.org/doc/numpy/reference/generated/{element.qname}.html 
+Scipy , scipy , https://docs.scipy.org/doc/scipy/reference/generated/{element.qname}.html 
+Scikit-Learn ,  sklearn , https://scikit-learn.org/stable/modules/generated/{element.qname}.html#{element.qname} 
+Pandas , pandas , https://pandas.pydata.org/pandas-docs/stable/generated/{element.qname}.html 
+Matplotlib , matplotlib , http://matplotlib.org/api/{module.basename}_api.html#{element.qname} 
+Seaborn , seaborn , https://seaborn.pydata.org/generated/{module.name}.{element.name}.html#{module.name}.{element.name} 
