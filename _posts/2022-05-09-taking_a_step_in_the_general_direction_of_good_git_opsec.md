@@ -8,7 +8,7 @@ tags:
   - opsec
 ---
 
-Every morning I tend to browse a few feeds: [r/programming](reddit.com/r/programming), [r/linux](reddit.com/r/linux), and [Github Trending](https://github.com/trending). That's how I stumbled across [ggshield](https://github.com/GitGuardian/ggshield) and as a result, also [BFG Repo-Cleaner](https://rtyley.github.io/bfg-repo-cleaner/).
+Every morning I tend to browse a few feeds: [r/programming](https://reddit.com/r/programming), [r/linux](https://reddit.com/r/linux), and [Github Trending](https://github.com/trending). That's how I stumbled across [ggshield](https://github.com/GitGuardian/ggshield) and as a result, also [BFG Repo-Cleaner](https://rtyley.github.io/bfg-repo-cleaner/).
 I decided to sign up for GitGuardian to see if it'd find anything feeling quite confident. Quickly my hubris was shattered with **31 open secrets**!
 
 Now, full disclosure, 13 of the 31 secrets were in a repository that a friend added me to for some help and another 15 were in private repositories. However, I would consider myself very careful with what I commit so this number was still quite shocking.
