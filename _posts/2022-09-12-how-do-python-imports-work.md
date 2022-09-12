@@ -1,6 +1,6 @@
 ---
 layout: post
-title: One Python `Import` Quirk You Need to Know, Or Why The Heck Is That A Function?
+title: One Python Import Quirk You Need to Know, Or Why The Heck Is That A Function?
 date: "2022-09-12"
 categories: post
 tags:
