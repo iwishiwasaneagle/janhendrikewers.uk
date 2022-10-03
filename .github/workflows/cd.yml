@@ -27,6 +27,7 @@ jobs:
           folder: _site/
           clean-exclude: |
             .nojekyll
+            CNAME
 
       - name: Auto-index website
         run: ALGOLIA_API_KEY=${{ secrets.ALGOLIA_ADMIN_KEY }} bundle exec jekyll algolia
