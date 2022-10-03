@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /static/pdf/cv.pdf
+Disallow: /static/*
+Sitemap: /sitemap.xml

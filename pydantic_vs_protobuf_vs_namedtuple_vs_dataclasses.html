@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jan-Hendrik Ewers" />
+    <meta name="description" content="Personal blog and resume for Jan-Hendrik Ewers.">
+    <link rel="shortcut icon" type="image/x-icon" href="static/img/favicon.ico">    
+    <link rel="alternate" type="application/atom+xml" href="https://janhendrikewers.uk/atom.xml">
+	  
+    
+      <title>Pydantic vs Protobuf vs Namedtuples vs Dataclasses</title>
+    
+
+    <!-- autocomplete.js -->
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic"
+    />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/reset-min.css" integrity="sha256-t2ATOGCtAIZNnzER679jwcFcKYfLlw01gli6F6oszk8=" crossorigin="anonymous">
+
+	<!-- Custom styles for this template -->
+  <link rel="stylesheet" type="text/css" href="static/css/main.css" />
+
+  <link rel="preload"
+        as="style"
+        onload="this.rel = 'stylesheet'" 
+	      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  <noscript>
+        <link rel="stylesheet" 
+        type="text/css"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  </noscript>
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="static/css/syntax.css" />
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D63RVP8Q8M"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D63RVP8Q8M');
+</script>
+
+  
+
+  
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4960626434138868"
+     crossorigin="anonymous"></script>
+
+  
+  
+  </head>
+
+  <!-- Main Body-->
+  <body>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins). Load before content to be able to use it in scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Wrap all page content here -->
+  <div id="wrap">
+    <!-- Navbar header -->
+    <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <img src="/static/img/favicon.ico" alt="Jan-Hendrik Ewers Logo" class="img-fluid"> 
+      </a>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/blog.html" class="nav-link px-2 link-dark">BLOG</a></li>
+        <li><a href="/projects.html" class="nav-link px-2 link-dark">PROJECTS</a></li>
+        <li><a href="/bookshelf.html" class="nav-link px-2 link-dark">MY BOOKSHELF</a></li>
+        <li><a href="/static/pdf/cv.pdf" class="nav-link px-2 link-dark">RESUME</a></li>
+      </ul>
+    </header>
+</div>
+
+
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<div class="container">
+	<div class="blog-post">
+		<h1 class='fs-3 fw-bold'>
+		  Pydantic vs Protobuf vs Namedtuples vs Dataclasses
+		</h1>
+	</div>
+	<div class="blog-title">
+		<p class='fs-5'>
+		March 22, 2022
+			&nbsp;&nbsp;
+			
+
+			 <span class="badge rounded-pill bg-primary">python</span>
+
+			
+
+			 <span class="badge rounded-pill bg-primary">pydantic</span>
+
+			
+
+			 <span class="badge rounded-pill bg-primary">protobuf</span>
+
+			
+		</p>
+		<style>
+#share-buttons {display: inline-block; vertical-align: middle; }
+#share-buttons:after {content: ""; display: block; clear: both;}
+#share-buttons > div {position: relative; text-align: left; height: 36px; width: 32px; float: left; text-align: center;}
+#share-buttons > div > svg {height: 16px; fill: #d5d5d5; margin-top: 10px;}
+#share-buttons > div:hover {cursor: pointer;}
+#share-buttons > div.facebook:hover > svg {fill: #3B5998;}
+#share-buttons > div.twitter:hover > svg {fill: #55ACEE;}
+#share-buttons > div.linkedin:hover > svg {fill: #0077b5;}
+#share-buttons > div.pinterest:hover > svg {fill: #CB2027;}
+#share-buttons > div.gplus:hover > svg {fill: #dd4b39;}
+#share-buttons > div.mail:hover > svg {fill: #7D7D7D;}
+#share-buttons > div.instagram:hover > svg {fill: #C73B92;}
+#share-buttons > div.facebook > svg {height: 18px; margin-top: 9px;}
+#share-buttons > div.twitter > svg {height: 20px; margin-top: 8px;}
+#share-buttons > div.linkedin > svg {height: 19px; margin-top: 7px;}
+#share-buttons > div.pinterest > svg {height: 20px; margin-top: 9px;}
+#share-buttons > div.gplus > svg {height: 17px; margin-top: 9px; position: relative; left: 1px;}
+#share-buttons > div.mail > svg {height: 14px; margin-top: 11px;}
+</style>
+
+<div id="share-buttons">
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html&text=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body=https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
+</div>
+	</div>
+	
+	<hr/>
+	
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="blogpost">
+			  <p>Before my introduction to <a href="https://fastapi.tiangolo.com/">FastAPI</a> I was manually crafting classes to hold data. This was completely fine, but then <a href="https://pydantic-docs.helpmanual.io/">pydantic</a> changed the way I thought about this. Who wants to write a custom <code class="language-plaintext highlighter-rouge">__init__</code> class for every data type, with type checking? However, over-time I’ve learnt some of it’s limitations and other libraries such as <a href="https://github.com/protocolbuffers/protobuf">protobuf</a> or <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple">namedtuple</a> kept cropping up. My hunger to over-complicate everything finally made me try them all out and this post is the result of that inability to KISS<sup id="fnref:kiss" role="doc-noteref"><a href="#fn:kiss" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
+
+<ul id="markdown-toc">
+  <li><a href="#experimental-setup" id="markdown-toc-experimental-setup">Experimental Setup</a></li>
+  <li><a href="#creation" id="markdown-toc-creation">Creation</a></li>
+  <li><a href="#type-conversions" id="markdown-toc-type-conversions">Type Conversions</a></li>
+  <li><a href="#instantiation-performance" id="markdown-toc-instantiation-performance">Instantiation Performance</a></li>
+  <li><a href="#deserialization" id="markdown-toc-deserialization">(De)serialization</a>    <ul>
+      <li><a href="#json" id="markdown-toc-json">JSON</a></li>
+      <li><a href="#smallest-possible" id="markdown-toc-smallest-possible">Smallest Possible</a></li>
+    </ul>
+  </li>
+  <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
+  <li><a href="#appendix" id="markdown-toc-appendix">Appendix</a></li>
+</ul>
+
+<h2 id="experimental-setup">Experimental Setup</h2>
+
+<p>As I’m doing a lot of simulations in the near future, I decided to use two data types</p>
+
+<ol>
+  <li>
+    <p>Coord</p>
+
+    <ul>
+      <li>Holds <code class="language-plaintext highlighter-rouge">x</code>, <code class="language-plaintext highlighter-rouge">y</code>, <code class="language-plaintext highlighter-rouge">z</code>, and <code class="language-plaintext highlighter-rouge">heading</code></li>
+      <li>All of type <code class="language-plaintext highlighter-rouge">float</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>Coords</p>
+
+    <ul>
+      <li>Holds an unbounded list of <code class="language-plaintext highlighter-rouge">Coord</code>s under coords.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>These were then instantiated with the <em>same</em> random data using</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">heading</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Note the <code class="language-plaintext highlighter-rouge">dtype=int</code>. This was done to test if the class do any type conversion (<em>spoiler:</em> some do).</p>
+
+<p>The variables in the following code examples have prefixes to show what library they are related to. <code class="language-plaintext highlighter-rouge">NT</code> is <code class="language-plaintext highlighter-rouge">namedtuple</code>, <code class="language-plaintext highlighter-rouge">DC</code> is <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">PD</code> is <code class="language-plaintext highlighter-rouge">pydantic</code>, and <code class="language-plaintext highlighter-rouge">PB</code> is <code class="language-plaintext highlighter-rouge">protobuf</code>. Easy.</p>
+
+<h2 id="creation">Creation</h2>
+
+<p>After creating the data models, as seen in the <a href="#appendix">appendix</a>, the classes were intialized. The method for <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">namedtuples</code> and <code class="language-plaintext highlighter-rouge">pydantic</code> were identical.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+  <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fi</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span><span class="n">y</span><span class="o">=</span><span class="n">gi</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span><span class="n">z</span><span class="o">=</span><span class="n">hi</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span><span class="n">heading</span><span class="o">=</span><span class="n">ii</span><span class="p">.</span><span class="n">item</span><span class="p">())</span> <span class="k">for</span> <span class="n">fi</span><span class="p">,</span> <span class="n">gi</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">i</span><span class="p">)]</span>
+
+<span class="n">dccoords</span> <span class="o">=</span> <span class="n">DCCoords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">generate</span><span class="p">(</span><span class="n">DCCoord</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">headings</span><span class="p">))</span>
+<span class="n">ntcoords</span> <span class="o">=</span> <span class="n">NTCoords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">generate</span><span class="p">(</span><span class="n">NTCoord</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">headings</span><span class="p">))</span>
+<span class="n">pdcoords</span> <span class="o">=</span> <span class="n">PDCoords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">generate</span><span class="p">(</span><span class="n">PDCoord</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">headings</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Protobuf was much different though. As can be seen on line 3 below, the coord is added to the list of coords, and then filled with values. This results in quite a bit more boiler plate code but if one knows about it, it’s surprisingly readable.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="n">pbcoords</span> <span class="o">=</span> <span class="n">PBCoords</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span><span class="n">zi</span><span class="p">,</span><span class="n">headingi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">,</span><span class="n">zs</span><span class="p">,</span><span class="n">headings</span><span class="p">):</span>
+<span class="n">pbcoord</span> <span class="o">=</span> <span class="n">pbcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">.</span><span class="n">add</span><span class="p">()</span>
+<span class="n">pbcoord</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">xi</span>
+<span class="n">pbcoord</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">yi</span>
+<span class="n">pbcoord</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">zi</span>
+<span class="n">pbcoord</span><span class="p">.</span><span class="n">heading</span> <span class="o">=</span> <span class="n">heading</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<h2 id="type-conversions">Type Conversions</h2>
+
+<p>All 4 data models were filled with int on purpose. <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">pydantic</code>, and <code class="language-plaintext highlighter-rouge">protobuf</code> have capabilities to define a data type for each field so those are the ones expected to convert the data <em>if possible</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">isinstance</span><span class="p">(</span><span class="n">dccoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># False
+</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">ntcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># False
+</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">pdcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># True
+</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">pbcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># True
+</span></code></pre></div></div>
+
+<p>That’s weird… <code class="language-plaintext highlighter-rouge">dataclasses</code> don’t convert the field? Apparently this is expected behaviour and the suggested workaround is using a static type-checker like <a href="https://mypy-lang.org/"><code class="language-plaintext highlighter-rouge">mypy</code></a>, <a href="https://pydantic-docs.helpmanual.io/usage/validation_decorator/"><code class="language-plaintext highlighter-rouge">pydantic.validate_arguments</code></a>, or in the <a href="https://docs.python.org/3/library/dataclasses.html#post-init-processing"><code class="language-plaintext highlighter-rouge">dataclass.dataclasses.__post_init__</code></a> method.</p>
+
+<p><code class="language-plaintext highlighter-rouge">pydantic</code> and <code class="language-plaintext highlighter-rouge">protobuf</code> both convert the types which is nice. However, will this add much computational overhead?</p>
+
+<h2 id="instantiation-performance">Instantiation Performance</h2>
+
+<p>One of the largest downsides of using a data class is the additional performance overhead. In my simulations, I run hundreds of thousands of trials with multiple thousand steps so any increase in computational time is noticed.</p>
+
+<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/speed.png" alt="png" class="img-responsive" />
+<em>Mean time to instantiate a single <code class="language-plaintext highlighter-rouge">Coord</code> class in the respective libraries</em></p>
+
+<p>This is where we can really see the overhead of converting the types from <code class="language-plaintext highlighter-rouge">int</code> to <code class="language-plaintext highlighter-rouge">float</code> in <code class="language-plaintext highlighter-rouge">pydantic</code>. However, <code class="language-plaintext highlighter-rouge">protobuf</code> does not have nearly the same problems<sup id="fnref:fw" role="doc-noteref"><a href="#fn:fw" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<p>I’m honestly quite shocked at how well <code class="language-plaintext highlighter-rouge">protobuf</code> did. It’s mean time was <code class="language-plaintext highlighter-rouge">685ns</code> whilst <code class="language-plaintext highlighter-rouge">namedtuple</code> achieved <code class="language-plaintext highlighter-rouge">608ns</code> and <code class="language-plaintext highlighter-rouge">dataclasses</code> did <code class="language-plaintext highlighter-rouge">643ns</code>.</p>
+
+<h2 id="deserialization">(De)serialization</h2>
+
+<h3 id="json">JSON</h3>
+
+<p>Another important aspect is storing my millions of data points. The “classic” method is via CSV or JSON. However, this struggles with multiple <code class="language-plaintext highlighter-rouge">Coords</code> so we’ll give JSON a shot. Yes it’s not meant for storing large series data but it’s easy and available and probably what most people will turn to. <a href="https://docs.python.org/3/library/pickle.html">Pickleing</a> is another option but this does not create human readable output, nor does it store very well<sup id="fnref:pickle-vs-json" role="doc-noteref"><a href="#fn:pickle-vs-json" class="footnote" rel="footnote">3</a></sup>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">dataclasses</code> were a weird one, because it required a custom JSON encoder. However, 5 lines of additional code isn’t too bad in my opinion.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="k">class</span> <span class="nc">EnhancedJSONEncoder</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dataclasses</span><span class="p">.</span><span class="n">is_dataclass</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">dataclasses</span><span class="p">.</span><span class="n">asdict</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+<span class="n">dccoords_json</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dccoords</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">','</span><span class="p">,</span> <span class="s">':'</span><span class="p">),</span>  <span class="n">cls</span><span class="o">=</span><span class="n">EnhancedJSONEncoder</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">namedtuple</code> was actually quite easy, using the inbuilt <code class="language-plaintext highlighter-rouge">_asdict()</code> method resulted in</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ntcoords_json</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">ntcoords</span><span class="p">.</span><span class="n">_asdict</span><span class="p">(),</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">','</span><span class="p">,</span> <span class="s">':'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">pydantic</code> has a built in <code class="language-plaintext highlighter-rouge">json()</code> method so this was as easy as <code class="language-plaintext highlighter-rouge">pdcoords_json = dcoords.json()</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">protobuf</code>, being different as per, required the import of <code class="language-plaintext highlighter-rouge">MessageToJson</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">google.protobuf.json_format</span> <span class="kn">import</span> <span class="n">MessageToJson</span>
+<span class="n">pbcoords_json</span> <span class="o">=</span> <span class="n">MessageToJson</span><span class="p">(</span><span class="n">pbcoords</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="s">""</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>All serializations were more or less identical <em>except</em> for <code class="language-plaintext highlighter-rouge">namedtuple</code>. For whatever reason the list of <code class="language-plaintext highlighter-rouge">NTCoord</code>s was serialized into a 2D array. Hopefully this won’t cause any issues with the de-serialization (foreshadowing much?)</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"coords"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">37</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">93</span><span class="p">,</span><span class="w"> </span><span class="mi">44</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">41</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">34</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">85</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">79</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span><span class="w"> </span><span class="mi">92</span><span class="p">,</span><span class="w"> </span><span class="mi">58</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">47</span><span class="p">,</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">89</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="mi">81</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">71</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">78</span><span class="p">,</span><span class="w"> </span><span class="mi">79</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">97</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">28</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">61</span><span class="p">,</span><span class="w"> </span><span class="mi">56</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">51</span><span class="p">,</span><span class="w"> </span><span class="mi">72</span><span class="p">,</span><span class="w"> </span><span class="mi">92</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">72</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">86</span><span class="p">,</span><span class="w"> </span><span class="mi">93</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">77</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p">]</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Deserializing from the JSON string showed pretty much exactly what I expected.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DCCoords</span><span class="p">(</span><span class="o">**</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">dccoords_json</span><span class="p">))</span> <span class="o">==</span> <span class="n">dccoords</span> <span class="c1"># False
+</span><span class="n">NTCoords</span><span class="p">(</span><span class="o">**</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">ntcoords_json</span><span class="p">))</span> <span class="o">==</span> <span class="n">ntcoords</span> <span class="c1"># False
+</span><span class="n">PDCoords</span><span class="p">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">pdcoords_json</span><span class="p">)</span> <span class="o">==</span> <span class="n">pdcoords</span>     <span class="c1"># True
+</span>
+<span class="kn">from</span> <span class="nn">google.protobuf.json_format</span> <span class="kn">import</span> <span class="n">Parse</span> <span class="k">as</span> <span class="n">JsonToMessage</span>
+<span class="n">JsonToMessage</span><span class="p">(</span><span class="n">pbcoords_json</span><span class="p">,</span> <span class="n">PBCoords</span><span class="p">())</span> <span class="o">==</span> <span class="n">pbcoords</span> <span class="c1"># True
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">namedtuple</code> lost the data structure when it converted to JSON and <code class="language-plaintext highlighter-rouge">dataclasses</code> does not properly convert the types at instantiation. <code class="language-plaintext highlighter-rouge">pydantic</code> and <code class="language-plaintext highlighter-rouge">protobuf</code> both check what types every field was using and converts the data (correctly) back into that type.</p>
+
+<h3 id="smallest-possible">Smallest Possible</h3>
+
+<p>Whilst JSON is great for human-readable, easy-to-transfer data, it is not compact. For the next comparison where possible, the smallest representation was used. Deserialization was not considered as right now we’re only concerned with storing large sets of data. Using it is someone else’s job (usually me, in a few weeks time).</p>
+
+<p><code class="language-plaintext highlighter-rouge">protobuf</code> is the only non-JSON encoding. The inbuilt <code class="language-plaintext highlighter-rouge">SerializeToString</code> is very powerful and one of the core features of the library. Since the data class is compiled with a tool, and not just into python, it gives developers a huge advantage by easily creating highly optimized <strong>cross-platform</strong> data.</p>
+
+<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/size.png" alt="png" class="img-responsive" />
+<em>Size of the compressed data for a <code class="language-plaintext highlighter-rouge">Coords</code> class from the respective libraries</em></p>
+
+<p>Evidently <code class="language-plaintext highlighter-rouge">pydantic</code> is the “worst”. However, is it? <code class="language-plaintext highlighter-rouge">dataclasses</code> never converted the data to a float and as such, the raw JSON string will be missing the <code class="language-plaintext highlighter-rouge">.0</code>. With <code class="language-plaintext highlighter-rouge">2*4*15=120</code> bytes of missing data, the two are actually equal (<code class="language-plaintext highlighter-rouge">549+120 == 669</code>).</p>
+
+<p>Next, why is <code class="language-plaintext highlighter-rouge">namedtuple</code> better than <code class="language-plaintext highlighter-rouge">protobuf</code>? Isn’t protobuf “oh so highly optimized”? Well yes, but if we recall from the JSON serialization results, <code class="language-plaintext highlighter-rouge">namedtuple</code> just bungs the data into a 2D array and cannot deserialize it properly. A 2D array will always be smaller than a data structure that tries to save as much data about the object as possible. The JSON output for <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">pydantic</code>, and <code class="language-plaintext highlighter-rouge">protobuf</code> were close to identical, so a <code class="language-plaintext highlighter-rouge">2x</code> improvement is very impressive.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>To your dismay, there is no easy conclusion. I have fallen in love with the idea of using <code class="language-plaintext highlighter-rouge">protobuf</code>s, but the overhead of compilation and the weird method of creating the classes is quite off-putting. The speed and serialization benefits over the other 3 cannot be played down though.</p>
+
+<p><code class="language-plaintext highlighter-rouge">pydantic</code> performed shockingly bad, but the strict type checking and ease of use will have me coming for less performant instances.</p>
+
+<p>The benefits of <code class="language-plaintext highlighter-rouge">dataclasses</code> and <code class="language-plaintext highlighter-rouge">namedtuples</code> are as they’ve always been: both are shipped with <a href="https://github.com/python/cpython/blob/3.10/Lib/dataclasses.py"><code class="language-plaintext highlighter-rouge">cpython</code></a> and are sufficient. <code class="language-plaintext highlighter-rouge">namedtuples</code> can be created in one line and allow easy to read code, whilst <code class="language-plaintext highlighter-rouge">dataclasses</code> are more akin to <code class="language-plaintext highlighter-rouge">pydantic</code> but require more setup.</p>
+
+<p>I hope this investigation into the 4 main data class libraries in Python have helped you. If you have any libraries you think I should have included, please let me know in the <a href="#comments">comments</a>!</p>
+
+<h2 id="appendix">Appendix</h2>
+
+<script src="https://gist.github.com/iwishiwasaneagle/fd304f7d951aa6ebeb13b5715f7a6410.js"></script>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:kiss" role="doc-endnote">
+      <p>Keep It Simple, Stupid. <a href="#fnref:kiss" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:fw" role="doc-endnote">
+      <p>This might call for more investigation in the future if this article does well. <a href="#fnref:fw" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:pickle-vs-json" role="doc-endnote">
+      <p>For a more in-depth discussion between pickle vs json, have a look <a href="https://docs.python.org/3/library/pickle.html#comparison-with-json">here</a>. <a href="#fnref:pickle-vs-json" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+			   <hr>
+			   <div class="related-posts">
+				   <h5>Related Posts</h5>
+				   
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									October  3, 2021
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">Scheduling Backups To OneDrive For Paperless-ng Using RClone</a>
+								</h6>
+							</div>
+						</div>
+					
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									September 25, 2021
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="/paperless-ng_on_localy_hosted_rpi.html">Paperless-ng On Raspberry Pi With Email And Samba</a>
+								</h6>
+							</div>
+						</div>
+					
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									March  8, 2022
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="/serialization_of_pydantic_data_models_with_json_whilst_preserving_type_data.html">Serialization Of Pydantic Data Models With JSON Whilst Preserving Type Data</a>
+								</h6>
+							</div>
+						</div>
+					
+			   </div>
+			</div>
+		</div>
+	</div>
+  <div id="comments"></div>
+  <script src="https://utteranc.es/client.js"
+        repo="iwishiwasaneagle/janhendrikewers.uk"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+</div>
+
+  </div>
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">© All rights reserved. Contribute at <a href="https://github.com/iwishiwasaneagle/janhendrikewers.uk"> GitHub</a>. Powered by <a href="http://jekyllrb.com/">Jekyll</a> with ♥</span>
+    </div>
+</footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+    integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
+    crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="static/js/docs.min.js"></script>
+    <script src="static/js/main.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="static/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

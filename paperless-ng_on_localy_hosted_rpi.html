@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jan-Hendrik Ewers" />
+    <meta name="description" content="Personal blog and resume for Jan-Hendrik Ewers.">
+    <link rel="shortcut icon" type="image/x-icon" href="static/img/favicon.ico">    
+    <link rel="alternate" type="application/atom+xml" href="https://janhendrikewers.uk/atom.xml">
+	  
+    
+      <title>Paperless-ng On Raspberry Pi With Email And Samba</title>
+    
+
+    <!-- autocomplete.js -->
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic"
+    />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/reset-min.css" integrity="sha256-t2ATOGCtAIZNnzER679jwcFcKYfLlw01gli6F6oszk8=" crossorigin="anonymous">
+
+	<!-- Custom styles for this template -->
+  <link rel="stylesheet" type="text/css" href="static/css/main.css" />
+
+  <link rel="preload"
+        as="style"
+        onload="this.rel = 'stylesheet'" 
+	      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  <noscript>
+        <link rel="stylesheet" 
+        type="text/css"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  </noscript>
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="static/css/syntax.css" />
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D63RVP8Q8M"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D63RVP8Q8M');
+</script>
+
+  
+
+  
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4960626434138868"
+     crossorigin="anonymous"></script>
+
+  
+  
+  </head>
+
+  <!-- Main Body-->
+  <body>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins). Load before content to be able to use it in scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Wrap all page content here -->
+  <div id="wrap">
+    <!-- Navbar header -->
+    <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <img src="/static/img/favicon.ico" alt="Jan-Hendrik Ewers Logo" class="img-fluid"> 
+      </a>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/blog.html" class="nav-link px-2 link-dark">BLOG</a></li>
+        <li><a href="/projects.html" class="nav-link px-2 link-dark">PROJECTS</a></li>
+        <li><a href="/bookshelf.html" class="nav-link px-2 link-dark">MY BOOKSHELF</a></li>
+        <li><a href="/static/pdf/cv.pdf" class="nav-link px-2 link-dark">RESUME</a></li>
+      </ul>
+    </header>
+</div>
+
+
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<div class="container">
+	<div class="blog-post">
+		<h1 class='fs-3 fw-bold'>
+		  Paperless-ng On Raspberry Pi With Email And Samba
+		</h1>
+	</div>
+	<div class="blog-title">
+		<p class='fs-5'>
+		September 25, 2021
+			&nbsp;&nbsp;
+			
+
+			 <span class="badge rounded-pill bg-primary">paperless-ng</span>
+
+			
+
+			 <span class="badge rounded-pill bg-primary">raspberry-pi</span>
+
+			
+
+			 <span class="badge rounded-pill bg-primary">self-hosted</span>
+
+			
+		</p>
+		<style>
+#share-buttons {display: inline-block; vertical-align: middle; }
+#share-buttons:after {content: ""; display: block; clear: both;}
+#share-buttons > div {position: relative; text-align: left; height: 36px; width: 32px; float: left; text-align: center;}
+#share-buttons > div > svg {height: 16px; fill: #d5d5d5; margin-top: 10px;}
+#share-buttons > div:hover {cursor: pointer;}
+#share-buttons > div.facebook:hover > svg {fill: #3B5998;}
+#share-buttons > div.twitter:hover > svg {fill: #55ACEE;}
+#share-buttons > div.linkedin:hover > svg {fill: #0077b5;}
+#share-buttons > div.pinterest:hover > svg {fill: #CB2027;}
+#share-buttons > div.gplus:hover > svg {fill: #dd4b39;}
+#share-buttons > div.mail:hover > svg {fill: #7D7D7D;}
+#share-buttons > div.instagram:hover > svg {fill: #C73B92;}
+#share-buttons > div.facebook > svg {height: 18px; margin-top: 9px;}
+#share-buttons > div.twitter > svg {height: 20px; margin-top: 8px;}
+#share-buttons > div.linkedin > svg {height: 19px; margin-top: 7px;}
+#share-buttons > div.pinterest > svg {height: 20px; margin-top: 9px;}
+#share-buttons > div.gplus > svg {height: 17px; margin-top: 9px; position: relative; left: 1px;}
+#share-buttons > div.mail > svg {height: 14px; margin-top: 11px;}
+</style>
+
+<div id="share-buttons">
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/paperless-ng_on_localy_hosted_rpi.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/paperless-ng_on_localy_hosted_rpi.html&text=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/paperless-ng_on_localy_hosted_rpi.html&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body=https://janhendrikewers.uk/paperless-ng_on_localy_hosted_rpi.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
+</div>
+	</div>
+	
+	<hr/>
+	
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="blogpost">
+			  <p><a href="https://github.com/jonaswinkler/paperless-ng">Paperless-ng</a> is an absolutely fantastic document archival solution that you can host yourself! What I like about this compared to the traditional folders method is that tags allow you to avoid duplicates. Furthermore, being able to search content and titles with OCR is absolutely amazing. However, just out of the box this paperless-ng isn’t that powerful as it (obviously) lacks connectivity. My preferred approach to this is via <a href="#samba">samba</a> and <a href="#email">email</a>. As well as this, I use a external HDD to store all the data.</p>
+
+<p>In this tutorial I will outline how I have set up my locally hosted paperless-ng instance with samba and email.</p>
+
+<p><strong>Note</strong>: Paperless-NG is now being maintained in a new fork. See <a href="/upgrading_from_paperless-ng_to_paperless_ngx.html">this post</a> for more information on upgrading.</p>
+
+<h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
+
+<ul id="markdown-toc">
+  <li><a href="#external-hdd" id="markdown-toc-external-hdd">External HDD</a></li>
+  <li><a href="#samba" id="markdown-toc-samba">Samba</a></li>
+  <li><a href="#paperless-ng" id="markdown-toc-paperless-ng">Paperless-NG</a></li>
+  <li><a href="#email" id="markdown-toc-email">Email</a>    <ul>
+      <li><a href="#1-add-your-email" id="markdown-toc-1-add-your-email">1. Add your email</a></li>
+      <li><a href="#2-add-a-email-rule-that-works-for-you" id="markdown-toc-2-add-a-email-rule-that-works-for-you">2. Add a email rule that works for <strong>you</strong></a></li>
+    </ul>
+  </li>
+  <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
+</ul>
+
+<h2 id="external-hdd">External HDD</h2>
+
+<p>Raspberry Pis run the OS from a SD card. Typical sizes of these cards are anywhere from 4gb to 64gb. However, if you’re serious about a scalable archiving, then a larger SD card will be required. 128gb cards are dead cheap these days at around £35, but nothing beats a good old 1tb external HDD. If you’re content with storing all your data on the SD card, then skip ahead to the <a href="#samba">next section</a>. You can always come back and add extra storage so don’t worry about this step too much if all you’re wanting to do is get paperless-ng set up.</p>
+
+<p>First thing you’ll need to do is find the path to your hard drive. This is <code class="language-plaintext highlighter-rouge">/dev/sda</code> for me.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ubuntu@ubuntu:~<span class="nv">$ </span><span class="nb">sudo </span>lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+loop0         7:0    0  48.9M  1 loop /snap/core18/2073
+loop1         7:1    0  57.4M  1 loop /snap/core20/1084
+loop2         7:2    0  48.9M  1 loop /snap/core18/2127
+loop3         7:3    0  28.1M  1 loop /snap/snapd/13171
+loop4         7:4    0  65.1M  1 loop /snap/lxd/21462
+loop5         7:5    0  28.1M  1 loop /snap/snapd/12886
+loop7         7:7    0  65.1M  1 loop /snap/lxd/21507
+sda           8:0    0 931.5G  0 disk
+└─sda1        8:1    0 931.5G  0 part
+mmcblk0     179:0    0  29.8G  0 disk
+├─mmcblk0p1 179:1    0   256M  0 part /boot/firmware
+└─mmcblk0p2 179:2    0  29.6G  0 part /</code></pre></figure>
+
+<p>For reliable mounting, I like to use the UUID of the hard drive as the device path can change with mounts. This is found with <code class="language-plaintext highlighter-rouge">fdisk -l</code> as outlined below. Your UUID <strong>will</strong> be different.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">ubuntu@ubuntu:~<span class="nv">$ </span><span class="nb">sudo </span>fdisk <span class="nt">-l</span> /dev/sda | <span class="nb">grep </span>identifier
+Disk identifier: 8CCB7408-46A1-4C76-BE9A-DBCD294DBF3F</code></pre></figure>
+
+<p>Next step is to create a mount point for the partition. Please excuse my hard drive naming convention…</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /media/PORTABLE_UN/</code></pre></figure>
+
+<p>Next, add the following to <code class="language-plaintext highlighter-rouge">fstab</code> via your favourite editor (<code class="language-plaintext highlighter-rouge">sudo vim /etc/fstab</code>). <strong>Important:</strong> change your UUID and mount locations as needed. I like formatting my portable drives using <code class="language-plaintext highlighter-rouge">exfat</code> as this format is easily read on Windows machines too.</p>
+
+<figure class="highlight"><pre><code class="language-fstab" data-lang="fstab">UUID=8CCB7408-46A1-4C76-BE9A-DBCD294DBF3F   /mount/PORTABLE_UN  exfat   defaults,uid=1000,gid=1000,umask=022   0   0</code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">uid=1000</code> is the user id, <code class="language-plaintext highlighter-rouge">guid=1000</code> is the group id, <code class="language-plaintext highlighter-rouge">umask=022</code> this will set permissions so that the owner has read, write, execute. Group and Others will have read and execute.</p>
+
+<p>To verify the config and to mount the hard drive, run <code class="language-plaintext highlighter-rouge">sudo mount -a</code>.</p>
+
+<h2 id="samba">Samba</h2>
+
+<p>Samba is a great solution for a locally hosted, networked instance of paperless-ng as it allows both windows, linux, and macOS devices to easily access the files. There are many many tutorials on how to use samba with your particular OS, such as via windows file explorer or by mounting the share using fstab, so I don’t feel the need to cover that. However, outlining how to setup samba on the RPi for paperless is unique.</p>
+
+<p>Firstly install samba and the associated common binaries.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sudo </span>apt-get <span class="nb">install </span>samba samba-common-bin</code></pre></figure>
+
+<p>Then we create a folder somewhere on the filesystem. This tutorial uses a <a href="#external-hdd">portable hard drive</a> and thus we create a folder called <code class="language-plaintext highlighter-rouge">paperless</code> on it. You can use any folder you desire though. Just make sure to change the steps as needed.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">mkdir</span> <span class="nt">-p</span> /media/PORTABLE_UN/paperless</code></pre></figure>
+
+<p>Add the following to the end of <code class="language-plaintext highlighter-rouge">/etc/samba/smb.conf</code></p>
+
+<figure class="highlight"><pre><code class="language-conf" data-lang="conf">[<span class="n">piperless</span>-<span class="n">ng</span>]
+<span class="n">path</span> = /<span class="n">media</span>/<span class="n">PORTABLE_UN</span>/<span class="n">paperless</span>
+<span class="n">writeable</span>=<span class="n">Yes</span>
+<span class="n">create</span> <span class="n">mask</span>=<span class="m">0777</span>
+<span class="n">directory</span> <span class="n">mask</span>=<span class="m">0777</span>
+<span class="n">public</span>=<span class="n">no</span></code></pre></figure>
+
+<p>Samba security works by allowing selected users access to partitions <strong>if <code class="language-plaintext highlighter-rouge">public=no</code></strong>. This means your <code class="language-plaintext highlighter-rouge">$USER</code> is being added to the known list of users with access. For me this is <code class="language-plaintext highlighter-rouge">ubuntu</code> as I’m using <a href="https://ubuntu.com/download/raspberry-pi">ubuntu server</a>. The user is granted permission with <code class="language-plaintext highlighter-rouge">sudo smbpasswd -a $USER</code>.</p>
+
+<p>After all these changes have been made, restart <code class="language-plaintext highlighter-rouge">smbd</code> on the RPi.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">sudo </span>systemctl restart smbd</code></pre></figure>
+
+<p>It’s always good practice to test that a service is properly configured after slaving away at the configs! For this particular case, the following gives us a quick overview:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>smbclient <span class="nt">-Uubuntu</span> <span class="nt">-L</span> //192.168.0.73/
+        Sharename       Type      Comment
+        <span class="nt">---------</span>       <span class="nt">----</span>      <span class="nt">-------</span>
+        print<span class="nv">$ </span>         Disk      Printer Drivers
+        piperless-ng    Disk
+        IPC<span class="nv">$ </span>           IPC       IPC Service <span class="o">(</span>ubuntu server <span class="o">(</span>Samba, Ubuntu<span class="o">))</span>
+SMB1 disabled <span class="nt">--</span> no workgroup available</code></pre></figure>
+
+<p>Note that my RPis ip address is <code class="language-plaintext highlighter-rouge">192.168.0.73</code> and my samba user is <code class="language-plaintext highlighter-rouge">ubuntu</code>.</p>
+
+<p>And that’s it! Samba is now set up for any <strong>verified</strong> user to use on your local network.</p>
+
+<h2 id="paperless-ng">Paperless-NG</h2>
+
+<p>Actually setting up paperless-ng is incredibly simple thanks to <code class="language-plaintext highlighter-rouge">docker-compose</code> (install it by following <a href="https://dev.to/elalemanyo/how-to-install-docker-and-docker-compose-on-raspberry-pi-1mo">this great tutorial</a>). Firstly we’ll download the config files for sqlite. Sqlite is lower power than postgres but obviously isn’t as powerful. If this instance of paperless-ng was being hosted on a more powerful machine, use postgres.</p>
+
+<p>We download the previously mentioned <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> using <code class="language-plaintext highlighter-rouge">curl</code> as below. Note we’re using the <code class="language-plaintext highlighter-rouge">arm</code> flavour of the paperless-ng docker-compoes file as normal apache/tika does not support our architecture. For more info head to <a href="https://hub.docker.com/repository/docker/iwishiwasaneagle/apache-tika-arm">iwishiwasaneagle/apache-tika-arm</a>.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">curl https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/docker/compose/docker-compose.sqlite-tika.arm.yml <span class="nt">-o</span> docker-compose.yml</code></pre></figure>
+
+<p>I have then adjusted the file as follows:</p>
+
+<figure class="highlight"><pre><code class="language-diff" data-lang="diff"><span class="p">48c48
+</span><span class="gd">&lt;       - 8000:8000
+</span><span class="p">---
+</span><span class="gi">&gt;       - 9003:8000
+</span><span class="p">55,59c55,58
+</span><span class="gd">&lt;       - data:/usr/src/paperless/data
+&lt;       - media:/usr/src/paperless/media
+&lt;       - ./export:/usr/src/paperless/export
+&lt;       - ./consume:/usr/src/paperless/consume
+&lt;     env_file: docker-compose.env
+</span><span class="p">---
+</span><span class="gi">&gt;       - /media/PORTABLE_UN/paperless/data:/usr/src/paperless/data
+&gt;       - /media/PORTABLE_UN/paperless/media:/usr/src/paperless/media
+&gt;       - /media/PORTABLE_UN/paperless/export:/usr/src/paperless/export
+&gt;       - /media/PORTABLE_UN/paperless/consume:/usr/src/paperless/consume
+</span><span class="p">75,78d73
+</span><span class="gd">&lt;
+&lt; volumes:
+&lt;   data:
+&lt;   media:</span></code></pre></figure>
+
+<ul>
+  <li>I change the outward facing port from <code class="language-plaintext highlighter-rouge">8000</code> to <code class="language-plaintext highlighter-rouge">9003</code> as this suits my needs.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">data</code> and <code class="language-plaintext highlighter-rouge">media</code> docker volumes are changed to folders on my HDD to save space on the SD card.</li>
+  <li>Similarly, <code class="language-plaintext highlighter-rouge">./export</code> and <code class="language-plaintext highlighter-rouge">./consume</code> are changed to the hard drive too for consistency. No data lives in these folders for long but I like having it all in one space.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">env_file</code> has been deleted as I haven’t customised my setup.</li>
+</ul>
+
+<p>Next pull the docker images with <code class="language-plaintext highlighter-rouge">docker-compose pull</code> and create a paperless-ng superuser with:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker-compose run <span class="nt">--rm</span> webserver createsuperuser</code></pre></figure>
+
+<p>Enter any username and password you’d like.</p>
+
+<p>And finally to run your own instance of paperless-ng, run the following:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker-compose up</code></pre></figure>
+
+<h2 id="email">Email</h2>
+
+<p>Paperless-ng makes it super simple to pull attachments from your emails. However, the IMAP method is simple and effective but I don’t like having my all-important gmail account’s password in a config file. Therefore I use a email account who’s sole use is being forwarded attachments.</p>
+
+<p>For this step, you can use any email provider with IMAP support. I like using a throwaway gmail account that’s easy to remember. For the sake of this tutorial I’ll call it <code class="language-plaintext highlighter-rouge">throwaway_account@gmail.com</code> with password <code class="language-plaintext highlighter-rouge">G4kHXBurC7ngUt</code> (both of these are random and any likeness to real emails or passwords are coincidence 😉 ).</p>
+
+<p>Firstly, you must enable access to less secure apps as outlined <a href="https://support.google.com/a/answer/6260879?hl=en">here</a> and then enable IMAP support as described <a href="https://support.google.com/mail/answer/7126229?hl=en-GB">here</a>.</p>
+
+<p>Next you must complete the following two steps</p>
+
+<h3 id="1-add-your-email">1. Add your email</h3>
+
+<p>Navigate to <a href="http://localhost:9003/admin/paperless_mail/mailaccount/">http://localhost:9003/admin/paperless_mail/mailaccount/</a>. In this form you have to fill out the necessary IMAP information + a unique and identifiable name for this email.</p>
+
+<p>This would be my setup for the aforementioned throwaway <strong>gmail</strong> account:</p>
+
+<p><img src="/static/img/2021-09-24-paperless-ng_on_locally_hosted_rpi/2021-09-25-paperless-ng_on_localy_hosted_rpi-add_email.png" alt="Add email screen" /></p>
+
+<h3 id="2-add-a-email-rule-that-works-for-you">2. Add a email rule that works for <strong>you</strong></h3>
+
+<p>Once you’ve added an email account, you must add a rule to scrape your incoming emails. You can do this at <a href="http://localhost:9003/admin/paperless_mail/mailrule/">http://localhost:9003/admin/paperless_mail/mailrule/</a></p>
+
+<p>The following is the setup that works for me:</p>
+
+<p><img src="/static/img/2021-09-24-paperless-ng_on_locally_hosted_rpi/2021-09-25-paperless-ng_on_localy_hosted_rpi-add_email_rule.png" alt="Add rule screen" /></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Paperless-ng is a truly amazing piece of FOSS software. Coupled with other common tools, like samba and email, it becomes a must have for anyone looking to archive documents.</p>
+
+<p>Please show the paperless-ng some love <a href="https://github.com/jonaswinkler/paperless-ng">here</a> by staring the repo and if you have any comments, questions or queries about my setup, please use the comment section below!</p>
+
+			   <hr>
+			   <div class="related-posts">
+				   <h5>Related Posts</h5>
+				   
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									October  3, 2021
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">Scheduling Backups To OneDrive For Paperless-ng Using RClone</a>
+								</h6>
+							</div>
+						</div>
+					
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									March 22, 2022
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html">Pydantic vs Protobuf vs Namedtuples vs Dataclasses</a>
+								</h6>
+							</div>
+						</div>
+					
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									January  7, 2022
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="/how_to_make_your_blog_searchable.html">How To Make Your Blog Searchable Using Algolia</a>
+								</h6>
+							</div>
+						</div>
+					
+			   </div>
+			</div>
+		</div>
+	</div>
+  <div id="comments"></div>
+  <script src="https://utteranc.es/client.js"
+        repo="iwishiwasaneagle/janhendrikewers.uk"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+</div>
+
+  </div>
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">© All rights reserved. Contribute at <a href="https://github.com/iwishiwasaneagle/janhendrikewers.uk"> GitHub</a>. Powered by <a href="http://jekyllrb.com/">Jekyll</a> with ♥</span>
+    </div>
+</footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+    integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
+    crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="static/js/docs.min.js"></script>
+    <script src="static/js/main.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="static/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

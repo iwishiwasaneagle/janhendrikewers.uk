@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://janhendrikewers.uk/</loc>
+    <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/how-do-python-imports-work.html</loc>
+      
+        <lastmod>2022-09-12T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking.html</loc>
+      
+        <lastmod>2022-08-01T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/useful_pycharm_urls.html</loc>
+      
+        <lastmod>2022-05-30T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/taking_a_step_in_the_general_direction_of_good_git_opsec.html</loc>
+      
+        <lastmod>2022-05-09T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html</loc>
+      
+        <lastmod>2022-03-22T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/upgrading_from_paperless-ng_to_paperless_ngx.html</loc>
+      
+        <lastmod>2022-03-21T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/serialization_of_pydantic_data_models_with_json_whilst_preserving_type_data.html</loc>
+      
+        <lastmod>2022-03-08T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/export_images_from_jupyter_notebook.html</loc>
+      
+        <lastmod>2022-02-10T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/min-maxing_your_first_wordle_guess.html</loc>
+      
+        <lastmod>2022-02-06T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/how_to-find-the-CA-Cert-for-ESP32-WiFiClientSecure.html</loc>
+      
+        <lastmod>2022-01-15T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/how_to_make_your_blog_searchable.html</loc>
+      
+        <lastmod>2022-01-07T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/scheduled-off-site-backups-for-paperless-ng-using-rclone.html</loc>
+      
+        <lastmod>2021-10-03T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/paperless-ng_on_localy_hosted_rpi.html</loc>
+      
+        <lastmod>2021-09-25T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/adding_latex_to_jekyll.html</loc>
+      
+        <lastmod>2021-09-10T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+  
+  
+  <url>
+    <loc>https://janhendrikewers.uk/404</loc>
+    
+      <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    
+    
+      <changefreq>monthly</changefreq>
+    
+    
+      <priority>0.3</priority>
+    
+  </url>
+  
+  <url>
+    <loc>https://janhendrikewers.uk/ads.txt</loc>
+    
+      <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    
+    
+      <changefreq>monthly</changefreq>
+    
+    
+      <priority>0.3</priority>
+    
+  </url>
+  
+  <url>
+    <loc>https://janhendrikewers.uk/atom.xml</loc>
+    
+      <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    
+    
+      <changefreq>monthly</changefreq>
+    
+    
+      <priority>0.3</priority>
+    
+  </url>
+  
+  <url>
+    <loc>https://janhendrikewers.uk/blog</loc>
+    
+      <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    
+    
+      <changefreq>monthly</changefreq>
+    
+    
+      <priority>0.3</priority>
+    
+  </url>
+  
+  <url>
+    <loc>https://janhendrikewers.uk/bookshelf</loc>
+    
+      <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    
+    
+      <changefreq>monthly</changefreq>
+    
+    
+      <priority>0.3</priority>
+    
+  </url>
+  
+  <url>
+    <loc>https://janhendrikewers.uk/</loc>
+    
+      <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    
+    
+      <changefreq>monthly</changefreq>
+    
+    
+      <priority>0.3</priority>
+    
+  </url>
+  
+  <url>
+    <loc>https://janhendrikewers.uk/projects</loc>
+    
+      <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    
+    
+      <changefreq>monthly</changefreq>
+    
+    
+      <priority>0.3</priority>
+    
+  </url>
+  
+  <url>
+    <loc>https://janhendrikewers.uk/robots.txt</loc>
+    
+      <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    
+    
+      <changefreq>monthly</changefreq>
+    
+    
+      <priority>0.3</priority>
+    
+  </url>
+  
+  <url>
+    <loc>https://janhendrikewers.uk/sitemap.xml</loc>
+    
+      <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    
+    
+      <changefreq>monthly</changefreq>
+    
+    
+      <priority>0.3</priority>
+    
+  </url>
+  
+  <url>
+    <loc>https://janhendrikewers.uk/static/pdf/cv.pdf</loc>
+    <lastmod>2022-10-03T10:57:54+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.1</priority> 
+  </url>
+</urlset>

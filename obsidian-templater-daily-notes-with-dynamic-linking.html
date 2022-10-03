@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jan-Hendrik Ewers" />
+    <meta name="description" content="Personal blog and resume for Jan-Hendrik Ewers.">
+    <link rel="shortcut icon" type="image/x-icon" href="static/img/favicon.ico">    
+    <link rel="alternate" type="application/atom+xml" href="https://janhendrikewers.uk/atom.xml">
+	  
+    
+      <title>Custom Obsidian Templater Daily Notes Template With Dynamic Linking</title>
+    
+
+    <!-- autocomplete.js -->
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic"
+    />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/reset-min.css" integrity="sha256-t2ATOGCtAIZNnzER679jwcFcKYfLlw01gli6F6oszk8=" crossorigin="anonymous">
+
+	<!-- Custom styles for this template -->
+  <link rel="stylesheet" type="text/css" href="static/css/main.css" />
+
+  <link rel="preload"
+        as="style"
+        onload="this.rel = 'stylesheet'" 
+	      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  <noscript>
+        <link rel="stylesheet" 
+        type="text/css"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  </noscript>
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="static/css/syntax.css" />
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D63RVP8Q8M"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D63RVP8Q8M');
+</script>
+
+  
+
+  
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4960626434138868"
+     crossorigin="anonymous"></script>
+
+  
+  
+  </head>
+
+  <!-- Main Body-->
+  <body>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins). Load before content to be able to use it in scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Wrap all page content here -->
+  <div id="wrap">
+    <!-- Navbar header -->
+    <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <img src="/static/img/favicon.ico" alt="Jan-Hendrik Ewers Logo" class="img-fluid"> 
+      </a>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/blog.html" class="nav-link px-2 link-dark">BLOG</a></li>
+        <li><a href="/projects.html" class="nav-link px-2 link-dark">PROJECTS</a></li>
+        <li><a href="/bookshelf.html" class="nav-link px-2 link-dark">MY BOOKSHELF</a></li>
+        <li><a href="/static/pdf/cv.pdf" class="nav-link px-2 link-dark">RESUME</a></li>
+      </ul>
+    </header>
+</div>
+
+
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<div class="container">
+	<div class="blog-post">
+		<h1 class='fs-3 fw-bold'>
+		  Custom Obsidian Templater Daily Notes Template With Dynamic Linking
+		</h1>
+	</div>
+	<div class="blog-title">
+		<p class='fs-5'>
+		August  1, 2022
+			&nbsp;&nbsp;
+			
+
+			 <span class="badge rounded-pill bg-primary">obsidian</span>
+
+			
+
+			 <span class="badge rounded-pill bg-primary">templater</span>
+
+			
+
+			 <span class="badge rounded-pill bg-primary">js</span>
+
+			
+
+			 <span class="badge rounded-pill bg-primary">automation</span>
+
+			
+		</p>
+		<style>
+#share-buttons {display: inline-block; vertical-align: middle; }
+#share-buttons:after {content: ""; display: block; clear: both;}
+#share-buttons > div {position: relative; text-align: left; height: 36px; width: 32px; float: left; text-align: center;}
+#share-buttons > div > svg {height: 16px; fill: #d5d5d5; margin-top: 10px;}
+#share-buttons > div:hover {cursor: pointer;}
+#share-buttons > div.facebook:hover > svg {fill: #3B5998;}
+#share-buttons > div.twitter:hover > svg {fill: #55ACEE;}
+#share-buttons > div.linkedin:hover > svg {fill: #0077b5;}
+#share-buttons > div.pinterest:hover > svg {fill: #CB2027;}
+#share-buttons > div.gplus:hover > svg {fill: #dd4b39;}
+#share-buttons > div.mail:hover > svg {fill: #7D7D7D;}
+#share-buttons > div.instagram:hover > svg {fill: #C73B92;}
+#share-buttons > div.facebook > svg {height: 18px; margin-top: 9px;}
+#share-buttons > div.twitter > svg {height: 20px; margin-top: 8px;}
+#share-buttons > div.linkedin > svg {height: 19px; margin-top: 7px;}
+#share-buttons > div.pinterest > svg {height: 20px; margin-top: 9px;}
+#share-buttons > div.gplus > svg {height: 17px; margin-top: 9px; position: relative; left: 1px;}
+#share-buttons > div.mail > svg {height: 14px; margin-top: 11px;}
+</style>
+
+<div id="share-buttons">
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking.html&text=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking.html&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body=https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
+</div>
+	</div>
+	
+	<hr/>
+	
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="blogpost">
+			  <p>I’ve recently started using <a href="https://obsidian.md/">Obsidian</a>’s Daily Notes feature to keep track of what I’ve been doing. From the start I wanted to use <a href="https://silentvoid13.github.io/Templater">Templater</a> to dynamically create my daily notes such that <strong>each note to link to the previous one</strong>. And I’m not talking a simple <code class="language-plaintext highlighter-rouge">-1d</code> offset. I’m talking properly analysing the available files to then pick the most recent one akin to a <a href="https://www.geeksforgeeks.org/types-of-linked-list/">Singly Linked List</a></p>
+
+<p>⚠️ First thing first, this isn’t a Templater tutorial so head to the <a href="https://silentvoid13.github.io/Templater/user-functions/overview.html">documentation</a> to learn how to do this yourself.</p>
+
+<p>🧑‍💻 Go <a href="#complete-files">here</a> for the complete code</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>Firstly, let’s scrape the file system through the <code class="language-plaintext highlighter-rouge">app.vault</code> api and exclude any notes without <code class="language-plaintext highlighter-rouge">Daily Notes</code> folder and let’s also exclude today’s (hard-coded for now) notes name:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">files</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">vault</span><span class="p">.</span><span class="nx">getMarkdownFiles</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="dl">"</span><span class="s2">Daily Notes</span><span class="dl">"</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="dl">"</span><span class="s2">2022-08-01</span><span class="dl">"</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>Next we’ll evaluate how long ago the file was created based on it’s <code class="language-plaintext highlighter-rouge">basename</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">now</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">().</span><span class="nx">valueOf</span><span class="p">();</span>
+
+  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">file</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">basename</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">file</span><span class="p">;</span>
+  <span class="p">});</span>
+</code></pre></div></div>
+
+<p>Finally we’ll sort the array and select the most recent one</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">parsed_time</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="template">Template</h2>
+
+<p>Within a template we just call:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;</span><span class="err">%</span> <span class="na">tp.user.tag_previous_daily_note</span><span class="err">(</span><span class="na">tp.file.title</span><span class="err">,</span> <span class="err">"</span><span class="na">YOUR</span> <span class="na">DAILY</span> <span class="na">NOTE</span> <span class="na">PATH</span><span class="err">")</span> <span class="err">%</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<h2 id="complete-files">Complete Files</h2>
+
+<p><code class="language-plaintext highlighter-rouge">tag_previous_daily_note.js</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">tag_previous_daily_note</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="nx">files</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">vault</span><span class="p">.</span><span class="nx">getMarkdownFiles</span><span class="p">().</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">path</span><span class="p">)).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">filename</span><span class="p">));</span>
+
+  <span class="nx">now</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">().</span><span class="nx">valueOf</span><span class="p">();</span>
+
+  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">file</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">basename</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">file</span><span class="p">;</span>
+  <span class="p">});</span>
+
+  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">parsed_time</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="nx">files</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">basename</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">tag_previous_daily_note</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">daily_notes_template.md</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+created: &lt;% tp.file.creation_date() %&gt;
+tags: daily/&lt;% tp.date.now("YYYY/MMMM") %&gt;
+---
+
+# &lt;%tp.file.title%&gt;
+---
+
+**Previous** [[&lt;% tp.user.tag_previous_daily_note(tp.file.title,"Daily Notes")%&gt;]]
+
+---
+
+&lt;% tp.file.cursor(1) %&gt;
+</code></pre></div></div>
+
+			   <hr>
+			   <div class="related-posts">
+				   <h5>Related Posts</h5>
+				   
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									October  3, 2021
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">Scheduling Backups To OneDrive For Paperless-ng Using RClone</a>
+								</h6>
+							</div>
+						</div>
+					
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									September 12, 2022
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="/how-do-python-imports-work.html">One Python Import Quirk You Need to Know, Or Why The Heck Is That A Function?</a>
+								</h6>
+							</div>
+						</div>
+					
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									January  7, 2022
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none' href="/how_to_make_your_blog_searchable.html">How To Make Your Blog Searchable Using Algolia</a>
+								</h6>
+							</div>
+						</div>
+					
+			   </div>
+			</div>
+		</div>
+	</div>
+  <div id="comments"></div>
+  <script src="https://utteranc.es/client.js"
+        repo="iwishiwasaneagle/janhendrikewers.uk"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+</div>
+
+  </div>
+  <!-- Footer -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">© All rights reserved. Contribute at <a href="https://github.com/iwishiwasaneagle/janhendrikewers.uk"> GitHub</a>. Powered by <a href="http://jekyllrb.com/">Jekyll</a> with ♥</span>
+    </div>
+</footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+    integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
+    crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="static/js/docs.min.js"></script>
+    <script src="static/js/main.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="static/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

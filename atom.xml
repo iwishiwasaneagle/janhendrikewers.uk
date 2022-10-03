@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+    <title type="text" xml:lang="en">Jan-Hendrik Ewers</title>
+    <link type="application/atom+xml" rel="self" href="https://janhendrikewers.uk/atom.xml"/>
+  
+  <link href="https://janhendrikewers.uk/"/>
+  <id>https://janhendrikewers.uk/</id>
+  <updated>2022-10-03T10:57:54Z</updated>
+  <author>
+    <name>Jan-Hendrik Ewers</name>
+    <email>j.ewers.1@research.gla.ac.uk</email>
+  </author>
+  <rights type="text">Copyright © 2022 Jan-Hendrik Ewers. All rights reserved.</rights>
+  
+  <entry>
+    <title type="text">One Python Import Quirk You Need to Know, Or Why The Heck Is That A Function?</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-do-python-imports-work.html" />
+    <id>https://janhendrikewers.uk/how-do-python-imports-work</id>
+    <published>2022-09-12T00:00:00Z</published>
+    <updated>2022-09-12T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>Any budding python program has been there. You’ve just made a wonderful new project with an amazingly descriptive file structure! Well done you!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo
+├── bar
+│   ├── bar.py
+│   └── __init__.py
+└── __init__.py
+</code></pre></div></div>
+
+<p>Now, <code class="language-plaintext highlighter-rouge">foo/__init__.py</code> is empty making foo a module, and since <code class="language-plaintext highlighter-rouge">foo/bar</code> also has a <code class="language-plaintext highlighter-rouge">__init__.py</code> file, it is a submodule. For the purposes of this little demonstration, the files are as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># foo/bar/__init__.py
+</span><span class="kn">from</span> <span class="nn">.bar</span> <span class="kn">import</span> <span class="n">bar</span>
+
+<span class="c1"># foo/bar/bar.py
+</span><span class="s">"""
+This is a really important module!
+"""</span>
+
+<span class="k">def</span> <span class="nf">bar</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Hello, World!"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Everything works real nicely except you find yourself needing to call <code class="language-plaintext highlighter-rouge">help()</code> on the <code class="language-plaintext highlighter-rouge">bar</code> sub-submodule (i.e. <code class="language-plaintext highlighter-rouge">foo.bar.bar</code> not <code class="language-plaintext highlighter-rouge">foo.bar.bar.bar</code>). How do we do this?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+<span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
+
+<span class="n">bar</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Well, that was expected right? Let’s try something different…</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">foo.bar.bar</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span><span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
+<span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
+
+<span class="n">bar</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Shoot! Same again.</p>
+
+<p>How about…</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">foo.bar</span> <span class="k">as</span> <span class="n">b</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
+<span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">baz</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
+
+<span class="n">baz</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>You see what’s going on here?</p>
+
+<p>Because we’ve named our function the same as the submodule(yes, <code class="language-plaintext highlighter-rouge">bar.py</code> is being treated as a submodule within the submodule <code class="language-plaintext highlighter-rouge">bar</code>), and we’re <strong>OVERWRITING</strong> the submodule’s name in <code class="language-plaintext highlighter-rouge">foo/bar/__init__.py</code>, it’s impossible to access anything within the submodule other than <code class="language-plaintext highlighter-rouge">bar()</code>. However, with an empty init file, we could have called help on the submodule as:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+<span class="n">Help</span> <span class="n">on</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span> <span class="ow">in</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
+
+<span class="n">NAME</span>
+    <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span> <span class="o">-</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">really</span> <span class="kn">import</span> <span class="nn">module</span><span class="err">!</span>
+
+<span class="n">FUNCTIONS</span>
+    <span class="n">bar</span><span class="p">()</span>
+
+<span class="n">FILE</span>
+    <span class="n">foo</span><span class="o">/</span><span class="n">bar</span><span class="o">/</span><span class="n">bar</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div></div>
+
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<ol>
+  <li>Don’t create additional modules within your source code if not required. A good rule of thumb is that splintering your code into submodules is only necessary if a certain <em>chunk</em> needs more than 1 file</li>
+  <li>If you need to make a submodule, then use a blank <code class="language-plaintext highlighter-rouge">__init__.py</code> file if possible</li>
+  <li>And if you have to do custom imports in your init file, and if you have to have a submodule called <code class="language-plaintext highlighter-rouge">bar</code>, then name the file <code class="language-plaintext highlighter-rouge">_bar.py</code> and the function something a little more creative such as <code class="language-plaintext highlighter-rouge">Bar</code></li>
+</ol>
+
+<p>And another top tip, make good use of the <a href="https://docs.python.org/3/tutorial/modules.html#importing-from-a-package"><code class="language-plaintext highlighter-rouge">__all__</code></a> variable.</p>
+ ]]></content>
+  </entry>
+
+  <entry>
+    <title type="text">Custom Obsidian Templater Daily Notes Template With Dynamic Linking</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking.html" />
+    <id>https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking</id>
+    <published>2022-08-01T00:00:00Z</published>
+    <updated>2022-08-01T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>I’ve recently started using <a href="https://obsidian.md/">Obsidian</a>’s Daily Notes feature to keep track of what I’ve been doing. From the start I wanted to use <a href="https://silentvoid13.github.io/Templater">Templater</a> to dynamically create my daily notes such that <strong>each note to link to the previous one</strong>. And I’m not talking a simple <code class="language-plaintext highlighter-rouge">-1d</code> offset. I’m talking properly analysing the available files to then pick the most recent one akin to a <a href="https://www.geeksforgeeks.org/types-of-linked-list/">Singly Linked List</a></p>
+
+<p>⚠️ First thing first, this isn’t a Templater tutorial so head to the <a href="https://silentvoid13.github.io/Templater/user-functions/overview.html">documentation</a> to learn how to do this yourself.</p>
+
+<p>🧑‍💻 Go <a href="#complete-files">here</a> for the complete code</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>Firstly, let’s scrape the file system through the <code class="language-plaintext highlighter-rouge">app.vault</code> api and exclude any notes without <code class="language-plaintext highlighter-rouge">Daily Notes</code> folder and let’s also exclude today’s (hard-coded for now) notes name:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">files</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">vault</span><span class="p">.</span><span class="nx">getMarkdownFiles</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="dl">"</span><span class="s2">Daily Notes</span><span class="dl">"</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="dl">"</span><span class="s2">2022-08-01</span><span class="dl">"</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>Next we’ll evaluate how long ago the file was created based on it’s <code class="language-plaintext highlighter-rouge">basename</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">now</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">().</span><span class="nx">valueOf</span><span class="p">();</span>
+
+  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">file</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">basename</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">file</span><span class="p">;</span>
+  <span class="p">});</span>
+</code></pre></div></div>
+
+<p>Finally we’ll sort the array and select the most recent one</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">parsed_time</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="template">Template</h2>
+
+<p>Within a template we just call:</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;</span><span class="err">%</span> <span class="na">tp.user.tag_previous_daily_note</span><span class="err">(</span><span class="na">tp.file.title</span><span class="err">,</span> <span class="err">"</span><span class="na">YOUR</span> <span class="na">DAILY</span> <span class="na">NOTE</span> <span class="na">PATH</span><span class="err">")</span> <span class="err">%</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<h2 id="complete-files">Complete Files</h2>
+
+<p><code class="language-plaintext highlighter-rouge">tag_previous_daily_note.js</code></p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">tag_previous_daily_note</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="nx">files</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">vault</span><span class="p">.</span><span class="nx">getMarkdownFiles</span><span class="p">().</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">path</span><span class="p">)).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">filename</span><span class="p">));</span>
+
+  <span class="nx">now</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">().</span><span class="nx">valueOf</span><span class="p">();</span>
+
+  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">file</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">basename</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">file</span><span class="p">;</span>
+  <span class="p">});</span>
+
+  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">parsed_time</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="nx">files</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">basename</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">tag_previous_daily_note</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">daily_notes_template.md</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+created: &lt;% tp.file.creation_date() %&gt;
+tags: daily/&lt;% tp.date.now("YYYY/MMMM") %&gt;
+---
+
+# &lt;%tp.file.title%&gt;
+---
+
+**Previous** [[&lt;% tp.user.tag_previous_daily_note(tp.file.title,"Daily Notes")%&gt;]]
+
+---
+
+&lt;% tp.file.cursor(1) %&gt;
+</code></pre></div></div>
+ ]]></content>
+  </entry>
+
+  <entry>
+    <title type="text">External Library Documentation URLS for PyCharm</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/useful_pycharm_urls.html" />
+    <id>https://janhendrikewers.uk/useful_pycharm_urls</id>
+    <published>2022-05-30T00:00:00Z</published>
+    <updated>2022-05-30T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>Being able to hover over modules, classes, functions, etc. of a library and seeing the documentation is always great. This post acts as a resources for you to copy/paste the external documentation URL for your favourite libraries to enable this feature. For more information how to enable this, have a look <a href="#how">here</a></p>
+
+<table>
+    <tr><th>Library</th><th>Module</th><th>URL</th></tr>
+  
+    <tr>
+    <td>Matplotlib </td>
+    <td><code> matplotlib </code></td>
+    <td><code> http://matplotlib.org/api/{module.basename}_api.html#{element.qname} </code></td>
+    </tr>
+  
+    <tr>
+    <td>Numpy </td>
+    <td><code> numpy </code></td>
+    <td><code> https://docs.scipy.org/doc/numpy/reference/generated/{element.qname}.html </code></td>
+    </tr>
+  
+    <tr>
+    <td>Pandas </td>
+    <td><code> pandas </code></td>
+    <td><code> https://pandas.pydata.org/pandas-docs/stable/generated/{element.qname}.html </code></td>
+    </tr>
+  
+    <tr>
+    <td>Scikit-Learn </td>
+    <td><code>  sklearn </code></td>
+    <td><code> https://scikit-learn.org/stable/modules/generated/{element.qname}.html#{element.qname} </code></td>
+    </tr>
+  
+    <tr>
+    <td>Scipy </td>
+    <td><code> scipy </code></td>
+    <td><code> https://docs.scipy.org/doc/scipy/reference/generated/{element.qname}.html </code></td>
+    </tr>
+  
+    <tr>
+    <td>Seaborn </td>
+    <td><code> seaborn </code></td>
+    <td><code> https://seaborn.pydata.org/generated/{module.name}.{element.name}.html#{module.name}.{element.name} </code></td>
+    </tr>
+  
+</table>
+
+<h2 id="how">How</h2>
+
+<ol>
+  <li>Go into your settings</li>
+  <li>Navigate to <code class="language-plaintext highlighter-rouge">Tools | External Documentation</code></li>
+  <li>Press <code class="language-plaintext highlighter-rouge">+</code></li>
+  <li>Input the module name and url from above</li>
+</ol>
+
+<h2 id="contribute">Contribute</h2>
+
+<p>If you have any useful URLs that you’d like added, please say so in the comments below!</p>
+ ]]></content>
+  </entry>
+
+  <entry>
+    <title type="text">Taking A Step In The General Direction Of Good Git OpSec</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/taking_a_step_in_the_general_direction_of_good_git_opsec.html" />
+    <id>https://janhendrikewers.uk/taking_a_step_in_the_general_direction_of_good_git_opsec</id>
+    <published>2022-05-09T00:00:00Z</published>
+    <updated>2022-05-09T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>Every morning I tend to browse a few feeds: <a href="https://reddit.com/r/programming">r/programming</a>, <a href="https://reddit.com/r/linux">r/linux</a>, and <a href="https://github.com/trending">Github Trending</a>. That’s how I stumbled across <a href="https://github.com/GitGuardian/ggshield">ggshield</a> and as a result, also <a href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a>.
+I decided to sign up for GitGuardian to see if it’d find anything feeling quite confident. Quickly my hubris was shattered with <strong>31 open secrets</strong>!</p>
+
+<p>Now, full disclosure, 13 of the 31 secrets were in a repository that a friend added me to for some help and another 15 were in private repositories. However, I would consider myself very careful with what I commit so this number was still quite shocking.</p>
+
+<h2 id="the-remedy">The Remedy</h2>
+
+<p>I had a quick look into every <em>incident</em> to see if it actually required attention. One stood out and I cannot believe I did this… I committed my SSH private key.</p>
+
+<p>Some credit where it’s due though, the commit message when deleting it was “jan you’re a moron” and I must have generated a new private key when I realized. Nonetheless, why I didn’t look into cleaning the commit message is beyond me so let’s look into that now.</p>
+
+<p>I previously mentioned the  BFG Repo-Cleaner so I quickly installed that with <code class="language-plaintext highlighter-rouge">yay -S bfg</code>. Looking at <code class="language-plaintext highlighter-rouge">bfg -h</code> I see</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--delete-folders</span> &lt;glob&gt;  delete folders with the specified names <span class="o">(</span>eg <span class="s1">'.svn'</span>, <span class="s1">'*-tmp'</span> - matches on folder name, not path within repo<span class="o">)</span>
+</code></pre></div></div>
+
+<p>which is PERFECT.</p>
+
+<p>Quickly <code class="language-plaintext highlighter-rouge">git clone --mirror REPO_URL</code> (the <code class="language-plaintext highlighter-rouge">--mirror</code> is very important) and cd into the project dir. I ran <code class="language-plaintext highlighter-rouge">bfg --delete-folders "ssh" ./</code> followed by <code class="language-plaintext highlighter-rouge">git reflog expire --expire=now --all &amp;&amp; git gc --prune=now --aggressive</code> (this big command is printed at the end of the bfg logs to ensure the updates are propagated). One final command, <code class="language-plaintext highlighter-rouge">git push</code>, and now <em>hey presto</em> it’s gone!</p>
+
+<h2 id="post-mortem">Post Mortem</h2>
+
+<p>I learnt a few things today:</p>
+
+<ol>
+  <li>No matter how careful I think I am being, I’m only human and will probably <code class="language-plaintext highlighter-rouge">git add</code> something unsavoury without thinking about it.</li>
+  <li>Monitor, monitor, and monitor. You can’t catch something if you’re not looking for it.</li>
+</ol>
+
+<p>Yes the private key had been changed but it might still be listed as an authorized key on another server. You just don’t know and as such, being proactive about it and cleaning your git history is probably a good idea.</p>
+ ]]></content>
+  </entry>
+
+  <entry>
+    <title type="text">Pydantic vs Protobuf vs Namedtuples vs Dataclasses</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html" />
+    <id>https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses</id>
+    <published>2022-03-22T00:00:00Z</published>
+    <updated>2022-03-22T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>Before my introduction to <a href="https://fastapi.tiangolo.com/">FastAPI</a> I was manually crafting classes to hold data. This was completely fine, but then <a href="https://pydantic-docs.helpmanual.io/">pydantic</a> changed the way I thought about this. Who wants to write a custom <code class="language-plaintext highlighter-rouge">__init__</code> class for every data type, with type checking? However, over-time I’ve learnt some of it’s limitations and other libraries such as <a href="https://github.com/protocolbuffers/protobuf">protobuf</a> or <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple">namedtuple</a> kept cropping up. My hunger to over-complicate everything finally made me try them all out and this post is the result of that inability to KISS<sup id="fnref:kiss" role="doc-noteref"><a href="#fn:kiss" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
+
+<ul id="markdown-toc">
+  <li><a href="#experimental-setup" id="markdown-toc-experimental-setup">Experimental Setup</a></li>
+  <li><a href="#creation" id="markdown-toc-creation">Creation</a></li>
+  <li><a href="#type-conversions" id="markdown-toc-type-conversions">Type Conversions</a></li>
+  <li><a href="#instantiation-performance" id="markdown-toc-instantiation-performance">Instantiation Performance</a></li>
+  <li><a href="#deserialization" id="markdown-toc-deserialization">(De)serialization</a>    <ul>
+      <li><a href="#json" id="markdown-toc-json">JSON</a></li>
+      <li><a href="#smallest-possible" id="markdown-toc-smallest-possible">Smallest Possible</a></li>
+    </ul>
+  </li>
+  <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
+  <li><a href="#appendix" id="markdown-toc-appendix">Appendix</a></li>
+</ul>
+
+<h2 id="experimental-setup">Experimental Setup</h2>
+
+<p>As I’m doing a lot of simulations in the near future, I decided to use two data types</p>
+
+<ol>
+  <li>
+    <p>Coord</p>
+
+    <ul>
+      <li>Holds <code class="language-plaintext highlighter-rouge">x</code>, <code class="language-plaintext highlighter-rouge">y</code>, <code class="language-plaintext highlighter-rouge">z</code>, and <code class="language-plaintext highlighter-rouge">heading</code></li>
+      <li>All of type <code class="language-plaintext highlighter-rouge">float</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>Coords</p>
+
+    <ul>
+      <li>Holds an unbounded list of <code class="language-plaintext highlighter-rouge">Coord</code>s under coords.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>These were then instantiated with the <em>same</em> random data using</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">heading</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Note the <code class="language-plaintext highlighter-rouge">dtype=int</code>. This was done to test if the class do any type conversion (<em>spoiler:</em> some do).</p>
+
+<p>The variables in the following code examples have prefixes to show what library they are related to. <code class="language-plaintext highlighter-rouge">NT</code> is <code class="language-plaintext highlighter-rouge">namedtuple</code>, <code class="language-plaintext highlighter-rouge">DC</code> is <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">PD</code> is <code class="language-plaintext highlighter-rouge">pydantic</code>, and <code class="language-plaintext highlighter-rouge">PB</code> is <code class="language-plaintext highlighter-rouge">protobuf</code>. Easy.</p>
+
+<h2 id="creation">Creation</h2>
+
+<p>After creating the data models, as seen in the <a href="#appendix">appendix</a>, the classes were intialized. The method for <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">namedtuples</code> and <code class="language-plaintext highlighter-rouge">pydantic</code> were identical.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+  <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fi</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span><span class="n">y</span><span class="o">=</span><span class="n">gi</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span><span class="n">z</span><span class="o">=</span><span class="n">hi</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span><span class="n">heading</span><span class="o">=</span><span class="n">ii</span><span class="p">.</span><span class="n">item</span><span class="p">())</span> <span class="k">for</span> <span class="n">fi</span><span class="p">,</span> <span class="n">gi</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">i</span><span class="p">)]</span>
+
+<span class="n">dccoords</span> <span class="o">=</span> <span class="n">DCCoords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">generate</span><span class="p">(</span><span class="n">DCCoord</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">headings</span><span class="p">))</span>
+<span class="n">ntcoords</span> <span class="o">=</span> <span class="n">NTCoords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">generate</span><span class="p">(</span><span class="n">NTCoord</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">headings</span><span class="p">))</span>
+<span class="n">pdcoords</span> <span class="o">=</span> <span class="n">PDCoords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">generate</span><span class="p">(</span><span class="n">PDCoord</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">headings</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Protobuf was much different though. As can be seen on line 3 below, the coord is added to the list of coords, and then filled with values. This results in quite a bit more boiler plate code but if one knows about it, it’s surprisingly readable.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="n">pbcoords</span> <span class="o">=</span> <span class="n">PBCoords</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span><span class="n">zi</span><span class="p">,</span><span class="n">headingi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">,</span><span class="n">zs</span><span class="p">,</span><span class="n">headings</span><span class="p">):</span>
+<span class="n">pbcoord</span> <span class="o">=</span> <span class="n">pbcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">.</span><span class="n">add</span><span class="p">()</span>
+<span class="n">pbcoord</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">xi</span>
+<span class="n">pbcoord</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">yi</span>
+<span class="n">pbcoord</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">zi</span>
+<span class="n">pbcoord</span><span class="p">.</span><span class="n">heading</span> <span class="o">=</span> <span class="n">heading</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<h2 id="type-conversions">Type Conversions</h2>
+
+<p>All 4 data models were filled with int on purpose. <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">pydantic</code>, and <code class="language-plaintext highlighter-rouge">protobuf</code> have capabilities to define a data type for each field so those are the ones expected to convert the data <em>if possible</em>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">isinstance</span><span class="p">(</span><span class="n">dccoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># False
+</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">ntcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># False
+</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">pdcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># True
+</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">pbcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># True
+</span></code></pre></div></div>
+
+<p>That’s weird… <code class="language-plaintext highlighter-rouge">dataclasses</code> don’t convert the field? Apparently this is expected behaviour and the suggested workaround is using a static type-checker like <a href="https://mypy-lang.org/"><code class="language-plaintext highlighter-rouge">mypy</code></a>, <a href="https://pydantic-docs.helpmanual.io/usage/validation_decorator/"><code class="language-plaintext highlighter-rouge">pydantic.validate_arguments</code></a>, or in the <a href="https://docs.python.org/3/library/dataclasses.html#post-init-processing"><code class="language-plaintext highlighter-rouge">dataclass.dataclasses.__post_init__</code></a> method.</p>
+
+<p><code class="language-plaintext highlighter-rouge">pydantic</code> and <code class="language-plaintext highlighter-rouge">protobuf</code> both convert the types which is nice. However, will this add much computational overhead?</p>
+
+<h2 id="instantiation-performance">Instantiation Performance</h2>
+
+<p>One of the largest downsides of using a data class is the additional performance overhead. In my simulations, I run hundreds of thousands of trials with multiple thousand steps so any increase in computational time is noticed.</p>
+
+<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/speed.png" alt="png" class="img-responsive" />
+<em>Mean time to instantiate a single <code class="language-plaintext highlighter-rouge">Coord</code> class in the respective libraries</em></p>
+
+<p>This is where we can really see the overhead of converting the types from <code class="language-plaintext highlighter-rouge">int</code> to <code class="language-plaintext highlighter-rouge">float</code> in <code class="language-plaintext highlighter-rouge">pydantic</code>. However, <code class="language-plaintext highlighter-rouge">protobuf</code> does not have nearly the same problems<sup id="fnref:fw" role="doc-noteref"><a href="#fn:fw" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<p>I’m honestly quite shocked at how well <code class="language-plaintext highlighter-rouge">protobuf</code> did. It’s mean time was <code class="language-plaintext highlighter-rouge">685ns</code> whilst <code class="language-plaintext highlighter-rouge">namedtuple</code> achieved <code class="language-plaintext highlighter-rouge">608ns</code> and <code class="language-plaintext highlighter-rouge">dataclasses</code> did <code class="language-plaintext highlighter-rouge">643ns</code>.</p>
+
+<h2 id="deserialization">(De)serialization</h2>
+
+<h3 id="json">JSON</h3>
+
+<p>Another important aspect is storing my millions of data points. The “classic” method is via CSV or JSON. However, this struggles with multiple <code class="language-plaintext highlighter-rouge">Coords</code> so we’ll give JSON a shot. Yes it’s not meant for storing large series data but it’s easy and available and probably what most people will turn to. <a href="https://docs.python.org/3/library/pickle.html">Pickleing</a> is another option but this does not create human readable output, nor does it store very well<sup id="fnref:pickle-vs-json" role="doc-noteref"><a href="#fn:pickle-vs-json" class="footnote" rel="footnote">3</a></sup>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">dataclasses</code> were a weird one, because it required a custom JSON encoder. However, 5 lines of additional code isn’t too bad in my opinion.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="k">class</span> <span class="nc">EnhancedJSONEncoder</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dataclasses</span><span class="p">.</span><span class="n">is_dataclass</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">dataclasses</span><span class="p">.</span><span class="n">asdict</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">default</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+<span class="n">dccoords_json</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dccoords</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">','</span><span class="p">,</span> <span class="s">':'</span><span class="p">),</span>  <span class="n">cls</span><span class="o">=</span><span class="n">EnhancedJSONEncoder</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">namedtuple</code> was actually quite easy, using the inbuilt <code class="language-plaintext highlighter-rouge">_asdict()</code> method resulted in</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ntcoords_json</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">ntcoords</span><span class="p">.</span><span class="n">_asdict</span><span class="p">(),</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">','</span><span class="p">,</span> <span class="s">':'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">pydantic</code> has a built in <code class="language-plaintext highlighter-rouge">json()</code> method so this was as easy as <code class="language-plaintext highlighter-rouge">pdcoords_json = dcoords.json()</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">protobuf</code>, being different as per, required the import of <code class="language-plaintext highlighter-rouge">MessageToJson</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">google.protobuf.json_format</span> <span class="kn">import</span> <span class="n">MessageToJson</span>
+<span class="n">pbcoords_json</span> <span class="o">=</span> <span class="n">MessageToJson</span><span class="p">(</span><span class="n">pbcoords</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="s">""</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>All serializations were more or less identical <em>except</em> for <code class="language-plaintext highlighter-rouge">namedtuple</code>. For whatever reason the list of <code class="language-plaintext highlighter-rouge">NTCoord</code>s was serialized into a 2D array. Hopefully this won’t cause any issues with the de-serialization (foreshadowing much?)</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"coords"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">37</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">93</span><span class="p">,</span><span class="w"> </span><span class="mi">44</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">41</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">34</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">85</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">79</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span><span class="w"> </span><span class="mi">92</span><span class="p">,</span><span class="w"> </span><span class="mi">58</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">47</span><span class="p">,</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">89</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="mi">81</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">71</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">78</span><span class="p">,</span><span class="w"> </span><span class="mi">79</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">97</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">28</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">61</span><span class="p">,</span><span class="w"> </span><span class="mi">56</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">51</span><span class="p">,</span><span class="w"> </span><span class="mi">72</span><span class="p">,</span><span class="w"> </span><span class="mi">92</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">72</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">86</span><span class="p">,</span><span class="w"> </span><span class="mi">93</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">77</span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p">]</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Deserializing from the JSON string showed pretty much exactly what I expected.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DCCoords</span><span class="p">(</span><span class="o">**</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">dccoords_json</span><span class="p">))</span> <span class="o">==</span> <span class="n">dccoords</span> <span class="c1"># False
+</span><span class="n">NTCoords</span><span class="p">(</span><span class="o">**</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">ntcoords_json</span><span class="p">))</span> <span class="o">==</span> <span class="n">ntcoords</span> <span class="c1"># False
+</span><span class="n">PDCoords</span><span class="p">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">pdcoords_json</span><span class="p">)</span> <span class="o">==</span> <span class="n">pdcoords</span>     <span class="c1"># True
+</span>
+<span class="kn">from</span> <span class="nn">google.protobuf.json_format</span> <span class="kn">import</span> <span class="n">Parse</span> <span class="k">as</span> <span class="n">JsonToMessage</span>
+<span class="n">JsonToMessage</span><span class="p">(</span><span class="n">pbcoords_json</span><span class="p">,</span> <span class="n">PBCoords</span><span class="p">())</span> <span class="o">==</span> <span class="n">pbcoords</span> <span class="c1"># True
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">namedtuple</code> lost the data structure when it converted to JSON and <code class="language-plaintext highlighter-rouge">dataclasses</code> does not properly convert the types at instantiation. <code class="language-plaintext highlighter-rouge">pydantic</code> and <code class="language-plaintext highlighter-rouge">protobuf</code> both check what types every field was using and converts the data (correctly) back into that type.</p>
+
+<h3 id="smallest-possible">Smallest Possible</h3>
+
+<p>Whilst JSON is great for human-readable, easy-to-transfer data, it is not compact. For the next comparison where possible, the smallest representation was used. Deserialization was not considered as right now we’re only concerned with storing large sets of data. Using it is someone else’s job (usually me, in a few weeks time).</p>
+
+<p><code class="language-plaintext highlighter-rouge">protobuf</code> is the only non-JSON encoding. The inbuilt <code class="language-plaintext highlighter-rouge">SerializeToString</code> is very powerful and one of the core features of the library. Since the data class is compiled with a tool, and not just into python, it gives developers a huge advantage by easily creating highly optimized <strong>cross-platform</strong> data.</p>
+
+<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/size.png" alt="png" class="img-responsive" />
+<em>Size of the compressed data for a <code class="language-plaintext highlighter-rouge">Coords</code> class from the respective libraries</em></p>
+
+<p>Evidently <code class="language-plaintext highlighter-rouge">pydantic</code> is the “worst”. However, is it? <code class="language-plaintext highlighter-rouge">dataclasses</code> never converted the data to a float and as such, the raw JSON string will be missing the <code class="language-plaintext highlighter-rouge">.0</code>. With <code class="language-plaintext highlighter-rouge">2*4*15=120</code> bytes of missing data, the two are actually equal (<code class="language-plaintext highlighter-rouge">549+120 == 669</code>).</p>
+
+<p>Next, why is <code class="language-plaintext highlighter-rouge">namedtuple</code> better than <code class="language-plaintext highlighter-rouge">protobuf</code>? Isn’t protobuf “oh so highly optimized”? Well yes, but if we recall from the JSON serialization results, <code class="language-plaintext highlighter-rouge">namedtuple</code> just bungs the data into a 2D array and cannot deserialize it properly. A 2D array will always be smaller than a data structure that tries to save as much data about the object as possible. The JSON output for <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">pydantic</code>, and <code class="language-plaintext highlighter-rouge">protobuf</code> were close to identical, so a <code class="language-plaintext highlighter-rouge">2x</code> improvement is very impressive.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>To your dismay, there is no easy conclusion. I have fallen in love with the idea of using <code class="language-plaintext highlighter-rouge">protobuf</code>s, but the overhead of compilation and the weird method of creating the classes is quite off-putting. The speed and serialization benefits over the other 3 cannot be played down though.</p>
+
+<p><code class="language-plaintext highlighter-rouge">pydantic</code> performed shockingly bad, but the strict type checking and ease of use will have me coming for less performant instances.</p>
+
+<p>The benefits of <code class="language-plaintext highlighter-rouge">dataclasses</code> and <code class="language-plaintext highlighter-rouge">namedtuples</code> are as they’ve always been: both are shipped with <a href="https://github.com/python/cpython/blob/3.10/Lib/dataclasses.py"><code class="language-plaintext highlighter-rouge">cpython</code></a> and are sufficient. <code class="language-plaintext highlighter-rouge">namedtuples</code> can be created in one line and allow easy to read code, whilst <code class="language-plaintext highlighter-rouge">dataclasses</code> are more akin to <code class="language-plaintext highlighter-rouge">pydantic</code> but require more setup.</p>
+
+<p>I hope this investigation into the 4 main data class libraries in Python have helped you. If you have any libraries you think I should have included, please let me know in the <a href="#comments">comments</a>!</p>
+
+<h2 id="appendix">Appendix</h2>
+
+<script src="https://gist.github.com/iwishiwasaneagle/fd304f7d951aa6ebeb13b5715f7a6410.js"></script>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:kiss" role="doc-endnote">
+      <p>Keep It Simple, Stupid. <a href="#fnref:kiss" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:fw" role="doc-endnote">
+      <p>This might call for more investigation in the future if this article does well. <a href="#fnref:fw" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:pickle-vs-json" role="doc-endnote">
+      <p>For a more in-depth discussion between pickle vs json, have a look <a href="https://docs.python.org/3/library/pickle.html#comparison-with-json">here</a>. <a href="#fnref:pickle-vs-json" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+ ]]></content>
+  </entry>
+
+  <entry>
+    <title type="text">Upgrading from Paperless-NG to Paperless-NGX</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/upgrading_from_paperless-ng_to_paperless_ngx.html" />
+    <id>https://janhendrikewers.uk/upgrading_from_paperless-ng_to_paperless_ngx</id>
+    <published>2022-03-21T00:00:00Z</published>
+    <updated>2022-03-21T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>As of February 2022, the paperless-ng community created a <a href="https://github.com/paperless-ngx/paperless-ngx">new fork</a> to continue development due to the inactivity on the <a href="https://github.com/jonaswinkler/paperless-ng">original repo</a> <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. This has means new docker images, new configs, etc.</p>
+
+<p>This post serves as a quick amendment to my previous posts on how to set up paperless-ng on <a href="/paperless-ng_on_localy_hosted_rpi.html">a raspberry pi with samba</a> and with <a href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">automated backups using rclone</a>.</p>
+
+<h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
+
+<ul id="markdown-toc">
+  <li><a href="#new-docker-containers" id="markdown-toc-new-docker-containers">New Docker Containers</a></li>
+  <li><a href="#new-best-practices-for-redis-broker" id="markdown-toc-new-best-practices-for-redis-broker">New Best Practices For Redis Broker</a></li>
+  <li><a href="#in-action" id="markdown-toc-in-action">In Action</a></li>
+  <li><a href="#fin" id="markdown-toc-fin"><em>Fin.</em></a></li>
+</ul>
+
+<h2 id="new-docker-containers">New Docker Containers</h2>
+
+<p>In theory, this should be a plug-and-play update as the image is identical except for the new software updates. The biggest difference is that the <a href="https://hub.docker.com/r/jonaswinkler/paperless-ng">old image</a> was hosted on <a href="https://hub.docker.com">dockerhub</a> and the <a href="https://github.com/paperless-ngx/paperless-ngx/pkgs/container/paperless-ngx">new image</a> is hosted on the <a href="https://github.com/features/packages">github container registry</a> (as per <a href="https://github.com/paperless-ngx/paperless-ngx/pull/104">#104</a>).</p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">150c150
+</span><span class="gd">&lt;     image: jonaswinkler/paperless-ng:latest
+</span><span class="p">---
+</span><span class="gi">&gt;     image: ghcr.io/paperless-ngx/paperless-ngx:latest
+</span></code></pre></div></div>
+
+<h2 id="new-best-practices-for-redis-broker">New Best Practices For Redis Broker</h2>
+
+<p>As of <a href="https://github.com/paperless-ngx/paperless-ngx/releases/tag/ngx-1.6.0">v1.6.0</a>, it is suggested to use <a href="https://github.com/paperless-ngx/paperless-ngx/commit/bad4be4cbc7254611e720bad8fca4517f24fe210">named volumes</a> for the redis broker.</p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">147a148,149
+</span><span class="gi">&gt;     volumes:
+&gt;       - redisdata:/data
+</span><span class="p">227a230,232
+</span><span class="gi">&gt;
+&gt;   volumes:
+&gt;     redisdata
+</span></code></pre></div></div>
+
+<p>I personally haven’t bothered with this, as redis is meant to be a cache and not permanent storage.</p>
+
+<h2 id="in-action">In Action</h2>
+
+<p>And just like that, I’ve upgrade from Paperless-NG 1.5.0 to Paperless-NGX 1.6.0. So far I can’t really notice any major differences <em>but that’s the point</em>. It’s a continuation of the project, not an entirely new version!</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ubuntu@ubuntu:~/paperless<span class="nv">$ </span>vim docker-compose.yml
+ubuntu@ubuntu:~/paperless<span class="nv">$ </span>docker-compose stop paperless
+Stopping paperless ... <span class="k">done
+</span>ubuntu@ubuntu:~/paperless<span class="nv">$ </span>docker-compose up <span class="nt">--no-deps</span> <span class="nt">--build</span> paperless
+279a020076a7: Pull <span class="nb">complete</span>
+...
+5624cdf6a4f1: Pull <span class="nb">complete
+</span>Digest: sha256:f2f2d77cb7898a338314a59103b1b403807a7fa479b78489edb0ebb8de477d15
+Status: Downloaded newer image <span class="k">for </span>ghcr.io/paperless-ngx/paperless-ngx:latest
+Recreating paperless ... <span class="k">done
+</span>Attaching to paperless
+paperless                 | Paperless-ngx docker container starting...
+paperless                 | Creating directory /tmp/paperless
+...
+</code></pre></div></div>
+
+<h2 id="fin"><em>Fin.</em></h2>
+
+<p>That’s it for <strong>now</strong>. I’m involved in a <a href="https://github.com/paperless-ngx/paperless-ngx/pull/27">PR #27</a> to use a <a href="https://github.com/iwishiwasaneagle/tika-docker">Apache Tika</a> container with ARM support. Once that gets merged I will probably update this post, as well as create a new and more in-depth longer one.</p>
+
+<p>And remember, always create a backup before changing your system! I have my <a href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">rlcone setup</a> but still like doing a quick <code class="language-plaintext highlighter-rouge">tar -czvf paperless paperless.tar.gz</code> before an upgrade <em>just in case</em>.</p>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Discussions can be found in <a href="https://github.com/jonaswinkler/paperless-ng/issues/1599">#1599</a> and <a href="https://github.com/jonaswinkler/paperless-ng/issues/1632">#1632</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+ ]]></content>
+  </entry>
+
+  <entry>
+    <title type="text">Serialization Of Pydantic Data Models With JSON Whilst Preserving Type Data</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/serialization_of_pydantic_data_models_with_json_whilst_preserving_type_data.html" />
+    <id>https://janhendrikewers.uk/serialization_of_pydantic_data_models_with_json_whilst_preserving_type_data</id>
+    <published>2022-03-08T00:00:00Z</published>
+    <updated>2022-03-08T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>I recently encountered an issue where I was relying on Pydantic to know what model I wanted it to <em>select</em> based on the parameters alone. This was fine until I started using models with the same parameters. Hopefully this short guide will quickly cover how to deal with this.</p>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>Let’s quickly define the problem. We have a base-class <code class="language-plaintext highlighter-rouge">Base</code> which <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">B</code> inherits all their attributes from and does not add anything themselves. We then create another class <code class="language-plaintext highlighter-rouge">C</code> which houses either <code class="language-plaintext highlighter-rouge">A</code> or <code class="language-plaintext highlighter-rouge">B</code> in <code class="language-plaintext highlighter-rouge">C.baz</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">foo</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">bar</span><span class="p">:</span> <span class="nb">float</span>
+
+<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">pass</span>
+        
+<span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">baz</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>If we were then to serialize and deserialize an instance of <code class="language-plaintext highlighter-rouge">C</code> with <code class="language-plaintext highlighter-rouge">baz</code> holding a <code class="language-plaintext highlighter-rouge">B</code> object, the resultant <code class="language-plaintext highlighter-rouge">C</code> class would actually be holding a <code class="language-plaintext highlighter-rouge">A</code> object at <code class="language-plaintext highlighter-rouge">baz</code> after all is said and done. This is because json doesn’t hold type information by design which forces Pydantic to pick either <code class="language-plaintext highlighter-rouge">A</code> or <code class="language-plaintext highlighter-rouge">B</code> based on order listed in the type definition.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">json</span><span class="p">())</span> <span class="c1"># {"baz": {"foo": 0.1, "bar": 0.2}}
+</span>
+<span class="c1">#                              The problem
+#                                  \/ 
+</span><span class="k">print</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">json</span><span class="p">()))</span> <span class="c1"># baz=A(foo=0.1, bar=0.2)
+</span></code></pre></div></div>
+
+<h2 id="the-solution">The Solution</h2>
+
+<p>We need to define custom en- and de-coders to store type data along the actual data. Pydantic sadly does not handle this very elegantly so extra care needs to be take when using these methods within your codebase.</p>
+
+<p>First, let’s define the encoder that will store the class name as under <code class="language-plaintext highlighter-rouge">_type</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">custom_encoder</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span>  <span class="nb">dict</span><span class="p">(</span><span class="n">_type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">).</span><span class="n">__name__</span><span class="p">,</span> <span class="o">**</span><span class="n">obj</span><span class="p">.</span><span class="nb">dict</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>We then add the <a href="https://pydantic-docs.helpmanual.io/usage/exporting_models/#json_encoders"><code class="language-plaintext highlighter-rouge">json_encoders</code></a> configuration to the model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">baz</span><span class="p">:</span> <span class="n">Base</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">json_encoders</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">Base</span><span class="p">:</span> <span class="n">custom_encoder</span>
+        <span class="p">}</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span> <span class="c1"># '{"baz": {"_type": "B", "foo": 0.1, "bar": 0.2}}'
+</span></code></pre></div></div>
+
+<p>The next stage is the decoder. For this we turn to <code class="language-plaintext highlighter-rouge">json.JSONDecoder</code> and create a custom hook.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CustomDecoder</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">JSONDecoder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">json</span><span class="p">.</span><span class="n">JSONDecoder</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">object_hook</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">object_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="n">_type</span> <span class="o">=</span> <span class="n">obj</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'_type'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">obj</span>
+        
+        <span class="k">del</span> <span class="n">obj</span><span class="p">[</span><span class="s">'_type'</span><span class="p">]</span> <span class="c1"># Delete the `_type` key as it isn't used in the models
+</span>        
+        <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">.</span><span class="n">__name__</span><span class="p">:</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]}</span> <span class="c1"># Create a look-up object to avoid an if-else chain
+</span>        
+        <span class="k">return</span> <span class="n">mapping</span><span class="p">[</span><span class="n">_type</span><span class="p">].</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Then finally add it to the <code class="language-plaintext highlighter-rouge">C</code> model using <code class="language-plaintext highlighter-rouge">functools.partial</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">baz</span><span class="p">:</span> <span class="n">Base</span>
+        
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">json_encoders</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">Base</span><span class="p">:</span> <span class="n">custom_encoder</span>
+        <span class="p">}</span>
+        <span class="n">json_loads</span> <span class="o">=</span> <span class="n">functools</span><span class="p">.</span><span class="n">partial</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="n">CustomDecoder</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="the-result">The Result</h2>
+
+<p>Finally we have a suitable method for serializing and de-serializing a custom object in a way that retains type data!</p>
+
+<p>Below is a quick demonstration which shows how to use this method along with the <a href="https://pydantic-docs.helpmanual.io/usage/exporting_models/#serialising-self-reference-or-other-models"><code class="language-plaintext highlighter-rouge">models_as_dict=False</code></a> parameter.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
+<span class="n">c_json</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># models_as_dict=False is VERY important! Excluding it will invalidate all of this.
+</span>
+<span class="c1">#                              It works!
+#                                \/ 
+</span><span class="k">print</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">c_json</span><span class="p">))</span> <span class="c1"># baz=B(foo=0.1, bar=0.2)
+</span>
+</code></pre></div></div>
+
+<h2 id="problems-you-might-encounter">Problems You Might Encounter</h2>
+
+<ol>
+  <li>This won’t work if the field uses a <code class="language-plaintext highlighter-rouge">Union</code> type. I don’t know why, but it just doesn’t. That is why I have set <code class="language-plaintext highlighter-rouge">baz: Base</code> rather than <code class="language-plaintext highlighter-rouge">baz: Union[A,B]</code>, where the latter is more readable in my opinion.</li>
+  <li>The output is less “pretty”</li>
+</ol>
+ ]]></content>
+  </entry>
+
+  <entry>
+    <title type="text">How To Easily Export Figures From Your Jupyter Notebooks</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/export_images_from_jupyter_notebook.html" />
+    <id>https://janhendrikewers.uk/export_images_from_jupyter_notebook</id>
+    <published>2022-02-10T00:00:00Z</published>
+    <updated>2022-02-10T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>Have a nice jupyter notebook with many many figures and don’t want to <code class="language-plaintext highlighter-rouge">right click -&gt; save</code> every single one? Well <a href="https://nbconvert.readthedocs.io/en/latest/">nbconvert</a> to the rescue (sort of).</p>
+
+<p><code class="language-plaintext highlighter-rouge">nbconvert</code> lets you convert your notebooks to other formats, but some formats don’t allow embedded images. So, to extract images we use a format that needs them to be stored as separate files.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-m</span> jupyter nbconvert <span class="nt">--to</span> markdown my_notebook.ipynb
+<span class="o">[</span>NbConvertApp] Converting notebook my_notebook.ipynb to markdown
+<span class="o">[</span>NbConvertApp] Support files will be <span class="k">in </span>my_notebook_files/
+<span class="o">[</span>NbConvertApp] Making directory my_notebook_files
+<span class="o">[</span>NbConvertApp] Writing 288 bytes to my_notebook.md
+
+<span class="nv">$ </span><span class="nb">ls </span>my_notebook_files
+my_notebook_1_0.png
+</code></pre></div></div>
+
+<p>Make sure to clean up the <code class="language-plaintext highlighter-rouge">.md</code> files afterwards!</p>
+
+<h2 id="example">Example</h2>
+
+<p>Here’s a simple <code class="language-plaintext highlighter-rouge">y=sin(x)</code> example. If I had plotted at a higher dpi with <code class="language-plaintext highlighter-rouge">fig, ax = plt.subplots(dpi=300)</code>, the exported image would be better. The <em>embedded</em> example is just a simple screenshot.</p>
+
+<p class="centre"><img src="/static/img/2022-02-10-export_images_from_jupyter_notebook/before.png" alt="before" class="img-responsive" />
+<em>Embedded Image</em></p>
+
+<p class="centre"><img src="/static/img/2022-02-10-export_images_from_jupyter_notebook/after.png" alt="before" class="img-responsive" />
+<em>After export</em></p>
+
+ ]]></content>
+  </entry>
+
+  <entry>
+    <title type="text">Min-Maxing Your First Wordle Guess</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/min-maxing_your_first_wordle_guess.html" />
+    <id>https://janhendrikewers.uk/min-maxing_your_first_wordle_guess</id>
+    <published>2022-02-06T00:00:00Z</published>
+    <updated>2022-02-06T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>My pal showed me <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> for the first time the other day and I instantly wanted to know what the objectively <strong>best</strong> starting guess was. Some may argue that that’s not in the spirit of the game and that it should be a daily challenge, but those people probably don’t spend 45 minutes on their first game (that’d be super awkward right…?).</p>
+
+<blockquote>
+  <p>TL;DR: oreas, arose, seora, aries, arise, raise, serai, aesir</p>
+</blockquote>
+
+<p>Firstly we need to figure out some heuristic to measure the <em>goodness</em> of a word. The most intuitive would be to pick a word with the most frequently used letters <em>within the set of 5 letter words</em>. Thus, we can measure a words score using</p>
+
+\[p(\textbf w) = \sum^5_{i=0} s(w_i),\]
+
+<p>which translates to the sum of the frequencies of each individual letter.</p>
+
+<p>Enough maths. Let’s get into the code.</p>
+
+<p>Next, let’s get a word list. I chose <a href="https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt">this</a> one because it was the first one I found. Simple. We’ll read this into memory, but only the 5 letter words.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">words</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'words_alpha.txt'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">.</span><span class="n">readlines</span><span class="p">():</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">words</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This results in 15918 possible words. My guess the Wordle backend uses a wordlist similar, if not exact, to this one.</p>
+
+<p>We then need to count all the letters and divide by the total amount of letters to get each letter’s frequency.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">big_word</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s">""</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
+<span class="n">letter</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">unique</span><span class="p">(</span><span class="n">big_word</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">count</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">big_word</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This results in a nice graph with a surprising result.</p>
+
+<p class="centre"><img src="/static/img/2022-02-05-min-maxing_your_first_wordle_guess/letter_freq.png" alt="png" class="img-responsive" />
+<em>Most frequent letters in the set of all 5 letter words</em></p>
+
+<p><code class="language-plaintext highlighter-rouge">a</code> seems to be the most common letter even though it’s a commonly known fact that <code class="language-plaintext highlighter-rouge">e</code> is th most used letter in the english language! This is (probably) because we’re limited to the set of 5 letter words, and no all words.</p>
+
+<p>Another optimisation on the quest for the best starting word, is optimising the word to exclude repeating letters. Having <code class="language-plaintext highlighter-rouge">skiing</code>, for example, would be a waste of a letter so let’s employ a nifty hack using <code class="language-plaintext highlighter-rouge">set</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="s">'e'</span><span class="o">*</span><span class="mi">9</span><span class="si">}</span><span class="s">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="s">'e'</span><span class="o">*</span><span class="mi">9</span><span class="p">)</span><span class="si">}</span><span class="s">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">'e'</span><span class="o">*</span><span class="mi">9</span><span class="p">))</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="n">eeeeeeeee</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<p>As you can see above, we can easily filter for words that have multiples if the set object containing that word has a length less than 5.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filtered_words</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">word</span><span class="p">))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">([</span><span class="n">freq_df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)])</span>
+        <span class="n">scores</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">filtered_words</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>And just like that we’ve got a tie for the top word. All of these 8 words use the 5 most frequent letters (<code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">e</code>, <code class="language-plaintext highlighter-rouge">s</code>, <code class="language-plaintext highlighter-rouge">o</code>, <code class="language-plaintext highlighter-rouge">r</code>).</p>
+
+<p class="centre"><img src="/static/img/2022-02-05-min-maxing_your_first_wordle_guess/best_words.png" alt="png" class="img-responsive" />
+<em>The top 10 objectively best words to use for your first guess in Wordle</em></p>
+
+<p>❗ <strong>Disclaimer</strong> - I am terrible at this game, and these words might be terrible too for various reasons. Use at your own risk.</p>
+
+ ]]></content>
+  </entry>
+
+  <entry>
+    <title type="text">How To Find The CA Certificate For ESP32&apos;s WiFiClientSecure</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_to-find-the-CA-Cert-for-ESP32-WiFiClientSecure.html" />
+    <id>https://janhendrikewers.uk/how_to-find-the-CA-Cert-for-ESP32-WiFiClientSecure</id>
+    <published>2022-01-15T00:00:00Z</published>
+    <updated>2022-01-15T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>I just spent the last 2 hours trawling through source code (whilst getting increasingly annoyed) to figure out where the f**k the CA Certificate comes from. Initially I thought I could use the one from the browser, but that didn’t work. So finally I came across a StackOverflow comment saying to use <code class="language-plaintext highlighter-rouge">openssl</code>. Hopefully this short post will enlighten some other frustrated soul!</p>
+
+<p>This is an example for <a href="https://www.howsmyssl.com">www.howsmyssl.com</a> so you must change the address in the command as you require. The correct cert in this example it to pick the 3rd one in the chain, with <code class="language-plaintext highlighter-rouge">i:0 = Digital Signature Trust Co.</code> as it is the parent certificate.</p>
+
+<figure class="highlight"><pre><code class="language-raw" data-lang="raw">$ openssl s_client -showcerts -connect www.howsmyssl.com:443
+
+depth=2 C = US, O = Internet Security Research Group, CN = ISRG Root X1
+verify return:1
+depth=1 C = US, O = Let's Encrypt, CN = R3
+verify return:1
+depth=0 CN = www.howsmyssl.com
+verify return:1
+CONNECTED(00000003)
+---
+Certificate chain
+ 0 s:CN = www.howsmyssl.com
+   i:C = US, O = Let's Encrypt, CN = R3
+-----BEGIN CERTIFICATE-----
+MIIEjjCCA3agAwIBAgISAw52tGoJJ5UGAMFO9pgNYc54MA0GCSqGSIb3DQEBCwUA
+[ SKIP ]
+xLf867GFF3XWYINKrnyduixX
+-----END CERTIFICATE-----
+ 1 s:C = US, O = Let's Encrypt, CN = R3
+   i:C = US, O = Internet Security Research Group, CN = ISRG Root X1
+-----BEGIN CERTIFICATE-----
+MIIFFjCCAv6gAwIBAgIRAJErCErPDBinU/bWLiWnX1owDQYJKoZIhvcNAQELBQAw
+[ SKIP ]
+nLRbwHOoq7hHwg==
+-----END CERTIFICATE-----
+ 2 s:C = US, O = Internet Security Research Group, CN = ISRG Root X1
+   i:O = Digital Signature Trust Co., CN = DST Root CA X3               &lt;--- CHOSE THIS ONE WITH "Digital Signature Trust Co." LINE
+-----BEGIN CERTIFICATE-----
+MIIFYDCCBEigAwIBAgIQQAF3ITfU6UK47naqPGQKtzANBgkqhkiG9w0BAQsFADA/
+[ SKIP ]
+Dfvp7OOGAN6dEOM4+qR9sdjoSYKEBpsr6GtPAQw4dy753ec5
+-----END CERTIFICATE-----
+...</code></pre></figure>
+
+<p>Then in your C++ code, use it as shown below:</p>
+
+<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">const</span> <span class="kt">char</span> <span class="n">promCert</span><span class="p">[]</span> <span class="o">=</span> \
+<span class="s">"-----BEGIN CERTIFICATE-----</span><span class="se">\n</span><span class="s">"</span> \
+<span class="s">"MIIFYDCCBEigAwIBAgIQQAF3ITfU6UK47naqPGQKtzANBgkqhkiG9w0BAQsFADA/</span><span class="se">\n</span><span class="s">"</span> \
+<span class="p">...</span>
+<span class="s">"Dfvp7OOGAN6dEOM4+qR9sdjoSYKEBpsr6GtPAQw4dy753ec5</span><span class="se">\n</span><span class="s">"</span> \
+<span class="s">"-----END CERTIFICATE-----</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></code></pre></figure>
+
+<p>It’s very important to ensure that you have copy/pasted the cert <strong>EXACTLY</strong> as it was shown with <code class="language-plaintext highlighter-rouge">openssl</code>. That includes the begin, and end certificate lines For a complete example, have a look at the <a href="https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFiClientSecure/examples/WiFiClientSecure/WiFiClientSecure.ino#L20-L40">official example</a>.</p>
+
+ ]]></content>
+  </entry>
+
+
+</feed>
