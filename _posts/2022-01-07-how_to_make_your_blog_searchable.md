@@ -10,6 +10,14 @@ tags:
 
 **Note**: I've decided to remove the search from the header for now because it didn't look great. A working example is found below:
 
+<!-- autocomplete.js -->
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic"
+/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/reset-min.css" integrity="sha256-t2ATOGCtAIZNnzER679jwcFcKYfLlw01gli6F6oszk8=" crossorigin="anonymous">
 <div id="autocomplete" class="nav-link"></div>
 
 <script>
