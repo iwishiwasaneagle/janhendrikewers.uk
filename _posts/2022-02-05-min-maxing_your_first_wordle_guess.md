@@ -3,6 +3,7 @@ layout: post
 title: Min-Maxing Your First Wordle Guess
 date: '2022-02-06'
 categories: post
+usemathjax: true
 tags:
   - wordle
   - python

@@ -3,6 +3,7 @@ layout: post
 title: Adding LaTex to Jekyll
 date: '2021-09-10'
 categories: post
+usemathjax: true
 tags:
   - latex
   - jekyll
