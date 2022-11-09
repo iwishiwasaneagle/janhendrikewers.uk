@@ -6,13 +6,46 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2022-10-03T13:03:22Z</updated>
+  <updated>2022-11-09T17:19:29Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2022 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">Using GMail&apos;s App Passwords With Paperless-NGX</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx.html" />
+    <id>https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx</id>
+    <published>2022-10-09T00:00:00Z</published>
+    <updated>2022-10-09T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>I saw some errors in my paperless-ngx logs recently:</p>
+
+<pre><code class="language-log">[2022-11-09 15:33:13,556] [ERROR] [paperless_mail] 
+  Error while authenticating account paperless gmail: 
+    Response status "OK" expected, but "NO" received. 
+    Data: [b'[AUTHENTICATIONFAILED] Invalid credentials (Failure)']
+</code></pre>
+
+<p>After doing some digging, I discovered the following that will be affecting a lot of Paperless-ngx users with dedicated gmail accounts for ingress.</p>
+
+<p>As of 30/05/2022, <a href="https://support.google.com/accounts/answer/6010255">Google stopped supporting the <em>Less Secure Apps</em> mode</a> which was often used to enable Paperless-NG to work with GMail via IMAP. Now, you need to enable 2FA and then generate an <em>App Password</em> (with instructions <a href="https://support.google.com/accounts/answer/185833">here</a>). This password is then used within paperless-ngx like the account password previously.</p>
+
+<p>For more guidance on how to set up Paperless-ngx with automated email ingress and rules, have a look at my other article <a href="/paperless-ng_on_localy_hosted_rpi.html">here</a></p>
+
+<h2 id="tips">Tips</h2>
+
+<ol>
+  <li>Make sure to select <strong>Mail</strong> as the app type. You’ll then want to select <em>Other Custom Name</em> for the device type.
+<img src="/static/img/2022-11-09_gmail_with_paperless-ngx/2.png" alt="B" /></li>
+  <li>Make sure to use a meaningful name
+<img src="/static/img/2022-11-09_gmail_with_paperless-ngx/3.png" alt="C" /></li>
+  <li>The app password is only ever shown once so make sure to copy it there and then. It is made up of 16 characters. <strong>DO NOT SHARE OR RE-USE THIS PASSWORD</strong>
+<img src="/static/img/2022-11-09_gmail_with_paperless-ngx/4.png" alt="D" /></li>
+</ol>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">One Python Import Quirk You Need to Know, Or Why The Heck Is That A Function?</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-do-python-imports-work.html" />
@@ -813,64 +846,6 @@ my_notebook_1_0.png
 <em>The top 10 objectively best words to use for your first guess in Wordle</em></p>
 
 <p>❗ <strong>Disclaimer</strong> - I am terrible at this game, and these words might be terrible too for various reasons. Use at your own risk.</p>
-
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">How To Find The CA Certificate For ESP32&apos;s WiFiClientSecure</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_to-find-the-CA-Cert-for-ESP32-WiFiClientSecure.html" />
-    <id>https://janhendrikewers.uk/how_to-find-the-CA-Cert-for-ESP32-WiFiClientSecure</id>
-    <published>2022-01-15T00:00:00Z</published>
-    <updated>2022-01-15T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>I just spent the last 2 hours trawling through source code (whilst getting increasingly annoyed) to figure out where the f**k the CA Certificate comes from. Initially I thought I could use the one from the browser, but that didn’t work. So finally I came across a StackOverflow comment saying to use <code class="language-plaintext highlighter-rouge">openssl</code>. Hopefully this short post will enlighten some other frustrated soul!</p>
-
-<p>This is an example for <a href="https://www.howsmyssl.com">www.howsmyssl.com</a> so you must change the address in the command as you require. The correct cert in this example it to pick the 3rd one in the chain, with <code class="language-plaintext highlighter-rouge">i:0 = Digital Signature Trust Co.</code> as it is the parent certificate.</p>
-
-<figure class="highlight"><pre><code class="language-raw" data-lang="raw">$ openssl s_client -showcerts -connect www.howsmyssl.com:443
-
-depth=2 C = US, O = Internet Security Research Group, CN = ISRG Root X1
-verify return:1
-depth=1 C = US, O = Let's Encrypt, CN = R3
-verify return:1
-depth=0 CN = www.howsmyssl.com
-verify return:1
-CONNECTED(00000003)
----
-Certificate chain
- 0 s:CN = www.howsmyssl.com
-   i:C = US, O = Let's Encrypt, CN = R3
------BEGIN CERTIFICATE-----
-MIIEjjCCA3agAwIBAgISAw52tGoJJ5UGAMFO9pgNYc54MA0GCSqGSIb3DQEBCwUA
-[ SKIP ]
-xLf867GFF3XWYINKrnyduixX
------END CERTIFICATE-----
- 1 s:C = US, O = Let's Encrypt, CN = R3
-   i:C = US, O = Internet Security Research Group, CN = ISRG Root X1
------BEGIN CERTIFICATE-----
-MIIFFjCCAv6gAwIBAgIRAJErCErPDBinU/bWLiWnX1owDQYJKoZIhvcNAQELBQAw
-[ SKIP ]
-nLRbwHOoq7hHwg==
------END CERTIFICATE-----
- 2 s:C = US, O = Internet Security Research Group, CN = ISRG Root X1
-   i:O = Digital Signature Trust Co., CN = DST Root CA X3               &lt;--- CHOSE THIS ONE WITH "Digital Signature Trust Co." LINE
------BEGIN CERTIFICATE-----
-MIIFYDCCBEigAwIBAgIQQAF3ITfU6UK47naqPGQKtzANBgkqhkiG9w0BAQsFADA/
-[ SKIP ]
-Dfvp7OOGAN6dEOM4+qR9sdjoSYKEBpsr6GtPAQw4dy753ec5
------END CERTIFICATE-----
-...</code></pre></figure>
-
-<p>Then in your C++ code, use it as shown below:</p>
-
-<figure class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">const</span> <span class="kt">char</span> <span class="n">promCert</span><span class="p">[]</span> <span class="o">=</span> \
-<span class="s">"-----BEGIN CERTIFICATE-----</span><span class="se">\n</span><span class="s">"</span> \
-<span class="s">"MIIFYDCCBEigAwIBAgIQQAF3ITfU6UK47naqPGQKtzANBgkqhkiG9w0BAQsFADA/</span><span class="se">\n</span><span class="s">"</span> \
-<span class="p">...</span>
-<span class="s">"Dfvp7OOGAN6dEOM4+qR9sdjoSYKEBpsr6GtPAQw4dy753ec5</span><span class="se">\n</span><span class="s">"</span> \
-<span class="s">"-----END CERTIFICATE-----</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></code></pre></figure>
-
-<p>It’s very important to ensure that you have copy/pasted the cert <strong>EXACTLY</strong> as it was shown with <code class="language-plaintext highlighter-rouge">openssl</code>. That includes the begin, and end certificate lines For a complete example, have a look at the <a href="https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFiClientSecure/examples/WiFiClientSecure/WiFiClientSecure.ino#L20-L40">official example</a>.</p>
 
  ]]></content>
   </entry>
