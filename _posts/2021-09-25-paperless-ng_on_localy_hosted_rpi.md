@@ -170,6 +170,8 @@ docker-compose up
 
 ## Email
 
+**🚧 NOTE:** The process for authenticating gmail accounts has changed. Have a look [here]({% post_url 2022-11-09-gmail_app_password_with_paperless-ngx %}) for more information.
+
 Paperless-ng makes it super simple to pull attachments from your emails. However, the IMAP method is simple and effective but I don't like having my all-important gmail account's password in a config file. Therefore I use a email account who's sole use is being forwarded attachments.
 
 For this step, you can use any email provider with IMAP support. I like using a throwaway gmail account that's easy to remember. For the sake of this tutorial I'll call it `throwaway_account@gmail.com` with password `G4kHXBurC7ngUt` (both of these are random and any likeness to real emails or passwords are coincidence 😉 ).
