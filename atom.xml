@@ -6,13 +6,42 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2022-12-11T22:44:55Z</updated>
+  <updated>2023-01-23T12:14:41Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
-  <rights type="text">Copyright © 2022 Jan-Hendrik Ewers. All rights reserved.</rights>
+  <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">How To Block YouTube Shorts In Your Feed And Inbox</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html" />
+    <id>https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed</id>
+    <published>2023-01-23T00:00:00Z</published>
+    <updated>2023-01-23T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>YouTube shorts are becoming more and more prevalent on the website. I was completely okay with this until my subscriptions and feed were starting to become completely unbearable with their presence. The nature of shorts means that content creators are uploading these clips on a much higher rate than anything else resulting in this mess. Furthermore, there is NO way of doing this natively within the website. Hopefully this short guide will help someone with the same issue.</p>
+
+<h2 id="how-to">How To</h2>
+
+<p>First of all you need to install uBlock Origin (<a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en">Chrome</a>, <a href="https://addons.mozilla.org/en-GB/firefox/addon/ublock-origin/">Firefox</a>). Then, open the settings page via the add-on’s pop-up</p>
+
+<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/a.png" alt="uBlock Origin settings button" class="img-responsive" />
+<em>uBlock Origin settings button location</em></p>
+
+<p>Finally, all you need to do is import the custom filter from <a href="https://letsblock.it/filters/youtube-shorts">here</a> within the <em>My filters</em> tab.</p>
+
+<h2 id="results">Results</h2>
+
+<p>This method works exceptionally well. As you can see, there are <strong>NO</strong> shorts in a subset of my subscriptions after implementing this method.</p>
+
+<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/b.png" alt="Before" class="img-responsive" />
+<em>Before</em></p>
+
+<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/c.png" alt="Before" class="img-responsive" />
+<em>After</em></p>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">Using GMail&apos;s App Passwords With Paperless-NGX</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx.html" />
@@ -773,79 +802,6 @@ my_notebook_1_0.png
 
 <p class="centre"><img src="/static/img/2022-02-10-export_images_from_jupyter_notebook/after.png" alt="before" class="img-responsive" />
 <em>After export</em></p>
-
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">Min-Maxing Your First Wordle Guess</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/min-maxing_your_first_wordle_guess.html" />
-    <id>https://janhendrikewers.uk/min-maxing_your_first_wordle_guess</id>
-    <published>2022-02-06T00:00:00Z</published>
-    <updated>2022-02-06T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>My pal showed me <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> for the first time the other day and I instantly wanted to know what the objectively <strong>best</strong> starting guess was. Some may argue that that’s not in the spirit of the game and that it should be a daily challenge, but those people probably don’t spend 45 minutes on their first game (that’d be super awkward right…?).</p>
-
-<blockquote>
-  <p>TL;DR: oreas, arose, seora, aries, arise, raise, serai, aesir</p>
-</blockquote>
-
-<p>Firstly we need to figure out some heuristic to measure the <em>goodness</em> of a word. The most intuitive would be to pick a word with the most frequently used letters <em>within the set of 5 letter words</em>. Thus, we can measure a words score using</p>
-
-\[p(\textbf w) = \sum^5_{i=0} s(w_i),\]
-
-<p>which translates to the sum of the frequencies of each individual letter.</p>
-
-<p>Enough maths. Let’s get into the code.</p>
-
-<p>Next, let’s get a word list. I chose <a href="https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt">this</a> one because it was the first one I found. Simple. We’ll read this into memory, but only the 5 letter words.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">words</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'words_alpha.txt'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">.</span><span class="n">readlines</span><span class="p">():</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
-            <span class="n">words</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>This results in 15918 possible words. My guess the Wordle backend uses a wordlist similar, if not exact, to this one.</p>
-
-<p>We then need to count all the letters and divide by the total amount of letters to get each letter’s frequency.</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">big_word</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s">""</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
-<span class="n">letter</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">unique</span><span class="p">(</span><span class="n">big_word</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">freq</span> <span class="o">=</span> <span class="n">count</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">big_word</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>This results in a nice graph with a surprising result.</p>
-
-<p class="centre"><img src="/static/img/2022-02-05-min-maxing_your_first_wordle_guess/letter_freq.png" alt="png" class="img-responsive" />
-<em>Most frequent letters in the set of all 5 letter words</em></p>
-
-<p><code class="language-plaintext highlighter-rouge">a</code> seems to be the most common letter even though it’s a commonly known fact that <code class="language-plaintext highlighter-rouge">e</code> is th most used letter in the english language! This is (probably) because we’re limited to the set of 5 letter words, and no all words.</p>
-
-<p>Another optimisation on the quest for the best starting word, is optimising the word to exclude repeating letters. Having <code class="language-plaintext highlighter-rouge">skiing</code>, for example, would be a waste of a letter so let’s employ a nifty hack using <code class="language-plaintext highlighter-rouge">set</code>.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="s">'e'</span><span class="o">*</span><span class="mi">9</span><span class="si">}</span><span class="s">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="s">'e'</span><span class="o">*</span><span class="mi">9</span><span class="p">)</span><span class="si">}</span><span class="s">, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s">'e'</span><span class="o">*</span><span class="mi">9</span><span class="p">))</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-<span class="n">eeeeeeeee</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span>
-</code></pre></div></div>
-
-<p>As you can see above, we can easily filter for words that have multiples if the set object containing that word has a length less than 5.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filtered_words</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">word</span><span class="p">))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
-        <span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">([</span><span class="n">freq_df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">letter</span><span class="p">]</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)])</span>
-        <span class="n">scores</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
-        <span class="n">filtered_words</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>And just like that we’ve got a tie for the top word. All of these 8 words use the 5 most frequent letters (<code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">e</code>, <code class="language-plaintext highlighter-rouge">s</code>, <code class="language-plaintext highlighter-rouge">o</code>, <code class="language-plaintext highlighter-rouge">r</code>).</p>
-
-<p class="centre"><img src="/static/img/2022-02-05-min-maxing_your_first_wordle_guess/best_words.png" alt="png" class="img-responsive" />
-<em>The top 10 objectively best words to use for your first guess in Wordle</em></p>
-
-<p>❗ <strong>Disclaimer</strong> - I am terrible at this game, and these words might be terrible too for various reasons. Use at your own risk.</p>
 
  ]]></content>
   </entry>
