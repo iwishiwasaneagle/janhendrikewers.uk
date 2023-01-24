@@ -6,13 +6,89 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-01-24T08:34:28Z</updated>
+  <updated>2023-01-24T12:59:44Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">Exploring Faster Alternatives To np.clip</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/exploring_faster_np_clip.html" />
+    <id>https://janhendrikewers.uk/exploring_faster_np_clip</id>
+    <published>2023-01-24T00:00:00Z</published>
+    <updated>2023-01-24T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>I was profiling some code I had written where <code class="language-plaintext highlighter-rouge">np.clip</code> was being called a couple hundreds of millions of times. The profiler was flagging some weird related functions that seemed unimportant so I delved deeper. Turns out that as of numpy 1.17, the <code class="language-plaintext highlighter-rouge">np.clip</code> has been substantially slower than previously which has been documented <a href="https://github.com/numpy/numpy/issues/14281">here</a>. This caught my curiosity and after some experimentation I found two substantially faster methods which in turn sped up my code by $50\%$!</p>
+
+<p>Below is my log of what I tried, but if you just want results then <a href="#conclusion">here</a> is your link.</p>
+
+<p><strong>Note</strong>: These tests were undertaken using numpy version <code class="language-plaintext highlighter-rouge">1.23.5</code>.</p>
+
+<h2 id="scalar">Scalar</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">VMIN</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
+<span class="n">VMAX</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">X_scalar</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">X_scalar</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="mf">11.3</span> <span class="n">µs</span> <span class="err">±</span> <span class="mi">202</span> <span class="n">ns</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Testing the baseline gave us a fairly decent time of $11.3\mu s$.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">umath</span><span class="p">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">umath</span><span class="p">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">X_scalar</span><span class="p">,</span> <span class="n">VMAX</span><span class="p">),</span> <span class="n">VMIN</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="mf">2.25</span> <span class="n">µs</span> <span class="err">±</span> <span class="mf">64.6</span> <span class="n">ns</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>However, we quickly got huge gains by using max/min functions directly.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">([</span><span class="n">X_scalar</span><span class="p">,</span> <span class="n">VMAX</span><span class="p">]),</span> <span class="n">VMIN</span><span class="p">])</span>
+<span class="o">&gt;</span> <span class="mf">8.74</span> <span class="n">µs</span> <span class="err">±</span> <span class="mi">141</span> <span class="n">ns</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Using the normal max/min functions proved still faster but not nearly as fast as calling the <code class="language-plaintext highlighter-rouge">umath</code> functions directly.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">VMIN</span> <span class="k">if</span> <span class="n">X_scalar</span> <span class="o">&lt;</span> <span class="n">VMIN</span> <span class="k">else</span> <span class="n">VMAX</span> <span class="k">if</span> <span class="n">X_scalar</span> <span class="o">&gt;</span> <span class="n">VMAX</span> <span class="k">else</span> <span class="n">X_scalar</span>
+<span class="o">&gt;</span> <span class="mf">75.2</span> <span class="n">ns</span> <span class="err">±</span> <span class="mf">7.8</span> <span class="n">ns</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>For scalars, there is not much faster than direct logic in python it seems. Huge gains!</p>
+
+<h2 id="array">Array</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">X_array</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50000</span><span class="p">)</span> <span class="o">-</span> <span class="n">VMAX</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Again, testing the baseline:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">X_array</span><span class="p">,</span> <span class="n">VMIN</span><span class="p">,</span> <span class="n">VMAX</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="mi">172</span> <span class="n">µs</span> <span class="err">±</span> <span class="mi">646</span> <span class="n">ns</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This gave us a very slow time of $172\mu s$ which isn’t good enough. Since using the usual min/max functions proved fruitless in the scalar case, we skip it here.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">umath</span><span class="p">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">umath</span><span class="p">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">X_array</span><span class="p">,</span> <span class="n">VMAX</span><span class="p">),</span> <span class="n">VMIN</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="mf">40.9</span> <span class="n">µs</span> <span class="err">±</span> <span class="mi">388</span> <span class="n">ns</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Again, the <code class="language-plaintext highlighter-rouge">umath</code> functions were faster.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">VMIN</span> <span class="k">if</span> <span class="n">Xi</span> <span class="o">&lt;</span> <span class="n">VMIN</span> <span class="k">else</span> <span class="n">VMAX</span> <span class="k">if</span> <span class="n">Xi</span> <span class="o">&gt;</span> <span class="n">VMAX</span> <span class="k">else</span> <span class="n">Xi</span> <span class="k">for</span> <span class="n">Xi</span> <span class="ow">in</span> <span class="n">X_array</span><span class="p">])</span>
+<span class="o">&gt;</span> <span class="mi">10</span> <span class="n">ms</span> <span class="err">±</span> <span class="mi">140</span> <span class="n">µs</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">100</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>And (as expected honestly) the raw python variation was horribly slow.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>For scalars, using <code class="language-plaintext highlighter-rouge">VMIN if X &lt; VMIN else VMAX if X &gt; VMAX else X</code> is 150x faster than normal <code class="language-plaintext highlighter-rouge">np.clip</code>. However, using raw python for arrays is (expectedly) horrible. For this case, using <code class="language-plaintext highlighter-rouge">np.core.umath.maximum(np.core.umath.minimum(X, VMAX), VMIN)</code> is roughly 4x faster than <code class="language-plaintext highlighter-rouge">np.clip</code>.</p>
+
+<h3 id="credit">Credit</h3>
+
+<p>I got most of these ideas from <a href="https://github.com/numpy/numpy/issues/14281">numpy#14281</a> but wanted to verify them for myself.</p>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">How To Block YouTube Shorts In Your Feed And Inbox</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html" />
@@ -768,41 +844,6 @@ paperless                 | Creating directory /tmp/paperless
   <li>This won’t work if the field uses a <code class="language-plaintext highlighter-rouge">Union</code> type. I don’t know why, but it just doesn’t. That is why I have set <code class="language-plaintext highlighter-rouge">baz: Base</code> rather than <code class="language-plaintext highlighter-rouge">baz: Union[A,B]</code>, where the latter is more readable in my opinion.</li>
   <li>The output is less “pretty”</li>
 </ol>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">How To Easily Export Figures From Your Jupyter Notebooks</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/export_images_from_jupyter_notebook.html" />
-    <id>https://janhendrikewers.uk/export_images_from_jupyter_notebook</id>
-    <published>2022-02-10T00:00:00Z</published>
-    <updated>2022-02-10T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>Have a nice jupyter notebook with many many figures and don’t want to <code class="language-plaintext highlighter-rouge">right click -&gt; save</code> every single one? Well <a href="https://nbconvert.readthedocs.io/en/latest/">nbconvert</a> to the rescue (sort of).</p>
-
-<p><code class="language-plaintext highlighter-rouge">nbconvert</code> lets you convert your notebooks to other formats, but some formats don’t allow embedded images. So, to extract images we use a format that needs them to be stored as separate files.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-m</span> jupyter nbconvert <span class="nt">--to</span> markdown my_notebook.ipynb
-<span class="o">[</span>NbConvertApp] Converting notebook my_notebook.ipynb to markdown
-<span class="o">[</span>NbConvertApp] Support files will be <span class="k">in </span>my_notebook_files/
-<span class="o">[</span>NbConvertApp] Making directory my_notebook_files
-<span class="o">[</span>NbConvertApp] Writing 288 bytes to my_notebook.md
-
-<span class="nv">$ </span><span class="nb">ls </span>my_notebook_files
-my_notebook_1_0.png
-</code></pre></div></div>
-
-<p>Make sure to clean up the <code class="language-plaintext highlighter-rouge">.md</code> files afterwards!</p>
-
-<h2 id="example">Example</h2>
-
-<p>Here’s a simple <code class="language-plaintext highlighter-rouge">y=sin(x)</code> example. If I had plotted at a higher dpi with <code class="language-plaintext highlighter-rouge">fig, ax = plt.subplots(dpi=300)</code>, the exported image would be better. The <em>embedded</em> example is just a simple screenshot.</p>
-
-<p class="centre"><img src="/static/img/2022-02-10-export_images_from_jupyter_notebook/before.png" alt="before" class="img-responsive" />
-<em>Embedded Image</em></p>
-
-<p class="centre"><img src="/static/img/2022-02-10-export_images_from_jupyter_notebook/after.png" alt="before" class="img-responsive" />
-<em>After export</em></p>
-
  ]]></content>
   </entry>
 
