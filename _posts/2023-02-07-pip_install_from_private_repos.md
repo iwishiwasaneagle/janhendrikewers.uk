@@ -6,7 +6,7 @@ categories: post
 usemathjax: false
 tags:
   - python 
-  - python
+  - pip
   - github
 ---
 
