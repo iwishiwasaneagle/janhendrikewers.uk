@@ -6,13 +6,53 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-02-02T15:23:36Z</updated>
+  <updated>2023-02-07T10:18:34Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">Pip install from private GitHub repos</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pip_install_from_private_repos.html" />
+    <id>https://janhendrikewers.uk/pip_install_from_private_repos</id>
+    <published>2023-02-07T00:00:00Z</published>
+    <updated>2023-02-07T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>I’m currently working on a <a href="https://github.com/iwishiwasaneagle/jdrones">library</a> that I’m not quite ready yet to open source. I use it for research, and as such need to be able to install it on other machines. Originally I was just cloning the repo and setting <code class="language-plaintext highlighter-rouge">PYTHONPATH</code> everywhere but this quickly became cumbersome. Below are the methods that I’ve discovered to install the library.</p>
+
+<h2 id="https">HTTPS</h2>
+
+<p>So you don’t want to set up SSH with a private key and all that jazz. Simply have a look at <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">this</a> guide to create a private access token (PAT) with <strong>read</strong> access to the private repo.</p>
+
+<p>Then run the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>git+https://<span class="nv">$USERNAME</span>:<span class="nv">$PAT</span>@github.com/<span class="nv">$GH_USER</span>/<span class="nv">$REPO</span>.git@<span class="nv">$VERSION</span>
+</code></pre></div></div>
+
+<p>Some other guides online either omit the $USERNAME because it’s a new requirement or it used to work, but this is the only way it works for me these days <strong>without</strong> asking for my password.</p>
+
+<h2 id="ssh">SSH</h2>
+
+<p>This is by far the easiest method, but it does require that <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh">SSH is linked to your github account</a>. If SSH is correctly set up, then run the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>git+ssh://git@github.com/<span class="nv">$GH_USER</span>/<span class="nv">$REPO</span>.git@<span class="nv">$VERSION</span>
+</code></pre></div></div>
+
+<h2 id="extra-info">Extra Info</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">$VERSION</code> can be a branch or tag</li>
+  <li>PATs should <strong>always</strong> have the <strong>minimum</strong> permissions possible
+    <ul>
+      <li>GitHub’s new <a href="https://github.com/settings/tokens?type=beta">fine-grained tokens</a> give you per-repo control</li>
+    </ul>
+  </li>
+  <li>Treat your PATs like a password. DO NOT SHARE</li>
+</ul>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">Exploring Faster Alternatives To np.clip</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/exploring_faster_np_clip.html" />
@@ -730,120 +770,6 @@ paperless                 | Creating directory /tmp/paperless
     </li>
   </ol>
 </div>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">Serialization Of Pydantic Data Models With JSON Whilst Preserving Type Data</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/serialization_of_pydantic_data_models_with_json_whilst_preserving_type_data.html" />
-    <id>https://janhendrikewers.uk/serialization_of_pydantic_data_models_with_json_whilst_preserving_type_data</id>
-    <published>2022-03-08T00:00:00Z</published>
-    <updated>2022-03-08T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>I recently encountered an issue where I was relying on Pydantic to know what model I wanted it to <em>select</em> based on the parameters alone. This was fine until I started using models with the same parameters. Hopefully this short guide will quickly cover how to deal with this.</p>
-
-<h2 id="the-problem">The Problem</h2>
-
-<p>Let’s quickly define the problem. We have a base-class <code class="language-plaintext highlighter-rouge">Base</code> which <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">B</code> inherits all their attributes from and does not add anything themselves. We then create another class <code class="language-plaintext highlighter-rouge">C</code> which houses either <code class="language-plaintext highlighter-rouge">A</code> or <code class="language-plaintext highlighter-rouge">B</code> in <code class="language-plaintext highlighter-rouge">C.baz</code>.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">foo</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">bar</span><span class="p">:</span> <span class="nb">float</span>
-
-<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="k">pass</span>
-
-<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
-    <span class="k">pass</span>
-        
-<span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">baz</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">]</span>
-</code></pre></div></div>
-
-<p>If we were then to serialize and deserialize an instance of <code class="language-plaintext highlighter-rouge">C</code> with <code class="language-plaintext highlighter-rouge">baz</code> holding a <code class="language-plaintext highlighter-rouge">B</code> object, the resultant <code class="language-plaintext highlighter-rouge">C</code> class would actually be holding a <code class="language-plaintext highlighter-rouge">A</code> object at <code class="language-plaintext highlighter-rouge">baz</code> after all is said and done. This is because json doesn’t hold type information by design which forces Pydantic to pick either <code class="language-plaintext highlighter-rouge">A</code> or <code class="language-plaintext highlighter-rouge">B</code> based on order listed in the type definition.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">json</span><span class="p">())</span> <span class="c1"># {"baz": {"foo": 0.1, "bar": 0.2}}
-</span>
-<span class="c1">#                              The problem
-#                                  \/ 
-</span><span class="k">print</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">json</span><span class="p">()))</span> <span class="c1"># baz=A(foo=0.1, bar=0.2)
-</span></code></pre></div></div>
-
-<h2 id="the-solution">The Solution</h2>
-
-<p>We need to define custom en- and de-coders to store type data along the actual data. Pydantic sadly does not handle this very elegantly so extra care needs to be take when using these methods within your codebase.</p>
-
-<p>First, let’s define the encoder that will store the class name as under <code class="language-plaintext highlighter-rouge">_type</code>.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">custom_encoder</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span>  <span class="nb">dict</span><span class="p">(</span><span class="n">_type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">).</span><span class="n">__name__</span><span class="p">,</span> <span class="o">**</span><span class="n">obj</span><span class="p">.</span><span class="nb">dict</span><span class="p">())</span>
-</code></pre></div></div>
-
-<p>We then add the <a href="https://pydantic-docs.helpmanual.io/usage/exporting_models/#json_encoders"><code class="language-plaintext highlighter-rouge">json_encoders</code></a> configuration to the model.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">baz</span><span class="p">:</span> <span class="n">Base</span>
-
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">json_encoders</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">Base</span><span class="p">:</span> <span class="n">custom_encoder</span>
-        <span class="p">}</span>
-
-<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span> <span class="c1"># '{"baz": {"_type": "B", "foo": 0.1, "bar": 0.2}}'
-</span></code></pre></div></div>
-
-<p>The next stage is the decoder. For this we turn to <code class="language-plaintext highlighter-rouge">json.JSONDecoder</code> and create a custom hook.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CustomDecoder</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">JSONDecoder</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">json</span><span class="p">.</span><span class="n">JSONDecoder</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">object_hook</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        
-    <span class="k">def</span> <span class="nf">object_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-        <span class="n">_type</span> <span class="o">=</span> <span class="n">obj</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'_type'</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">_type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">obj</span>
-        
-        <span class="k">del</span> <span class="n">obj</span><span class="p">[</span><span class="s">'_type'</span><span class="p">]</span> <span class="c1"># Delete the `_type` key as it isn't used in the models
-</span>        
-        <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">.</span><span class="n">__name__</span><span class="p">:</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]}</span> <span class="c1"># Create a look-up object to avoid an if-else chain
-</span>        
-        <span class="k">return</span> <span class="n">mapping</span><span class="p">[</span><span class="n">_type</span><span class="p">].</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Then finally add it to the <code class="language-plaintext highlighter-rouge">C</code> model using <code class="language-plaintext highlighter-rouge">functools.partial</code>.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">baz</span><span class="p">:</span> <span class="n">Base</span>
-        
-    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-        <span class="n">json_encoders</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">Base</span><span class="p">:</span> <span class="n">custom_encoder</span>
-        <span class="p">}</span>
-        <span class="n">json_loads</span> <span class="o">=</span> <span class="n">functools</span><span class="p">.</span><span class="n">partial</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="n">CustomDecoder</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h2 id="the-result">The Result</h2>
-
-<p>Finally we have a suitable method for serializing and de-serializing a custom object in a way that retains type data!</p>
-
-<p>Below is a quick demonstration which shows how to use this method along with the <a href="https://pydantic-docs.helpmanual.io/usage/exporting_models/#serialising-self-reference-or-other-models"><code class="language-plaintext highlighter-rouge">models_as_dict=False</code></a> parameter.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
-<span class="n">c_json</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># models_as_dict=False is VERY important! Excluding it will invalidate all of this.
-</span>
-<span class="c1">#                              It works!
-#                                \/ 
-</span><span class="k">print</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">c_json</span><span class="p">))</span> <span class="c1"># baz=B(foo=0.1, bar=0.2)
-</span>
-</code></pre></div></div>
-
-<h2 id="problems-you-might-encounter">Problems You Might Encounter</h2>
-
-<ol>
-  <li>This won’t work if the field uses a <code class="language-plaintext highlighter-rouge">Union</code> type. I don’t know why, but it just doesn’t. That is why I have set <code class="language-plaintext highlighter-rouge">baz: Base</code> rather than <code class="language-plaintext highlighter-rouge">baz: Union[A,B]</code>, where the latter is more readable in my opinion.</li>
-  <li>The output is less “pretty”</li>
-</ol>
  ]]></content>
   </entry>
 
