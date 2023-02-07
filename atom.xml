@@ -6,7 +6,7 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-02-07T10:18:34Z</updated>
+  <updated>2023-02-07T10:20:33Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
@@ -14,7 +14,7 @@
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
   <entry>
-    <title type="text">Pip install from private GitHub repos</title>
+    <title type="text">Pip Install From Private GitHub Repos</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pip_install_from_private_repos.html" />
     <id>https://janhendrikewers.uk/pip_install_from_private_repos</id>
     <published>2023-02-07T00:00:00Z</published>
