@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Pip install from private GitHub repos 
+title: Pip Install From Private GitHub Repos 
 date: '2023-02-07'
 categories: post
 usemathjax: false
