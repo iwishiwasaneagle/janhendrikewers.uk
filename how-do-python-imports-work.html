@@ -147,7 +147,7 @@
 <p>Now, <code class="language-plaintext highlighter-rouge">foo/__init__.py</code> is empty making foo a module, and since <code class="language-plaintext highlighter-rouge">foo/bar</code> also has a <code class="language-plaintext highlighter-rouge">__init__.py</code> file, it is a submodule. For the purposes of this little demonstration, the files are as follows:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># foo/bar/__init__.py
-</span><span class="kn">from</span> <span class="nn">.bar</span> <span class="kn">import</span> <span class="n">bar</span>
+</span><span class="kn">from</span> <span class="n">.bar</span> <span class="kn">import</span> <span class="n">bar</span>
 
 <span class="c1"># foo/bar/bar.py
 </span><span class="s">"""
@@ -155,55 +155,55 @@ This is a really important module!
 """</span>
 
 <span class="k">def</span> <span class="nf">bar</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"Hello, World!"</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Hello, World!"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Everything works real nicely except you find yourself needing to call <code class="language-plaintext highlighter-rouge">help()</code> on the <code class="language-plaintext highlighter-rouge">bar</code> sub-submodule (i.e. <code class="language-plaintext highlighter-rouge">foo.bar.bar</code> not <code class="language-plaintext highlighter-rouge">foo.bar.bar.bar</code>). How do we do this?</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="n">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
 <span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
 
-<span class="n">bar</span><span class="p">()</span>
+<span class="nf">bar</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p>Well, that was expected right? Let’s try something different…</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">foo.bar.bar</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="n">foo.bar.bar</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span><span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
 <span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
 
-<span class="n">bar</span><span class="p">()</span>
+<span class="nf">bar</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p>Shoot! Same again.</p>
 
 <p>How about…</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">foo.bar</span> <span class="k">as</span> <span class="n">b</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="n">foo.bar</span> <span class="k">as</span> <span class="n">b</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
 <span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">baz</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
 
-<span class="n">baz</span><span class="p">()</span>
+<span class="nf">baz</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p>You see what’s going on here?</p>
 
 <p>Because we’ve named our function the same as the submodule(yes, <code class="language-plaintext highlighter-rouge">bar.py</code> is being treated as a submodule within the submodule <code class="language-plaintext highlighter-rouge">bar</code>), and we’re <strong>OVERWRITING</strong> the submodule’s name in <code class="language-plaintext highlighter-rouge">foo/bar/__init__.py</code>, it’s impossible to access anything within the submodule other than <code class="language-plaintext highlighter-rouge">bar()</code>. However, with an empty init file, we could have called help on the submodule as:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="n">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
 
-<span class="o">&gt;&gt;&gt;</span> <span class="n">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
 <span class="n">Help</span> <span class="n">on</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span> <span class="ow">in</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
 
 <span class="n">NAME</span>
-    <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span> <span class="o">-</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">really</span> <span class="kn">import</span> <span class="nn">module</span><span class="err">!</span>
+    <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span> <span class="o">-</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">really</span> <span class="kn">import</span> <span class="n">module</span><span class="err">!</span>
 
 <span class="n">FUNCTIONS</span>
-    <span class="n">bar</span><span class="p">()</span>
+    <span class="nf">bar</span><span class="p">()</span>
 
 <span class="n">FILE</span>
     <span class="n">foo</span><span class="o">/</span><span class="n">bar</span><span class="o">/</span><span class="n">bar</span><span class="p">.</span><span class="n">py</span>

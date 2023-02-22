@@ -267,7 +267,7 @@
 <p>Next, initialize the library, with your Angolia account <strong>PUBLIC API KEY</strong> where ever makes sense. That location is <code class="language-plaintext highlighter-rouge">header.html</code> for me since my search box is/will be there.</p>
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;script&gt;</span>
-  <span class="kd">const</span> <span class="nx">searchClient</span> <span class="o">=</span> <span class="nx">algoliasearch</span><span class="p">(</span>
+  <span class="kd">const</span> <span class="nx">searchClient</span> <span class="o">=</span> <span class="nf">algoliasearch</span><span class="p">(</span>
     <span class="dl">'</span><span class="s1">2PA5ICUOKI</span><span class="dl">'</span><span class="p">,</span>
     <span class="dl">'</span><span class="s1">0959bf81c3e205f75ceb34c1fd0b378a</span><span class="dl">'</span><span class="p">,</span>
   <span class="p">);</span>
@@ -317,15 +317,15 @@
 36
 37
 38
-</pre></td><td class="code"><pre><span class="nx">autocomplete</span><span class="p">({</span>
+</pre></td><td class="code"><pre><span class="nf">autocomplete</span><span class="p">({</span>
     <span class="na">container</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#autocomplete</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">placeholder</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Search for posts</span><span class="dl">'</span><span class="p">,</span>
-  <span class="nx">getSources</span><span class="p">({</span> <span class="nx">query</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="nf">getSources</span><span class="p">({</span> <span class="nx">query</span> <span class="p">})</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span>
       <span class="p">{</span>
         <span class="na">sourceId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">posts</span><span class="dl">'</span><span class="p">,</span>
-        <span class="nx">getItems</span><span class="p">()</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="nx">getAlgoliaResults</span><span class="p">({</span>
+        <span class="nf">getItems</span><span class="p">()</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nf">getAlgoliaResults</span><span class="p">({</span>
             <span class="nx">searchClient</span><span class="p">,</span>
             <span class="na">queries</span><span class="p">:</span> <span class="p">[</span>
               <span class="p">{</span>
@@ -340,14 +340,14 @@
           <span class="p">});</span>
         <span class="p">},</span>
         <span class="na">templates</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nx">item</span><span class="p">({</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">createElement</span><span class="p">,</span> <span class="nx">components</span> <span class="p">})</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">div</span><span class="dl">'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span>
-              <span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span> <span class="na">href</span><span class="p">:</span> <span class="nx">item</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="na">class</span><span class="p">:</span> <span class="dl">"</span><span class="s2">text-decoration-none text-body</span><span class="dl">"</span> <span class="p">},</span>
-                <span class="nx">components</span><span class="p">.</span><span class="nx">Highlight</span><span class="p">({</span> <span class="na">hit</span><span class="p">:</span> <span class="nx">item</span><span class="p">,</span> <span class="na">attribute</span><span class="p">:</span> <span class="dl">'</span><span class="s1">title</span><span class="dl">'</span><span class="p">,</span> <span class="na">tagName</span><span class="p">:</span> <span class="dl">'</span><span class="s1">strong</span><span class="dl">'</span> <span class="p">})</span>
+          <span class="nf">item</span><span class="p">({</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">createElement</span><span class="p">,</span> <span class="nx">components</span> <span class="p">})</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nf">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">div</span><span class="dl">'</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span>
+              <span class="nf">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span> <span class="na">href</span><span class="p">:</span> <span class="nx">item</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="na">class</span><span class="p">:</span> <span class="dl">"</span><span class="s2">text-decoration-none text-body</span><span class="dl">"</span> <span class="p">},</span>
+                <span class="nx">components</span><span class="p">.</span><span class="nc">Highlight</span><span class="p">({</span> <span class="na">hit</span><span class="p">:</span> <span class="nx">item</span><span class="p">,</span> <span class="na">attribute</span><span class="p">:</span> <span class="dl">'</span><span class="s1">title</span><span class="dl">'</span><span class="p">,</span> <span class="na">tagName</span><span class="p">:</span> <span class="dl">'</span><span class="s1">strong</span><span class="dl">'</span> <span class="p">})</span>
               <span class="p">),</span>
             <span class="p">);</span>
           <span class="p">},</span>
-          <span class="nx">noResults</span><span class="p">(){</span>
+          <span class="nf">noResults</span><span class="p">(){</span>
             <span class="k">return</span> <span class="dl">'</span><span class="s1">No Results</span><span class="dl">'</span><span class="p">;</span>
           <span class="p">}</span>
         <span class="p">},</span>

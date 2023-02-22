@@ -153,13 +153,13 @@
 
 <p>If we were then to serialize and deserialize an instance of <code class="language-plaintext highlighter-rouge">C</code> with <code class="language-plaintext highlighter-rouge">baz</code> holding a <code class="language-plaintext highlighter-rouge">B</code> object, the resultant <code class="language-plaintext highlighter-rouge">C</code> class would actually be holding a <code class="language-plaintext highlighter-rouge">A</code> object at <code class="language-plaintext highlighter-rouge">baz</code> after all is said and done. This is because json doesn’t hold type information by design which forces Pydantic to pick either <code class="language-plaintext highlighter-rouge">A</code> or <code class="language-plaintext highlighter-rouge">B</code> based on order listed in the type definition.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="nc">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="nc">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">json</span><span class="p">())</span> <span class="c1"># {"baz": {"foo": 0.1, "bar": 0.2}}
+<span class="nf">print</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="nf">json</span><span class="p">())</span> <span class="c1"># {"baz": {"foo": 0.1, "bar": 0.2}}
 </span>
 <span class="c1">#                              The problem
 #                                  \/ 
-</span><span class="k">print</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">json</span><span class="p">()))</span> <span class="c1"># baz=A(foo=0.1, bar=0.2)
+</span><span class="nf">print</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="nf">parse_raw</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="nf">json</span><span class="p">()))</span> <span class="c1"># baz=A(foo=0.1, bar=0.2)
 </span></code></pre></div></div>
 
 <h2 id="the-solution">The Solution</h2>
@@ -168,7 +168,7 @@
 
 <p>First, let’s define the encoder that will store the class name as under <code class="language-plaintext highlighter-rouge">_type</code>.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">custom_encoder</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span>  <span class="nb">dict</span><span class="p">(</span><span class="n">_type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">).</span><span class="n">__name__</span><span class="p">,</span> <span class="o">**</span><span class="n">obj</span><span class="p">.</span><span class="nb">dict</span><span class="p">())</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">custom_encoder</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span>  <span class="nf">dict</span><span class="p">(</span><span class="n">_type</span><span class="o">=</span><span class="nf">type</span><span class="p">(</span><span class="n">obj</span><span class="p">).</span><span class="n">__name__</span><span class="p">,</span> <span class="o">**</span><span class="n">obj</span><span class="p">.</span><span class="nf">dict</span><span class="p">())</span>
 </code></pre></div></div>
 
 <p>We then add the <a href="https://pydantic-docs.helpmanual.io/usage/exporting_models/#json_encoders"><code class="language-plaintext highlighter-rouge">json_encoders</code></a> configuration to the model.</p>
@@ -181,18 +181,18 @@
             <span class="n">Base</span><span class="p">:</span> <span class="n">custom_encoder</span>
         <span class="p">}</span>
 
-<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span> <span class="c1"># '{"baz": {"_type": "B", "foo": 0.1, "bar": 0.2}}'
+<span class="n">c</span> <span class="o">=</span> <span class="nc">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="nc">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="nf">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span> <span class="c1"># '{"baz": {"_type": "B", "foo": 0.1, "bar": 0.2}}'
 </span></code></pre></div></div>
 
 <p>The next stage is the decoder. For this we turn to <code class="language-plaintext highlighter-rouge">json.JSONDecoder</code> and create a custom hook.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CustomDecoder</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">JSONDecoder</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">json</span><span class="p">.</span><span class="n">JSONDecoder</span><span class="p">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">object_hook</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">json</span><span class="p">.</span><span class="n">JSONDecoder</span><span class="p">.</span><span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">object_hook</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="nf">object_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-        <span class="n">_type</span> <span class="o">=</span> <span class="n">obj</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'_type'</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">object_hook</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="n">_type</span> <span class="o">=</span> <span class="n">obj</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s">'_type'</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">obj</span>
         
@@ -200,7 +200,7 @@
 </span>        
         <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">.</span><span class="n">__name__</span><span class="p">:</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]}</span> <span class="c1"># Create a look-up object to avoid an if-else chain
 </span>        
-        <span class="k">return</span> <span class="n">mapping</span><span class="p">[</span><span class="n">_type</span><span class="p">].</span><span class="n">parse_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mapping</span><span class="p">[</span><span class="n">_type</span><span class="p">].</span><span class="nf">parse_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Then finally add it to the <code class="language-plaintext highlighter-rouge">C</code> model using <code class="language-plaintext highlighter-rouge">functools.partial</code>.</p>
@@ -212,7 +212,7 @@
         <span class="n">json_encoders</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">Base</span><span class="p">:</span> <span class="n">custom_encoder</span>
         <span class="p">}</span>
-        <span class="n">json_loads</span> <span class="o">=</span> <span class="n">functools</span><span class="p">.</span><span class="n">partial</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="n">CustomDecoder</span><span class="p">)</span>
+        <span class="n">json_loads</span> <span class="o">=</span> <span class="n">functools</span><span class="p">.</span><span class="nf">partial</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="n">CustomDecoder</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="the-result">The Result</h2>
@@ -221,12 +221,12 @@
 
 <p>Below is a quick demonstration which shows how to use this method along with the <a href="https://pydantic-docs.helpmanual.io/usage/exporting_models/#serialising-self-reference-or-other-models"><code class="language-plaintext highlighter-rouge">models_as_dict=False</code></a> parameter.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="n">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
-<span class="n">c_json</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># models_as_dict=False is VERY important! Excluding it will invalidate all of this.
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="nc">C</span><span class="p">(</span><span class="n">baz</span><span class="o">=</span><span class="nc">B</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
+<span class="n">c_json</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="nf">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># models_as_dict=False is VERY important! Excluding it will invalidate all of this.
 </span>
 <span class="c1">#                              It works!
 #                                \/ 
-</span><span class="k">print</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="n">c_json</span><span class="p">))</span> <span class="c1"># baz=B(foo=0.1, bar=0.2)
+</span><span class="nf">print</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="nf">parse_raw</span><span class="p">(</span><span class="n">c_json</span><span class="p">))</span> <span class="c1"># baz=B(foo=0.1, bar=0.2)
 </span>
 </code></pre></div></div>
 
