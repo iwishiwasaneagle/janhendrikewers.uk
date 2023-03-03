@@ -6,9 +6,10 @@ body {
   background-color: #fff;
   font-family: 'Source Sans Pro', sans-serif;
 }
+
 /* Wrapper for page content to push down footer */
 #wrap {
-  padding-bottom: 50px;	
+  padding-bottom: 50px;
   min-height: 100%;
   height: auto;
   /* Negative indent footer by its height */
@@ -28,14 +29,15 @@ body {
   max-width: 800px;
   text-align: center;
 }
+
 .container .text-muted {
   margin: 20px 0;
 }
 
 .img-responsive {
- display: block;
- height: auto;
- max-width: 100%;
+  display: block;
+  height: auto;
+  max-width: 100%;
 }
 
 .panel-default h4 {
@@ -43,46 +45,56 @@ body {
   line-height: 24px;
   font-size: 22px;
 }
+
 .panel-default h5 {
   text-align: left;
   line-height: 30px;
   font-size: 18px;
 }
+
 .panel-default h6 {
   font-size: 15px;
 }
 
-.panel{
+.panel {
   border-style: none;
 }
+
 .panel-body {
   padding-top: -10px;
   text-align: left;
 }
+
 .social {
   padding-top: 12px;
   word-spacing: 25px;
 }
-.social h4 > a {
+
+.social h4>a {
   color: #000000;
 }
+
 .avatar {
   padding-top: 5%;
 }
-.blog-post{
+
+.blog-post {
   padding-top: 15px;
 }
-.blog-title{
+
+.blog-title {
   padding-top: 2px;
 }
+
 .related-posts h4 {
   text-align: center;
 }
+
 .page-not-found {
   padding-top: 20%;
 }
 
-.blogpost{
+.blogpost {
   text-align: left;
   line-height: 30px;
   font-size: 18px;
@@ -94,11 +106,13 @@ body {
 .footer {
   text-decoration: none !important;
 }
+
 .text-muted {
-	color: #6b6b6b;
+  color: #6b6b6b;
 }
-div.footer{
-  border-bottom: 5px solid #2196f3;
+
+div.footer {
+  border-bottom: 5px solid #555273;
 }
 
 /* Search Bar
@@ -109,30 +123,51 @@ div.footer{
 
 /* Tables 
 -------------------------------------------------- */
-tr{ 
-  border-bottom: 1px solid rgba(105, 105, 105, 0.404);}
-th{
+tr {
+  border-bottom: 1px solid rgba(105, 105, 105, 0.404);
+}
+
+th {
   background-color: #b7d8f3;
 }
-th:first-child{
+
+th:first-child {
   border-top-left-radius: 8px;
 }
-th:last-child{
+
+th:last-child {
   border-top-right-radius: 8px;
 }
+
 tr:nth-child(even) {
   background-color: #dbecec80;
 }
-th, td {
+
+th,
+td {
   padding: 8px;
   border-right: 1px solid rgba(105, 105, 105, 0.404);
 }
-td:last-child{
+
+td:last-child {
   border-right: 0px;
 }
-th:last-child{
+
+th:last-child {
   border-right: 0px;
 }
-tr:last-child{
+
+tr:last-child {
   border-bottom: 0px;
+}
+
+/* Text
+-------------------------------------------------- */
+a {
+  color: #555273;
+}
+
+a:hover,
+a:visited {
+  color: #2d2b3d;
 }
