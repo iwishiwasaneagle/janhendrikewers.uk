@@ -3,19 +3,13 @@
 html,
 body {
   height: 100%;
-  background-color: #fff;
+  background-color: #F3F0E1;
   font-family: 'Source Sans Pro', sans-serif;
-}
 
-/* Wrapper for page content to push down footer */
-#wrap {
-  padding-bottom: 50px;
-  min-height: 100%;
-  height: auto;
-  /* Negative indent footer by its height */
-  margin: 0 auto -65px;
-  /* Pad bottom by footer height */
-  /*padding: 0 0 60px;*/
+  /* padding-bottom: 50px; */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Custom page CSS
@@ -97,13 +91,15 @@ body {
 .blogpost {
   text-align: left;
   line-height: 30px;
-  font-size: 18px;
+  font-size: 18px
 }
 
 /* Footer 
 -------------------------------------------------- */
+footer {
 
-.footer {
+  margin-top: auto;
+  background-color: #e4e1d2;
   text-decoration: none !important;
 }
 

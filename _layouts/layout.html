@@ -60,17 +60,15 @@
 
   <!-- Main Body-->
   <body>
-  
-    <!-- Wrap all page content here -->
-  <div id="wrap">
+    <div>
     <!-- Navbar header -->
     {% include header.html %}
 
     {{ content }}
-  </div>
-  <!-- Footer -->
-  {% include footer.html %}
-
+</div>
+    
+    <!-- Footer -->
+    {% include footer.html %}
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="{{ site.baseurl }}static/js/docs.min.js"></script>
