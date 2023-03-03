@@ -10,8 +10,7 @@ layout: page
   </div>
   <div class="blogpost">{{content}}</div>
 
-  {% assign groupByYear = books | group_by_exp:"book","book.dateread | date:'%Y'
-  " %}
+  {% assign groupByYear = books | sort: "dateread" | reverse | group_by_exp:"book","book.dateread | date:'%Y'" %}
   <hr />
   {% for year in groupByYear %}
 
