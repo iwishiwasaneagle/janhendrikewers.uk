@@ -27,7 +27,7 @@ One data source that is commonly used throughout the UK is the _UK Missing Perso
 
 A caveat to this is that it's important to make the distinction between environment types. Someone lost in the Scottish Highlands will have a much harder time traversing the terrain, than someone lost in Yorkshire. As well as this, there is usually no distinction made on time-of-day or the weather conditions In the data. However, through chatting to mountain rescue experts from the Lake District[^fn3], they automatically search down-wind from the LPS as _who in their right mind walks into the wind when they're already struggling to locate themselves or injured_.
 
-Whilst you may never use this information, I find it really interesting to know what tools are being used by the experts saving lives. My current research is in the field of predicting and searching for lost people using [drones](https://github.com/iwishiwasaneagle/jdrones), so it's nice to share a niche slither of my work.
+Whilst you may never use this information, I find it really interesting to know what tools are being used by the experts saving lives. My current research is in the field of predicting and searching for lost people using [drones](https://github.com/iwishiwasaneagle/jdrones), so it's nice to share a niche slice of my work.
 
 ---
 
