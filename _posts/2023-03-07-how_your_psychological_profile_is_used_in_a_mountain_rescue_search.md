@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How Your Psychological Profile Used In A Mountain Rescue Search
+title: How Your Psychological Profile Is Used In A Mountain Rescue Search
 date: '2023-03-07'
 categories: post
 usemathjax: true
