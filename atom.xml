@@ -6,13 +6,62 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-03-05T15:12:41Z</updated>
+  <updated>2023-03-07T15:31:54Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">How Your Psychological Profile Used In A Mountain Rescue Search</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_your_psychological_profile_used_in_a_mountain_rescue_search.html" />
+    <id>https://janhendrikewers.uk/how_your_psychological_profile_used_in_a_mountain_rescue_search</id>
+    <published>2023-03-07T00:00:00Z</published>
+    <updated>2023-03-07T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>When you (or actually, anyone) gets lost in the mountains, a group of experts get called out with one task: find you, and get you back to safety. They use a myriad of tools to do this, with the one we’ll focus on in this post being <strong>data</strong>.</p>
+
+<hr />
+
+<blockquote>
+  <p><em>Note: I’m not a mountain rescue expert, so everything written here should be taken with a pinch of salt.</em></p>
+</blockquote>
+
+<hr />
+
+<p>You may not know this, but lost people behave massively different based on their gender, age, health, and current activity. We know this from historical data gathered over hundreds of Search and Rescue (SAR) incidents carefully catalogued and processed by various groups (<a href="https://www.scottishmountainrescue.org/">SMR</a>, <a href="https://www.mountain.rescue.org.uk/">EWMR</a>, Police, <a href="https://www.dbs-sar.com/SAR_Research/ISRID.htm">ISRID</a>, etc.). This data is usually very top-level, like how long they were travelling for, where they were found, how far from a road were they found, etc.</p>
+
+<p>Using this, we can construct a model that matches as closely as possible to the data and through this predict where a person might be found from a report last place seen (LPS). This model may not be anything formal, but rather to inform the search leader about where their searches need to look. If profile A is likely to be near a lake, then look near the lake! If profile B is highly likely to not travel longer than 5 hours, restrict your search area.</p>
+
+<p>One data source that is commonly used throughout the UK is the <em>UK Missing Person Behaviour Study</em> <sup id="fnref:fn2" role="doc-noteref"><a href="#fn:fn2" class="footnote" rel="footnote">1</a></sup>. This tells us that <em>Children aged 1 to 16 years</em> have a $52\%$ chance of being found near building, and in comparison a person suffering from <em>Dementia</em> is only found near buildings $26\%$ of the time<sup id="fnref:fn1" role="doc-noteref"><a href="#fn:fn1" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<p>A caveat to this is that it’s important to make the distinction between environment types. Someone lost in the Scottish Highlands will have a much harder time traversing the terrain, than someone lost in Yorkshire. As well as this, there is usually no distinction made on time-of-day or the weather conditions In the data. However, through chatting to mountain rescue experts from the Lake District, they automatically search down-wind from the LPS as <em>who in their right mind walks into the wind when they’re already struggling to locate themselves or injured</em>.</p>
+
+<p>Whilst you may never use this information, I find it really interesting to know what tools are being used by the experts saving lives. My current research is in the field of predicting and searching for lost people using <a href="https://github.com/iwishiwasaneagle/jdrones">drones</a>, so it’s nice to share a niche slither of my work.</p>
+
+<hr />
+
+<blockquote>
+  <p><strong>N.B. (1)</strong>: The mountains are a beautiful, yet dangerous place. Mountain rescuers literally put their life on line to help people on the regular with (usually) no compensation. In Scotland, the individual teams rely on donations as the funding from the government is marginal. So please be careful and don’t take their efforts for granted.</p>
+
+  <p><strong>N.B. (2):</strong> If this blog post piqued your interest about the niche that is mountain rescue, the book <em>Cairngorm John: a Life in Mountain Rescue</em> by John Allen is a fascinating insight into how search and rescue scenarios play out.</p>
+</blockquote>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:fn2" role="doc-endnote">
+      <p>D. Perkins, P. Roberts, G. Feeney, and P. Mrt, ‘The U.K. Missing Person Behaviour Study’, CSR, 2011, [Online]. Available: https://tcsr.org.uk/media/kushuk1a/uk-missing-person-behaviour-study-2011.pdf <a href="#fnref:fn2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:fn1" role="doc-endnote">
+      <p>This is for the <em>farmland</em> terrain, and <em>female</em> gender for the dementia category. The child 1-16 category does not report on gender. <a href="#fnref:fn1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">Pip Install From Private GitHub Repos</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pip_install_from_private_repos.html" />
@@ -685,88 +734,6 @@ I decided to sign up for GitGuardian to see if it’d find anything feeling quit
     </li>
     <li id="fn:pickle-vs-json" role="doc-endnote">
       <p>For a more in-depth discussion between pickle vs json, have a look <a href="https://docs.python.org/3/library/pickle.html#comparison-with-json">here</a>. <a href="#fnref:pickle-vs-json" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">Upgrading from Paperless-NG to Paperless-NGX</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/upgrading_from_paperless-ng_to_paperless_ngx.html" />
-    <id>https://janhendrikewers.uk/upgrading_from_paperless-ng_to_paperless_ngx</id>
-    <published>2022-03-21T00:00:00Z</published>
-    <updated>2022-03-21T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>As of February 2022, the paperless-ng community created a <a href="https://github.com/paperless-ngx/paperless-ngx">new fork</a> to continue development due to the inactivity on the <a href="https://github.com/jonaswinkler/paperless-ng">original repo</a> <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. This has means new docker images, new configs, etc.</p>
-
-<p>This post serves as a quick amendment to my previous posts on how to set up paperless-ng on <a href="/paperless-ng_on_localy_hosted_rpi.html">a raspberry pi with samba</a> and with <a href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">automated backups using rclone</a>.</p>
-
-<h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
-
-<ul id="markdown-toc">
-  <li><a href="#new-docker-containers" id="markdown-toc-new-docker-containers">New Docker Containers</a></li>
-  <li><a href="#new-best-practices-for-redis-broker" id="markdown-toc-new-best-practices-for-redis-broker">New Best Practices For Redis Broker</a></li>
-  <li><a href="#in-action" id="markdown-toc-in-action">In Action</a></li>
-  <li><a href="#fin" id="markdown-toc-fin"><em>Fin.</em></a></li>
-</ul>
-
-<h2 id="new-docker-containers">New Docker Containers</h2>
-
-<p>In theory, this should be a plug-and-play update as the image is identical except for the new software updates. The biggest difference is that the <a href="https://hub.docker.com/r/jonaswinkler/paperless-ng">old image</a> was hosted on <a href="https://hub.docker.com">dockerhub</a> and the <a href="https://github.com/paperless-ngx/paperless-ngx/pkgs/container/paperless-ngx">new image</a> is hosted on the <a href="https://github.com/features/packages">github container registry</a> (as per <a href="https://github.com/paperless-ngx/paperless-ngx/pull/104">#104</a>).</p>
-
-<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">150c150
-</span><span class="gd">&lt;     image: jonaswinkler/paperless-ng:latest
-</span><span class="p">---
-</span><span class="gi">&gt;     image: ghcr.io/paperless-ngx/paperless-ngx:latest
-</span></code></pre></div></div>
-
-<h2 id="new-best-practices-for-redis-broker">New Best Practices For Redis Broker</h2>
-
-<p>As of <a href="https://github.com/paperless-ngx/paperless-ngx/releases/tag/ngx-1.6.0">v1.6.0</a>, it is suggested to use <a href="https://github.com/paperless-ngx/paperless-ngx/commit/bad4be4cbc7254611e720bad8fca4517f24fe210">named volumes</a> for the redis broker.</p>
-
-<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">147a148,149
-</span><span class="gi">&gt;     volumes:
-&gt;       - redisdata:/data
-</span><span class="p">227a230,232
-</span><span class="gi">&gt;
-&gt;   volumes:
-&gt;     redisdata
-</span></code></pre></div></div>
-
-<p>I personally haven’t bothered with this, as redis is meant to be a cache and not permanent storage.</p>
-
-<h2 id="in-action">In Action</h2>
-
-<p>And just like that, I’ve upgrade from Paperless-NG 1.5.0 to Paperless-NGX 1.6.0. So far I can’t really notice any major differences <em>but that’s the point</em>. It’s a continuation of the project, not an entirely new version!</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ubuntu@ubuntu:~/paperless<span class="nv">$ </span>vim docker-compose.yml
-ubuntu@ubuntu:~/paperless<span class="nv">$ </span>docker-compose stop paperless
-Stopping paperless ... <span class="k">done
-</span>ubuntu@ubuntu:~/paperless<span class="nv">$ </span>docker-compose up <span class="nt">--no-deps</span> <span class="nt">--build</span> paperless
-279a020076a7: Pull <span class="nb">complete</span>
-...
-5624cdf6a4f1: Pull <span class="nb">complete
-</span>Digest: sha256:f2f2d77cb7898a338314a59103b1b403807a7fa479b78489edb0ebb8de477d15
-Status: Downloaded newer image <span class="k">for </span>ghcr.io/paperless-ngx/paperless-ngx:latest
-Recreating paperless ... <span class="k">done
-</span>Attaching to paperless
-paperless                 | Paperless-ngx docker container starting...
-paperless                 | Creating directory /tmp/paperless
-...
-</code></pre></div></div>
-
-<h2 id="fin"><em>Fin.</em></h2>
-
-<p>That’s it for <strong>now</strong>. I’m involved in a <a href="https://github.com/paperless-ngx/paperless-ngx/pull/27">PR #27</a> to use a <a href="https://github.com/iwishiwasaneagle/tika-docker">Apache Tika</a> container with ARM support. Once that gets merged I will probably update this post, as well as create a new and more in-depth longer one.</p>
-
-<p>And remember, always create a backup before changing your system! I have my <a href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">rlcone setup</a> but still like doing a quick <code class="language-plaintext highlighter-rouge">tar -czvf paperless paperless.tar.gz</code> before an upgrade <em>just in case</em>.</p>
-
-<hr />
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p>Discussions can be found in <a href="https://github.com/jonaswinkler/paperless-ng/issues/1599">#1599</a> and <a href="https://github.com/jonaswinkler/paperless-ng/issues/1632">#1632</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>
