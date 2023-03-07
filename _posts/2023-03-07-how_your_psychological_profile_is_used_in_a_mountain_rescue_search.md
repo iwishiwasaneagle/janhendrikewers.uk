@@ -39,6 +39,6 @@ Whilst you may never use this information, I find it really interesting to know 
 
 [^fn1]: This is for the _farmland_ terrain, and _female_ gender for the dementia category. The child 1-16 category does not report on gender.
 
-[^fn2]: D. Perkins, P. Roberts, G. Feeney, and P. Mrt, ‘The U.K. Missing Person Behaviour Study’, CSR, 2011, [Online]. Available: https://tcsr.org.uk/media/kushuk1a/uk-missing-person-behaviour-study-2011.pdf
+[^fn2]: D. Perkins, P. Roberts, G. Feeney, and P. Mrt, ‘The U.K. Missing Person Behaviour Study’, CSR, 2011, [Online]. Available: [https://tcsr.org.uk/media/kushuk1a/uk-missing-person-behaviour-study-2011.pdf](https://tcsr.org.uk/media/kushuk1a/uk-missing-person-behaviour-study-2011.pdf)
 
 [^fn3]: Fun fact: Lake District Mountain Rescue don't just search for humans, but animals too!
