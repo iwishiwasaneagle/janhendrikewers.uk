@@ -22,6 +22,9 @@ google_ads: 4960626434138868
 orcid: 0000-0002-8498-1410
 utterances: iwishiwasaneagle/janhendrikewers.uk
 
+plausible_url: https://divine-wood-7bde.dev-jh-ewers4177.workers.dev
+plausible_script: 18dcc14a8dd9f785.js
+
 algolia:
   application_id: '2PA5ICUOKI'
   index_name: 'personal_website'
