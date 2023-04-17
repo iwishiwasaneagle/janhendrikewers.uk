@@ -6,7 +6,7 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-04-17T18:46:24Z</updated>
+  <updated>2023-04-17T18:56:22Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
@@ -15,7 +15,7 @@
   
   <entry>
     <title type="text">How Your Psychological Profile Is Used In A Mountain Rescue Search</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_your_psychological_profile_is_used_in_a_mountain_rescue_search.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_your_psychological_profile_is_used_in_a_mountain_rescue_search.html/?source=RSS" />
     <id>https://janhendrikewers.uk/how_your_psychological_profile_is_used_in_a_mountain_rescue_search</id>
     <published>2023-03-07T00:00:00Z</published>
     <updated>2023-03-07T00:00:00Z</updated>
@@ -67,7 +67,7 @@
 
   <entry>
     <title type="text">Pip Install From Private GitHub Repos</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pip_install_from_private_repos.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pip_install_from_private_repos.html/?source=RSS" />
     <id>https://janhendrikewers.uk/pip_install_from_private_repos</id>
     <published>2023-02-07T00:00:00Z</published>
     <updated>2023-02-07T00:00:00Z</updated>
@@ -107,7 +107,7 @@
 
   <entry>
     <title type="text">Exploring Faster Alternatives To np.clip</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/exploring_faster_np_clip.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/exploring_faster_np_clip.html/?source=RSS" />
     <id>https://janhendrikewers.uk/exploring_faster_np_clip</id>
     <published>2023-01-24T00:00:00Z</published>
     <updated>2023-01-24T00:00:00Z</updated>
@@ -183,7 +183,7 @@
 
   <entry>
     <title type="text">How To Block YouTube Shorts In Your Feed And Inbox</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html/?source=RSS" />
     <id>https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed</id>
     <published>2023-01-23T00:00:00Z</published>
     <updated>2023-01-23T00:00:00Z</updated>
@@ -212,7 +212,7 @@
 
   <entry>
     <title type="text">Using GMail&apos;s App Passwords With Paperless-NGX</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx.html/?source=RSS" />
     <id>https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx</id>
     <published>2022-10-09T00:00:00Z</published>
     <updated>2022-10-09T00:00:00Z</updated>
@@ -245,7 +245,7 @@
 
   <entry>
     <title type="text">One Python Import Quirk You Need to Know, Or Why The Heck Is That A Function?</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-do-python-imports-work.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-do-python-imports-work.html/?source=RSS" />
     <id>https://janhendrikewers.uk/how-do-python-imports-work</id>
     <published>2022-09-12T00:00:00Z</published>
     <updated>2022-09-12T00:00:00Z</updated>
@@ -337,7 +337,7 @@ This is a really important module!
 
   <entry>
     <title type="text">Custom Obsidian Templater Daily Notes Template With Dynamic Linking</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking.html/?source=RSS" />
     <id>https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking</id>
     <published>2022-08-01T00:00:00Z</published>
     <updated>2022-08-01T00:00:00Z</updated>
@@ -421,7 +421,7 @@ tags: daily/&lt;% tp.date.now("YYYY/MMMM") %&gt;
 
   <entry>
     <title type="text">External Library Documentation URLS for PyCharm</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/useful_pycharm_urls.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/useful_pycharm_urls.html/?source=RSS" />
     <id>https://janhendrikewers.uk/useful_pycharm_urls</id>
     <published>2022-05-30T00:00:00Z</published>
     <updated>2022-05-30T00:00:00Z</updated>
@@ -485,7 +485,7 @@ tags: daily/&lt;% tp.date.now("YYYY/MMMM") %&gt;
 
   <entry>
     <title type="text">Taking A Step In The General Direction Of Good Git OpSec</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/taking_a_step_in_the_general_direction_of_good_git_opsec.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/taking_a_step_in_the_general_direction_of_good_git_opsec.html/?source=RSS" />
     <id>https://janhendrikewers.uk/taking_a_step_in_the_general_direction_of_good_git_opsec</id>
     <published>2022-05-09T00:00:00Z</published>
     <updated>2022-05-09T00:00:00Z</updated>
@@ -524,7 +524,7 @@ I decided to sign up for GitGuardian to see if it’d find anything feeling quit
 
   <entry>
     <title type="text">Pydantic vs Protobuf vs Namedtuples vs Dataclasses</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html/?source=RSS" />
     <id>https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses</id>
     <published>2022-03-22T00:00:00Z</published>
     <updated>2022-03-22T00:00:00Z</updated>
