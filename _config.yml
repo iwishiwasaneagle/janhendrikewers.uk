@@ -24,6 +24,7 @@ utterances: iwishiwasaneagle/janhendrikewers.uk
 
 plausible_url: https://divine-wood-7bde.dev-jh-ewers4177.workers.dev
 plausible_script: 18dcc14a8dd9f785.js
+plausible_event: bd7483245a4d6b07
 
 algolia:
   application_id: '2PA5ICUOKI'
