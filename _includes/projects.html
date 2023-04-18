@@ -5,27 +5,27 @@
     <div class="panel-body">
         <h5 id='jdrones'>
             <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/jdrones">jDrones</a></strong> 
-            - 
+            - PyBullet models prepared for usage via the gymnasium environment for scientific research  
         </h5>
         <h5 id='pytest-extra-markers'>
             <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/pytest-extra-markers">pytest-extra-markers</a></strong> 
-            - 
+            - Additional pytest markers to dynamically enable/disable tests via CLI flags  
         </h5>
         <h5 id='jsim'>
             <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/jsim">jSim</a></strong> 
-            - 
+            Simulation environment for SAR 
+        </h5>
+        <h5 id='latextemplate'>
+            <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/LatexTemplate">LatexTemplate</a></strong> 
+            - A nice GitHub template for my reports and papers. Actively maintained with excellent VSCode integration via devcontainers to avoid messy Latex installation. 
         </h5>
         <h5>
             <img alt="Autonoma Logo" src="https://spotify.janhendrikewers.uk/favicon.ico" width=16 height=16/>&nbsp;&nbsp;<strong><a href="https://spotify.janhendrikewers.uk">Autonoma</a></strong>
             - We automate your playlists through native Spotify features. Save a song on the go and let our backend deal with the rest. Choose from multiple settings to make Autonoma behave just the way you want it to!
         </h5>
-        <h5 id='opp4sar'>
-            <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/OPP_4_SAR">Optimum Path Planning for Search and Rescue</a></strong>
-            - 
-        </h5>
         <h5 id='wiringPi'>
             <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/wiringPi-mock">wiringPi-mock</a></strong>
-            - 
+            - A dummy wiringPi library, for compiling on non-raspberry pi platforms  
         </h5>
         <h5 id='memer'>
             <i class="fa fa-github"></i>&nbsp;&nbsp;<strong><a href="https://github.com/iwishiwasaneagle/memer">memer</a></strong>
@@ -35,41 +35,3 @@
   </div>
 </div>
 </section>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins). Load before content to be able to use it in scripts -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>
-    const projects = [
-        {
-            id: 'pytest-extra-markers',
-            repo:'iwishiwasaneagle/pytest-extra-markers'
-        },
-        {
-            id:'jdrones',
-            repo:'iwishiwasaneagle/jdrones'
-        },
-        {
-            id:'jsim',
-            repo:'iwishiwasaneagle/jsim'
-        },
-        {
-            id:'opp4sar',
-            repo:'iwishiwasaneagle/OPP_4_SAR'
-        },
-        {
-            id:'wiringPi',
-            repo:'iwishiwasaneagle/wiringPi-mock'
-        },
-        {
-            id:'memer',
-            repo:'iwishiwasaneagle/memer'
-        }
-        ];
-
-    projects.forEach((project) => {
-        $.ajax('https://api.github.com/repos/'+project.repo).done(function(json){
-
-            $('#'+project.id).append(json.description)
-        }); 
-    });
-</script>
