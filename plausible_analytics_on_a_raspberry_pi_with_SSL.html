@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jan-Hendrik Ewers" />
+    <link rel="shortcut icon" type="image/x-icon" href="static/img/favicon.ico">    
+    <link rel="alternate" type="application/atom+xml" href="https://janhendrikewers.uk/atom.xml">
+	  
+    
+      <meta name="description" content="Learn how to host Plausible, a privacy centric Google Analytics alternative, on your Raspberry Pi 4. This uses nginx, LetsEncrypt, and more for secure hosting.">
+    
+
+    
+      <title>Hosting Plausible Analytics On A Raspberry Pi 4 with SSL</title>
+    
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+	<!-- Custom styles for this template -->
+  <link rel="stylesheet" type="text/css" href="static/css/main.css" />
+  <link rel="preload"
+        as="style"
+        onload="this.rel = 'stylesheet'" 
+	      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  <noscript>
+        <link rel="stylesheet" 
+        type="text/css"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old&display=swap" />
+  </noscript>
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="static/css/syntax.css" />
+  
+  
+  <script 
+    defer 
+    data-domain="janhendrikewers.uk" 
+    data-api="https://divine-wood-7bde.dev-jh-ewers4177.workers.dev/bd7483245a4d6b07"
+    src="https://divine-wood-7bde.dev-jh-ewers4177.workers.dev/18dcc14a8dd9f785.js"></script>
+
+  
+
+  
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4960626434138868"
+     crossorigin="anonymous"></script>
+
+  
+
+  <!-- mathjax support -->
+  
+  
+  </head>
+
+  <!-- Main Body-->
+  <body>
+    <div>
+    <!-- Navbar header -->
+    <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none plausible-event-name=Header+Click">
+        <img src="/static/img/logo.png" width=100px alt="Jan-Hendrik Ewers Logo" class="img-fluid"> 
+      </a>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/blog" class="nav-link px-2 link-dark plausible-event-name=Header+Click">BLOG</a></li>
+        <li><a href="/projects" class="nav-link px-2 link-dark plausible-event-name=Header+Click">PROJECTS</a></li>
+        <li><a href="/bookshelf" class="nav-link px-2 link-dark plausible-event-name=Header+Click">MY BOOKSHELF</a></li>
+        <li><a href="/static/pdf/cv.pdf" class="nav-link px-2 link-dark plausible-event-name=Header+Click">RESUME</a></li>
+      </ul>
+    </header>
+</div>
+
+
+    <div class="container">
+	<div class="blog-post">
+		<h1 class='fs-3 fw-bold'>
+		  Hosting Plausible Analytics On A Raspberry Pi 4 with SSL
+		</h1>
+	</div>
+	<div class="blog-title">
+		<p class='fs-5'>
+		April 19, 2023
+			&nbsp;&nbsp;
+			
+
+			 <span class="badge rounded-pill">Self-hosted</span>
+
+			
+
+			 <span class="badge rounded-pill">RPi</span>
+
+			
+
+			 <span class="badge rounded-pill">Analytics</span>
+
+			
+		</p>
+		<style>
+#share-buttons {display: inline-block; vertical-align: middle; }
+#share-buttons:after {content: ""; display: block; clear: both;}
+#share-buttons > div {position: relative; text-align: left; height: 36px; width: 32px; float: left; text-align: center;}
+#share-buttons > div > svg {height: 16px; fill: #666666; margin-top: 10px;}
+#share-buttons > div:hover {cursor: pointer;}
+#share-buttons > div.facebook:hover > svg {fill: #3B5998;}
+#share-buttons > div.twitter:hover > svg {fill: #55ACEE;}
+#share-buttons > div.linkedin:hover > svg {fill: #0077b5;}
+#share-buttons > div.pinterest:hover > svg {fill: #CB2027;}
+#share-buttons > div.gplus:hover > svg {fill: #dd4b39;}
+#share-buttons > div.mail:hover > svg {fill: #7D7D7D;}
+#share-buttons > div.instagram:hover > svg {fill: #C73B92;}
+#share-buttons > div.facebook > svg {height: 18px; margin-top: 9px;}
+#share-buttons > div.twitter > svg {height: 20px; margin-top: 8px;}
+#share-buttons > div.linkedin > svg {height: 19px; margin-top: 7px;}
+#share-buttons > div.pinterest > svg {height: 20px; margin-top: 9px;}
+#share-buttons > div.gplus > svg {height: 17px; margin-top: 9px; position: relative; left: 1px;}
+#share-buttons > div.mail > svg {height: 14px; margin-top: 11px;}
+</style>
+
+<div id="share-buttons">
+    <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+    <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL.html&text=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+    <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL.html&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+    <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body=https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL.html');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
+</div>
+	</div>
+	
+	<hr/>
+	
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="blogpost">
+			  <p>Plausible is a great alternative to Google Analytics if you want to havbe the option of analytics but actually respect your users privacy. Along with that bold statement, Plausible actually offers a whole range of benefits:</p>
+
+<ul>
+  <li>Guaranteed to be in the region you expect it to be
+    <ul>
+      <li>EU if not self-hosted, else whereever you desire</li>
+      <li>This is especially true for GDPR and other data collection laws</li>
+    </ul>
+  </li>
+  <li><a href="https://plausible.io/lightweight-web-analytics#how-do-web-analytics-scripts-affect-the-page-size-and-page-load-time">Substantially lower script size</a> for faster loading times</li>
+  <li>No cookie tracking or other invasive methods used</li>
+</ul>
+
+<p>Now, the fine folks at Plausible have already created amazing documentation on how to get up and running with <a href="https://github.com/plausible/hosting/tree/master">plausible/hosting</a>. However, this uses an outdated docker image that does not support the Raspberry Pi 4. Therefore, we have this wee guide!</p>
+
+<h2 id="step-1-the-config-repo">Step 1: The Config Repo</h2>
+
+<p>As mentioned above, the original repo does not truly support the RPi4, and until <a href="https://github.com/plausible/hosting/pull/70">PR#70</a> is merged, you can get a working configuration at my fork: <a href="https://github.com/iwishiwasaneagle/plausible-hosting-rpi">iwishiwasaneagle/plausible-hosting-rpi</a></p>
+
+<h2 id="step-2-run-it">Step 2: Run it!</h2>
+
+<p>This is simple, <code class="language-plaintext highlighter-rouge">cd</code> into the directory, follow the steps <a href="https://plausible.io/docs/self-hosting#2-add-required-configuration">here</a> to generate a random secret key, and run <code class="language-plaintext highlighter-rouge">docker compose up -d</code></p>
+
+<p>Is that it? Well, technically yes but also no. First of all, head to <code class="language-plaintext highlighter-rouge">http://localhost:8000</code> and this should outline some issues. Plausible is running perfectly but on <code class="language-plaintext highlighter-rouge">localhost</code> and without SSL. This means you won’t be able to integrate Plausible into your website in any meaningful manner, and not securely.</p>
+
+<h2 id="step-3-the-rest-of-the-owl">Step 3. The Rest Of The Owl</h2>
+
+<p>So, we now have a working instance accessible at <code class="language-plaintext highlighter-rouge">http://localhost:8000</code>. You either need a static IP and a DNS A or AAAA listing pointing at it, ooooor a dynamicDNS service like <a href="https://duckdns.org">DuckDNS</a>. There are millions of resources out there on how to set this up so I won’t bother.</p>
+
+<p>Make sure you have your port <code class="language-plaintext highlighter-rouge">80</code> (HTTP) and <code class="language-plaintext highlighter-rouge">443</code> (HTTPS) forwarded (again, millions of tutorials, beyond the scope of this tutorial, blah blah blah) to your Raspberry Pi’s local IP address. This is critical to get your SSL certificate.</p>
+
+<p>We will now edit our <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> to look like:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.3"</span>
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">mail</span><span class="pi">:</span>
+    <span class="na">build</span><span class="pi">:</span> <span class="s">docker-smtp/latest</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">internal</span>
+
+  <span class="na">plausible_db</span><span class="pi">:</span>
+    <span class="c1"># supported versions are 12, 13, and 14</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">postgres:14-alpine</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">internal</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">db-data:/var/lib/postgresql/data</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">POSTGRES_PASSWORD=postgres</span>
+
+  <span class="na">plausible_events_db</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">clickhouse/clickhouse-server:22.6-alpine</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">internal</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">event-data:/var/lib/clickhouse</span>
+      <span class="pi">-</span> <span class="s">./clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/logging.xml:ro</span>
+      <span class="pi">-</span> <span class="s">./clickhouse/clickhouse-user-config.xml:/etc/clickhouse-server/users.d/logging.xml:ro</span>
+    <span class="na">ulimits</span><span class="pi">:</span>
+      <span class="na">nofile</span><span class="pi">:</span>
+        <span class="na">soft</span><span class="pi">:</span> <span class="m">262144</span>
+        <span class="na">hard</span><span class="pi">:</span> <span class="m">262144</span>
+
+  <span class="na">plausible</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">plausible/analytics:v1.5</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s">sh -c "sleep 10 &amp;&amp; /entrypoint.sh db createdb &amp;&amp; /entrypoint.sh db migrate &amp;&amp; /entrypoint.sh run"</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">expose</span>
+      <span class="pi">-</span> <span class="s">internal</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">plausible_db</span>
+      <span class="pi">-</span> <span class="s">plausible_events_db</span>
+      <span class="pi">-</span> <span class="s">mail</span>
+    <span class="na">env_file</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">plausible-conf.env</span>
+  
+  <span class="na">nginx</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">nginx</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">./nginx/:/etc/nginx/conf.d</span>
+      <span class="pi">-</span> <span class="s">./data/certbot/conf:/etc/letsencrypt</span>
+      <span class="pi">-</span> <span class="s">./data/certbot/www:/var/www/certbot</span>
+      <span class="pi">-</span> <span class="s">./nginx/error.log:/var/log/nginx/error.log</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">expose</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">80:80</span>
+      <span class="pi">-</span> <span class="s">443:443</span>
+    <span class="na">environment</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="s">NGINX_HOST=127.0.0.1</span>
+     <span class="pi">-</span> <span class="s">NGINX_PORT=80</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/bin/sh</span><span class="nv"> </span><span class="s">-c</span><span class="nv"> </span><span class="s">'while</span><span class="nv"> </span><span class="s">:;</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">sleep</span><span class="nv"> </span><span class="s">6h</span><span class="nv"> </span><span class="s">&amp;</span><span class="nv"> </span><span class="s">wait</span><span class="nv"> </span><span class="s">$${!};</span><span class="nv"> </span><span class="s">nginx</span><span class="nv"> </span><span class="s">-s</span><span class="nv"> </span><span class="s">reload;</span><span class="nv"> </span><span class="s">done</span><span class="nv"> </span><span class="s">&amp;</span><span class="nv"> </span><span class="s">nginx</span><span class="nv"> </span><span class="s">-g</span><span class="nv"> </span><span class="se">\"</span><span class="s">daemon</span><span class="nv"> </span><span class="s">off;</span><span class="se">\"</span><span class="s">'"</span>
+
+  <span class="na">certbot</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">certbot/certbot</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">./data/certbot/conf:/etc/letsencrypt</span>
+      <span class="pi">-</span> <span class="s">./data/certbot/www:/var/www/certbot</span>
+    <span class="na">entrypoint</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/bin/sh</span><span class="nv"> </span><span class="s">-c</span><span class="nv"> </span><span class="s">'trap</span><span class="nv"> </span><span class="s">exit</span><span class="nv"> </span><span class="s">TERM;</span><span class="nv"> </span><span class="s">while</span><span class="nv"> </span><span class="s">:;</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">certbot</span><span class="nv"> </span><span class="s">renew;</span><span class="nv"> </span><span class="s">sleep</span><span class="nv"> </span><span class="s">12h</span><span class="nv"> </span><span class="s">&amp;</span><span class="nv"> </span><span class="s">wait</span><span class="nv"> </span><span class="s">$${!};</span><span class="nv"> </span><span class="s">done;'"</span>
+
+<span class="na">volumes</span><span class="pi">:</span>
+  <span class="na">db-data</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s">local</span>
+  <span class="na">event-data</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s">local</span>
+  <span class="na">geoip</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s">local</span>
+  
+<span class="na">networks</span><span class="pi">:</span>
+  <span class="na">expose</span><span class="pi">:</span>
+  <span class="na">internal</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p>The correct usage of the networks us key, otherwise the <code class="language-plaintext highlighter-rouge">nginx</code> container can’t access <code class="language-plaintext highlighter-rouge">plausible</code> which then won’t be accessible over the internet. Now <code class="language-plaintext highlighter-rouge">mkdir</code> two directories: <code class="language-plaintext highlighter-rouge">nginx</code> and <code class="language-plaintext highlighter-rouge">data</code>, and create the following file at <code class="language-plaintext highlighter-rouge">nginx/plausible.conf</code>:</p>
+
+<div class="language-nginx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+    <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="n">/.well-known/acme-challenge/</span> <span class="p">{</span>
+      <span class="kn">root</span> <span class="n">/var/www/certbot</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kn">location</span> <span class="n">/</span> <span class="p">{</span>
+        <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kn">server_name</span> <span class="s">_</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+    <span class="kn">listen</span> <span class="s">[::]:443</span> <span class="s">ssl</span><span class="p">;</span>
+    <span class="kn">server_name</span> <span class="s">yourdomain.com</span><span class="p">;</span>
+
+    <span class="kn">ssl_certificate</span> <span class="n">/etc/letsencrypt/live/yourdomain.com/fullchain.pem</span><span class="p">;</span>
+    <span class="kn">ssl_certificate_key</span> <span class="n">/etc/letsencrypt/live/yourdomain.com/privkey.pem</span><span class="p">;</span>
+    <span class="kn">include</span> <span class="n">/etc/letsencrypt/options-ssl-nginx.conf</span><span class="p">;</span>
+    <span class="kn">ssl_dhparam</span> <span class="n">/etc/letsencrypt/ssl-dhparams.pem</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="n">/</span> <span class="p">{</span>
+        <span class="kn">proxy_pass</span> <span class="s">http://plausible:8000</span><span class="p">;</span>
+        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>It is now time to get your SSL certificate and to enable HTTPS on your Plausible instance. Download the <a href="https://github.com/wmnnd/nginx-certbot/blob/master/init-letsencrypt.sh"><code class="language-plaintext highlighter-rouge">init-letsencrypt.sh</code></a> and edit it to include your your domain name. Give it execution permissions via</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x init-letsencrupt.sh
+</code></pre></div></div>
+
+<p>and run it!</p>
+
+<blockquote>
+  <p>Be sure to change <code class="language-plaintext highlighter-rouge">BASE_URL</code> within <code class="language-plaintext highlighter-rouge">plausible-conf.env</code> to whatever yours is for Plausible to play nicely.</p>
+</blockquote>
+
+<h2 id="step-4-add-scriptjs-to-your-head">Step 4. Add script.js To Your <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code></h2>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">defer</span> <span class="na">data-domain=</span><span class="s">"yourdomain.com"</span> <span class="na">src=</span><span class="s">"https://yourdomain.com/js/script.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<p>If you are self-hsoting, which is probably why you’re reading this, it is important in my opinion that you <strong>DO NOT</strong> use the script located at <code class="language-plaintext highlighter-rouge">https://https://plausible.io/js/script.js</code>. You are not paying for any bandwidth, and therefore shouldn’t be freeloading. Use Cloudflare or another CDN if your private bandwidth is a concern.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Plausible was really simple to set up in workflow and I hope this guide has helped you. There are additional things you can consider doing which I’ll link below.
+What I really appreciate about Plausible is not invading the privacy of the people visiting my website, whilst still giving me insight as to what is going on.</p>
+
+<h2 id="additional-tips">Additional Tips</h2>
+
+<ul>
+  <li>Set <code class="language-plaintext highlighter-rouge">DISABLE_REGISTRATION=invite_only</code> to disable others from freely creating accounts</li>
+  <li><a href="https://plausible.io/docs/script-extensions">Enable other extensions</a></li>
+  <li><a href="https://plausible.io/docs/integration-guides">Use an integration</a></li>
+  <li><a href="https://plausible.io/docs/goal-conversions">Set up goals and custom events</a></li>
+</ul>
+
+			   <hr>
+			   <div class="related-posts">
+				   <h5>Related Posts</h5>
+				   
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									September 25, 2021
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none plausible-event-name=Related+Post+Click' href="/paperless-ng_on_localy_hosted_rpi.html">Paperless-ng On Raspberry Pi With Email And Samba</a>
+								</h6>
+							</div>
+						</div>
+					
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									October  3, 2021
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none plausible-event-name=Related+Post+Click' href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">Scheduling Backups To OneDrive For Paperless-ng Using RClone</a>
+								</h6>
+							</div>
+						</div>
+					
+						<div class='row row-cols-sm-1 row-cols-md-2 row-cols-lg-2'>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<h6 class='text-sm-start text-md-end text-lg-end '>
+									March 22, 2022
+								</h6>
+							</div>
+							<div class="col-sm-8 col-md-8 col-lg-8">
+								<h6 class='text-start'>
+									<a class='text-decoration-none plausible-event-name=Related+Post+Click' href="/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html">Pydantic vs Protobuf vs Namedtuples vs Dataclasses</a>
+								</h6>
+							</div>
+						</div>
+					
+			   </div>
+			</div>
+		</div>
+	</div>
+  <div id="comments"></div>
+  <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+
+</div>
+
+</div>
+    
+    <!-- Footer -->
+    <footer class="mt-auto py-3">
+    <div class="container">
+        <span class="text-muted">© All rights reserved. Contribute at <a href="https://github.com/iwishiwasaneagle/janhendrikewers.uk"> GitHub</a>. Powered by <a href="http://jekyllrb.com/">Jekyll</a> with ♥</span>
+    </div>
+</footer>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="static/js/docs.min.js"></script>
+    <script src="static/js/main.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="static/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

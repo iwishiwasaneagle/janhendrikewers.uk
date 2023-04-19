@@ -2,10 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://janhendrikewers.uk/</loc>
-    <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+    <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  
+    <url>
+      <loc>https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL.html</loc>
+      
+        <lastmod>2023-04-19T00:00:00+00:00</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
   
     <url>
       <loc>https://janhendrikewers.uk/how_your_psychological_profile_is_used_in_a_mountain_rescue_search.html</loc>
@@ -258,7 +271,7 @@
   <url>
     <loc>https://janhendrikewers.uk/404</loc>
     
-      <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+      <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     
     
       <changefreq>monthly</changefreq>
@@ -271,7 +284,7 @@
   <url>
     <loc>https://janhendrikewers.uk/ads.txt</loc>
     
-      <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+      <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     
     
       <changefreq>monthly</changefreq>
@@ -284,7 +297,7 @@
   <url>
     <loc>https://janhendrikewers.uk/atom.xml</loc>
     
-      <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+      <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     
     
       <changefreq>monthly</changefreq>
@@ -297,7 +310,7 @@
   <url>
     <loc>https://janhendrikewers.uk/blog</loc>
     
-      <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+      <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     
     
       <changefreq>monthly</changefreq>
@@ -310,7 +323,7 @@
   <url>
     <loc>https://janhendrikewers.uk/bookshelf</loc>
     
-      <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+      <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     
     
       <changefreq>monthly</changefreq>
@@ -323,7 +336,7 @@
   <url>
     <loc>https://janhendrikewers.uk/</loc>
     
-      <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+      <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     
     
       <changefreq>monthly</changefreq>
@@ -336,7 +349,7 @@
   <url>
     <loc>https://janhendrikewers.uk/projects</loc>
     
-      <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+      <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     
     
       <changefreq>monthly</changefreq>
@@ -349,7 +362,7 @@
   <url>
     <loc>https://janhendrikewers.uk/robots.txt</loc>
     
-      <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+      <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     
     
       <changefreq>monthly</changefreq>
@@ -362,7 +375,7 @@
   <url>
     <loc>https://janhendrikewers.uk/sitemap.xml</loc>
     
-      <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+      <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     
     
       <changefreq>monthly</changefreq>
@@ -374,7 +387,7 @@
   
   <url>
     <loc>https://janhendrikewers.uk/static/pdf/cv.pdf</loc>
-    <lastmod>2023-04-18T13:36:21+00:00</lastmod>
+    <lastmod>2023-04-19T08:43:21+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.1</priority> 
   </url>

@@ -6,13 +6,205 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-04-18T13:36:21Z</updated>
+  <updated>2023-04-19T08:43:21Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">Hosting Plausible Analytics On A Raspberry Pi 4 with SSL</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL.html/?source=RSS" />
+    <id>https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL</id>
+    <published>2023-04-19T00:00:00Z</published>
+    <updated>2023-04-19T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>Plausible is a great alternative to Google Analytics if you want to havbe the option of analytics but actually respect your users privacy. Along with that bold statement, Plausible actually offers a whole range of benefits:</p>
+
+<ul>
+  <li>Guaranteed to be in the region you expect it to be
+    <ul>
+      <li>EU if not self-hosted, else whereever you desire</li>
+      <li>This is especially true for GDPR and other data collection laws</li>
+    </ul>
+  </li>
+  <li><a href="https://plausible.io/lightweight-web-analytics#how-do-web-analytics-scripts-affect-the-page-size-and-page-load-time">Substantially lower script size</a> for faster loading times</li>
+  <li>No cookie tracking or other invasive methods used</li>
+</ul>
+
+<p>Now, the fine folks at Plausible have already created amazing documentation on how to get up and running with <a href="https://github.com/plausible/hosting/tree/master">plausible/hosting</a>. However, this uses an outdated docker image that does not support the Raspberry Pi 4. Therefore, we have this wee guide!</p>
+
+<h2 id="step-1-the-config-repo">Step 1: The Config Repo</h2>
+
+<p>As mentioned above, the original repo does not truly support the RPi4, and until <a href="https://github.com/plausible/hosting/pull/70">PR#70</a> is merged, you can get a working configuration at my fork: <a href="https://github.com/iwishiwasaneagle/plausible-hosting-rpi">iwishiwasaneagle/plausible-hosting-rpi</a></p>
+
+<h2 id="step-2-run-it">Step 2: Run it!</h2>
+
+<p>This is simple, <code class="language-plaintext highlighter-rouge">cd</code> into the directory, follow the steps <a href="https://plausible.io/docs/self-hosting#2-add-required-configuration">here</a> to generate a random secret key, and run <code class="language-plaintext highlighter-rouge">docker compose up -d</code></p>
+
+<p>Is that it? Well, technically yes but also no. First of all, head to <code class="language-plaintext highlighter-rouge">http://localhost:8000</code> and this should outline some issues. Plausible is running perfectly but on <code class="language-plaintext highlighter-rouge">localhost</code> and without SSL. This means you won’t be able to integrate Plausible into your website in any meaningful manner, and not securely.</p>
+
+<h2 id="step-3-the-rest-of-the-owl">Step 3. The Rest Of The Owl</h2>
+
+<p>So, we now have a working instance accessible at <code class="language-plaintext highlighter-rouge">http://localhost:8000</code>. You either need a static IP and a DNS A or AAAA listing pointing at it, ooooor a dynamicDNS service like <a href="https://duckdns.org">DuckDNS</a>. There are millions of resources out there on how to set this up so I won’t bother.</p>
+
+<p>Make sure you have your port <code class="language-plaintext highlighter-rouge">80</code> (HTTP) and <code class="language-plaintext highlighter-rouge">443</code> (HTTPS) forwarded (again, millions of tutorials, beyond the scope of this tutorial, blah blah blah) to your Raspberry Pi’s local IP address. This is critical to get your SSL certificate.</p>
+
+<p>We will now edit our <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> to look like:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3.3"</span>
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">mail</span><span class="pi">:</span>
+    <span class="na">build</span><span class="pi">:</span> <span class="s">docker-smtp/latest</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">internal</span>
+
+  <span class="na">plausible_db</span><span class="pi">:</span>
+    <span class="c1"># supported versions are 12, 13, and 14</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">postgres:14-alpine</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">internal</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">db-data:/var/lib/postgresql/data</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">POSTGRES_PASSWORD=postgres</span>
+
+  <span class="na">plausible_events_db</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">clickhouse/clickhouse-server:22.6-alpine</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">internal</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">event-data:/var/lib/clickhouse</span>
+      <span class="pi">-</span> <span class="s">./clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/logging.xml:ro</span>
+      <span class="pi">-</span> <span class="s">./clickhouse/clickhouse-user-config.xml:/etc/clickhouse-server/users.d/logging.xml:ro</span>
+    <span class="na">ulimits</span><span class="pi">:</span>
+      <span class="na">nofile</span><span class="pi">:</span>
+        <span class="na">soft</span><span class="pi">:</span> <span class="m">262144</span>
+        <span class="na">hard</span><span class="pi">:</span> <span class="m">262144</span>
+
+  <span class="na">plausible</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">plausible/analytics:v1.5</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s">sh -c "sleep 10 &amp;&amp; /entrypoint.sh db createdb &amp;&amp; /entrypoint.sh db migrate &amp;&amp; /entrypoint.sh run"</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">expose</span>
+      <span class="pi">-</span> <span class="s">internal</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">plausible_db</span>
+      <span class="pi">-</span> <span class="s">plausible_events_db</span>
+      <span class="pi">-</span> <span class="s">mail</span>
+    <span class="na">env_file</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">plausible-conf.env</span>
+  
+  <span class="na">nginx</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">nginx</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">./nginx/:/etc/nginx/conf.d</span>
+      <span class="pi">-</span> <span class="s">./data/certbot/conf:/etc/letsencrypt</span>
+      <span class="pi">-</span> <span class="s">./data/certbot/www:/var/www/certbot</span>
+      <span class="pi">-</span> <span class="s">./nginx/error.log:/var/log/nginx/error.log</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">expose</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">80:80</span>
+      <span class="pi">-</span> <span class="s">443:443</span>
+    <span class="na">environment</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="s">NGINX_HOST=127.0.0.1</span>
+     <span class="pi">-</span> <span class="s">NGINX_PORT=80</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/bin/sh</span><span class="nv"> </span><span class="s">-c</span><span class="nv"> </span><span class="s">'while</span><span class="nv"> </span><span class="s">:;</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">sleep</span><span class="nv"> </span><span class="s">6h</span><span class="nv"> </span><span class="s">&amp;</span><span class="nv"> </span><span class="s">wait</span><span class="nv"> </span><span class="s">$${!};</span><span class="nv"> </span><span class="s">nginx</span><span class="nv"> </span><span class="s">-s</span><span class="nv"> </span><span class="s">reload;</span><span class="nv"> </span><span class="s">done</span><span class="nv"> </span><span class="s">&amp;</span><span class="nv"> </span><span class="s">nginx</span><span class="nv"> </span><span class="s">-g</span><span class="nv"> </span><span class="se">\"</span><span class="s">daemon</span><span class="nv"> </span><span class="s">off;</span><span class="se">\"</span><span class="s">'"</span>
+
+  <span class="na">certbot</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">certbot/certbot</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">./data/certbot/conf:/etc/letsencrypt</span>
+      <span class="pi">-</span> <span class="s">./data/certbot/www:/var/www/certbot</span>
+    <span class="na">entrypoint</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/bin/sh</span><span class="nv"> </span><span class="s">-c</span><span class="nv"> </span><span class="s">'trap</span><span class="nv"> </span><span class="s">exit</span><span class="nv"> </span><span class="s">TERM;</span><span class="nv"> </span><span class="s">while</span><span class="nv"> </span><span class="s">:;</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">certbot</span><span class="nv"> </span><span class="s">renew;</span><span class="nv"> </span><span class="s">sleep</span><span class="nv"> </span><span class="s">12h</span><span class="nv"> </span><span class="s">&amp;</span><span class="nv"> </span><span class="s">wait</span><span class="nv"> </span><span class="s">$${!};</span><span class="nv"> </span><span class="s">done;'"</span>
+
+<span class="na">volumes</span><span class="pi">:</span>
+  <span class="na">db-data</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s">local</span>
+  <span class="na">event-data</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s">local</span>
+  <span class="na">geoip</span><span class="pi">:</span>
+    <span class="na">driver</span><span class="pi">:</span> <span class="s">local</span>
+  
+<span class="na">networks</span><span class="pi">:</span>
+  <span class="na">expose</span><span class="pi">:</span>
+  <span class="na">internal</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p>The correct usage of the networks us key, otherwise the <code class="language-plaintext highlighter-rouge">nginx</code> container can’t access <code class="language-plaintext highlighter-rouge">plausible</code> which then won’t be accessible over the internet. Now <code class="language-plaintext highlighter-rouge">mkdir</code> two directories: <code class="language-plaintext highlighter-rouge">nginx</code> and <code class="language-plaintext highlighter-rouge">data</code>, and create the following file at <code class="language-plaintext highlighter-rouge">nginx/plausible.conf</code>:</p>
+
+<div class="language-nginx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+    <span class="kn">listen</span> <span class="s">[::]:80</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="n">/.well-known/acme-challenge/</span> <span class="p">{</span>
+      <span class="kn">root</span> <span class="n">/var/www/certbot</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kn">location</span> <span class="n">/</span> <span class="p">{</span>
+        <span class="kn">return</span> <span class="mi">301</span> <span class="s">https://</span><span class="nv">$host$request_uri</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kn">server_name</span> <span class="s">_</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+    <span class="kn">listen</span> <span class="s">[::]:443</span> <span class="s">ssl</span><span class="p">;</span>
+    <span class="kn">server_name</span> <span class="s">yourdomain.com</span><span class="p">;</span>
+
+    <span class="kn">ssl_certificate</span> <span class="n">/etc/letsencrypt/live/yourdomain.com/fullchain.pem</span><span class="p">;</span>
+    <span class="kn">ssl_certificate_key</span> <span class="n">/etc/letsencrypt/live/yourdomain.com/privkey.pem</span><span class="p">;</span>
+    <span class="kn">include</span> <span class="n">/etc/letsencrypt/options-ssl-nginx.conf</span><span class="p">;</span>
+    <span class="kn">ssl_dhparam</span> <span class="n">/etc/letsencrypt/ssl-dhparams.pem</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="n">/</span> <span class="p">{</span>
+        <span class="kn">proxy_pass</span> <span class="s">http://plausible:8000</span><span class="p">;</span>
+        <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>It is now time to get your SSL certificate and to enable HTTPS on your Plausible instance. Download the <a href="https://github.com/wmnnd/nginx-certbot/blob/master/init-letsencrypt.sh"><code class="language-plaintext highlighter-rouge">init-letsencrypt.sh</code></a> and edit it to include your your domain name. Give it execution permissions via</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x init-letsencrupt.sh
+</code></pre></div></div>
+
+<p>and run it!</p>
+
+<blockquote>
+  <p>Be sure to change <code class="language-plaintext highlighter-rouge">BASE_URL</code> within <code class="language-plaintext highlighter-rouge">plausible-conf.env</code> to whatever yours is for Plausible to play nicely.</p>
+</blockquote>
+
+<h2 id="step-4-add-scriptjs-to-your-head">Step 4. Add script.js To Your <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code></h2>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">defer</span> <span class="na">data-domain=</span><span class="s">"yourdomain.com"</span> <span class="na">src=</span><span class="s">"https://yourdomain.com/js/script.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<p>If you are self-hsoting, which is probably why you’re reading this, it is important in my opinion that you <strong>DO NOT</strong> use the script located at <code class="language-plaintext highlighter-rouge">https://https://plausible.io/js/script.js</code>. You are not paying for any bandwidth, and therefore shouldn’t be freeloading. Use Cloudflare or another CDN if your private bandwidth is a concern.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Plausible was really simple to set up in workflow and I hope this guide has helped you. There are additional things you can consider doing which I’ll link below.
+What I really appreciate about Plausible is not invading the privacy of the people visiting my website, whilst still giving me insight as to what is going on.</p>
+
+<h2 id="additional-tips">Additional Tips</h2>
+
+<ul>
+  <li>Set <code class="language-plaintext highlighter-rouge">DISABLE_REGISTRATION=invite_only</code> to disable others from freely creating accounts</li>
+  <li><a href="https://plausible.io/docs/script-extensions">Enable other extensions</a></li>
+  <li><a href="https://plausible.io/docs/integration-guides">Use an integration</a></li>
+  <li><a href="https://plausible.io/docs/goal-conversions">Set up goals and custom events</a></li>
+</ul>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">How Your Psychological Profile Is Used In A Mountain Rescue Search</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_your_psychological_profile_is_used_in_a_mountain_rescue_search.html/?source=RSS" />
@@ -519,227 +711,6 @@ I decided to sign up for GitGuardian to see if it’d find anything feeling quit
 </ol>
 
 <p>Yes the private key had been changed but it might still be listed as an authorized key on another server. You just don’t know and as such, being proactive about it and cleaning your git history is probably a good idea.</p>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">Pydantic vs Protobuf vs Namedtuples vs Dataclasses</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html/?source=RSS" />
-    <id>https://janhendrikewers.uk/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses</id>
-    <published>2022-03-22T00:00:00Z</published>
-    <updated>2022-03-22T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>Before my introduction to <a href="https://fastapi.tiangolo.com/">FastAPI</a> I was manually crafting classes to hold data. This was completely fine, but then <a href="https://pydantic-docs.helpmanual.io/">pydantic</a> changed the way I thought about this. Who wants to write a custom <code class="language-plaintext highlighter-rouge">__init__</code> class for every data type, with type checking? However, over-time I’ve learnt some of it’s limitations and other libraries such as <a href="https://github.com/protocolbuffers/protobuf">protobuf</a> or <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple">namedtuple</a> kept cropping up. My hunger to over-complicate everything finally made me try them all out and this post is the result of that inability to KISS<sup id="fnref:kiss" role="doc-noteref"><a href="#fn:kiss" class="footnote" rel="footnote">1</a></sup>.</p>
-
-<h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
-
-<ul id="markdown-toc">
-  <li><a href="#experimental-setup" id="markdown-toc-experimental-setup">Experimental Setup</a></li>
-  <li><a href="#creation" id="markdown-toc-creation">Creation</a></li>
-  <li><a href="#type-conversions" id="markdown-toc-type-conversions">Type Conversions</a></li>
-  <li><a href="#instantiation-performance" id="markdown-toc-instantiation-performance">Instantiation Performance</a></li>
-  <li><a href="#deserialization" id="markdown-toc-deserialization">(De)serialization</a>    <ul>
-      <li><a href="#json" id="markdown-toc-json">JSON</a></li>
-      <li><a href="#smallest-possible" id="markdown-toc-smallest-possible">Smallest Possible</a></li>
-    </ul>
-  </li>
-  <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
-  <li><a href="#appendix" id="markdown-toc-appendix">Appendix</a></li>
-</ul>
-
-<h2 id="experimental-setup">Experimental Setup</h2>
-
-<p>As I’m doing a lot of simulations in the near future, I decided to use two data types</p>
-
-<ol>
-  <li>
-    <p>Coord</p>
-
-    <ul>
-      <li>Holds <code class="language-plaintext highlighter-rouge">x</code>, <code class="language-plaintext highlighter-rouge">y</code>, <code class="language-plaintext highlighter-rouge">z</code>, and <code class="language-plaintext highlighter-rouge">heading</code></li>
-      <li>All of type <code class="language-plaintext highlighter-rouge">float</code></li>
-    </ul>
-  </li>
-  <li>
-    <p>Coords</p>
-
-    <ul>
-      <li>Holds an unbounded list of <code class="language-plaintext highlighter-rouge">Coord</code>s under coords.</li>
-    </ul>
-  </li>
-</ol>
-
-<p>These were then instantiated with the <em>same</em> random data using</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">heading</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Note the <code class="language-plaintext highlighter-rouge">dtype=int</code>. This was done to test if the class do any type conversion (<em>spoiler:</em> some do).</p>
-
-<p>The variables in the following code examples have prefixes to show what library they are related to. <code class="language-plaintext highlighter-rouge">NT</code> is <code class="language-plaintext highlighter-rouge">namedtuple</code>, <code class="language-plaintext highlighter-rouge">DC</code> is <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">PD</code> is <code class="language-plaintext highlighter-rouge">pydantic</code>, and <code class="language-plaintext highlighter-rouge">PB</code> is <code class="language-plaintext highlighter-rouge">protobuf</code>. Easy.</p>
-
-<h2 id="creation">Creation</h2>
-
-<p>After creating the data models, as seen in the <a href="#appendix">appendix</a>, the classes were intialized. The method for <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">namedtuples</code> and <code class="language-plaintext highlighter-rouge">pydantic</code> were identical.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
-  <span class="k">return</span> <span class="p">[</span><span class="nf">t</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fi</span><span class="p">.</span><span class="nf">item</span><span class="p">(),</span><span class="n">y</span><span class="o">=</span><span class="n">gi</span><span class="p">.</span><span class="nf">item</span><span class="p">(),</span><span class="n">z</span><span class="o">=</span><span class="n">hi</span><span class="p">.</span><span class="nf">item</span><span class="p">(),</span><span class="n">heading</span><span class="o">=</span><span class="n">ii</span><span class="p">.</span><span class="nf">item</span><span class="p">())</span> <span class="k">for</span> <span class="n">fi</span><span class="p">,</span> <span class="n">gi</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">i</span><span class="p">)]</span>
-
-<span class="n">dccoords</span> <span class="o">=</span> <span class="nc">DCCoords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="nf">generate</span><span class="p">(</span><span class="n">DCCoord</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">headings</span><span class="p">))</span>
-<span class="n">ntcoords</span> <span class="o">=</span> <span class="nc">NTCoords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="nf">generate</span><span class="p">(</span><span class="n">NTCoord</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">headings</span><span class="p">))</span>
-<span class="n">pdcoords</span> <span class="o">=</span> <span class="nc">PDCoords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="nf">generate</span><span class="p">(</span><span class="n">PDCoord</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">headings</span><span class="p">))</span>
-</code></pre></div></div>
-
-<p>Protobuf was much different though. As can be seen on line 3 below, the coord is added to the list of coords, and then filled with values. This results in quite a bit more boiler plate code but if one knows about it, it’s surprisingly readable.</p>
-
-<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="n">pbcoords</span> <span class="o">=</span> <span class="nc">PBCoords</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">xi</span><span class="p">,</span><span class="n">yi</span><span class="p">,</span><span class="n">zi</span><span class="p">,</span><span class="n">headingi</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">,</span><span class="n">zs</span><span class="p">,</span><span class="n">headings</span><span class="p">):</span>
-<span class="n">pbcoord</span> <span class="o">=</span> <span class="n">pbcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">.</span><span class="nf">add</span><span class="p">()</span>
-<span class="n">pbcoord</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">xi</span>
-<span class="n">pbcoord</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">yi</span>
-<span class="n">pbcoord</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">zi</span>
-<span class="n">pbcoord</span><span class="p">.</span><span class="n">heading</span> <span class="o">=</span> <span class="n">heading</span>
-</pre></td></tr></tbody></table></code></pre></figure>
-
-<h2 id="type-conversions">Type Conversions</h2>
-
-<p>All 4 data models were filled with int on purpose. <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">pydantic</code>, and <code class="language-plaintext highlighter-rouge">protobuf</code> have capabilities to define a data type for each field so those are the ones expected to convert the data <em>if possible</em>.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">isinstance</span><span class="p">(</span><span class="n">dccoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># False
-</span><span class="nf">isinstance</span><span class="p">(</span><span class="n">ntcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># False
-</span><span class="nf">isinstance</span><span class="p">(</span><span class="n">pdcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># True
-</span><span class="nf">isinstance</span><span class="p">(</span><span class="n">pbcoords</span><span class="p">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>  <span class="c1"># True
-</span></code></pre></div></div>
-
-<p>That’s weird… <code class="language-plaintext highlighter-rouge">dataclasses</code> don’t convert the field? Apparently this is expected behaviour and the suggested workaround is using a static type-checker like <a href="https://mypy-lang.org/"><code class="language-plaintext highlighter-rouge">mypy</code></a>, <a href="https://pydantic-docs.helpmanual.io/usage/validation_decorator/"><code class="language-plaintext highlighter-rouge">pydantic.validate_arguments</code></a>, or in the <a href="https://docs.python.org/3/library/dataclasses.html#post-init-processing"><code class="language-plaintext highlighter-rouge">dataclass.dataclasses.__post_init__</code></a> method.</p>
-
-<p><code class="language-plaintext highlighter-rouge">pydantic</code> and <code class="language-plaintext highlighter-rouge">protobuf</code> both convert the types which is nice. However, will this add much computational overhead?</p>
-
-<h2 id="instantiation-performance">Instantiation Performance</h2>
-
-<p>One of the largest downsides of using a data class is the additional performance overhead. In my simulations, I run hundreds of thousands of trials with multiple thousand steps so any increase in computational time is noticed.</p>
-
-<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/speed.png" alt="png" class="img-responsive" />
-<em>Mean time to instantiate a single <code class="language-plaintext highlighter-rouge">Coord</code> class in the respective libraries</em></p>
-
-<p>This is where we can really see the overhead of converting the types from <code class="language-plaintext highlighter-rouge">int</code> to <code class="language-plaintext highlighter-rouge">float</code> in <code class="language-plaintext highlighter-rouge">pydantic</code>. However, <code class="language-plaintext highlighter-rouge">protobuf</code> does not have nearly the same problems<sup id="fnref:fw" role="doc-noteref"><a href="#fn:fw" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>I’m honestly quite shocked at how well <code class="language-plaintext highlighter-rouge">protobuf</code> did. It’s mean time was <code class="language-plaintext highlighter-rouge">685ns</code> whilst <code class="language-plaintext highlighter-rouge">namedtuple</code> achieved <code class="language-plaintext highlighter-rouge">608ns</code> and <code class="language-plaintext highlighter-rouge">dataclasses</code> did <code class="language-plaintext highlighter-rouge">643ns</code>.</p>
-
-<h2 id="deserialization">(De)serialization</h2>
-
-<h3 id="json">JSON</h3>
-
-<p>Another important aspect is storing my millions of data points. The “classic” method is via CSV or JSON. However, this struggles with multiple <code class="language-plaintext highlighter-rouge">Coords</code> so we’ll give JSON a shot. Yes it’s not meant for storing large series data but it’s easy and available and probably what most people will turn to. <a href="https://docs.python.org/3/library/pickle.html">Pickleing</a> is another option but this does not create human readable output, nor does it store very well<sup id="fnref:pickle-vs-json" role="doc-noteref"><a href="#fn:pickle-vs-json" class="footnote" rel="footnote">3</a></sup>.</p>
-
-<p><code class="language-plaintext highlighter-rouge">dataclasses</code> were a weird one, because it required a custom JSON encoder. However, 5 lines of additional code isn’t too bad in my opinion.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">json</span>
-<span class="k">class</span> <span class="nc">EnhancedJSONEncoder</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">dataclasses</span><span class="p">.</span><span class="nf">is_dataclass</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">dataclasses</span><span class="p">.</span><span class="nf">asdict</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
-            <span class="k">return</span> <span class="nf">super</span><span class="p">().</span><span class="nf">default</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
-
-<span class="n">dccoords_json</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="nf">dumps</span><span class="p">(</span><span class="n">dccoords</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">','</span><span class="p">,</span> <span class="s">':'</span><span class="p">),</span>  <span class="n">cls</span><span class="o">=</span><span class="n">EnhancedJSONEncoder</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">namedtuple</code> was actually quite easy, using the inbuilt <code class="language-plaintext highlighter-rouge">_asdict()</code> method resulted in</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ntcoords_json</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="nf">dumps</span><span class="p">(</span><span class="n">ntcoords</span><span class="p">.</span><span class="nf">_asdict</span><span class="p">(),</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">','</span><span class="p">,</span> <span class="s">':'</span><span class="p">))</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">pydantic</code> has a built in <code class="language-plaintext highlighter-rouge">json()</code> method so this was as easy as <code class="language-plaintext highlighter-rouge">pdcoords_json = dcoords.json()</code>.</p>
-
-<p><code class="language-plaintext highlighter-rouge">protobuf</code>, being different as per, required the import of <code class="language-plaintext highlighter-rouge">MessageToJson</code>:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">google.protobuf.json_format</span> <span class="kn">import</span> <span class="n">MessageToJson</span>
-<span class="n">pbcoords_json</span> <span class="o">=</span> <span class="nc">MessageToJson</span><span class="p">(</span><span class="n">pbcoords</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="nf">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="s">""</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>All serializations were more or less identical <em>except</em> for <code class="language-plaintext highlighter-rouge">namedtuple</code>. For whatever reason the list of <code class="language-plaintext highlighter-rouge">NTCoord</code>s was serialized into a 2D array. Hopefully this won’t cause any issues with the de-serialization (foreshadowing much?)</p>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"coords"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">[</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">37</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">93</span><span class="p">,</span><span class="w"> </span><span class="mi">44</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">41</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">34</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">85</span><span class="p">,</span><span class="w"> </span><span class="mi">59</span><span class="p">,</span><span class="w"> </span><span class="mi">57</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">79</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span><span class="w"> </span><span class="mi">92</span><span class="p">,</span><span class="w"> </span><span class="mi">58</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">47</span><span class="p">,</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">89</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w"> </span><span class="mi">81</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">71</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">78</span><span class="p">,</span><span class="w"> </span><span class="mi">79</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">97</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">28</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">61</span><span class="p">,</span><span class="w"> </span><span class="mi">56</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">51</span><span class="p">,</span><span class="w"> </span><span class="mi">72</span><span class="p">,</span><span class="w"> </span><span class="mi">92</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">49</span><span class="p">,</span><span class="w"> </span><span class="mi">72</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">86</span><span class="p">,</span><span class="w"> </span><span class="mi">93</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">77</span><span class="p">],</span><span class="w">
-    </span><span class="p">[</span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p">]</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Deserializing from the JSON string showed pretty much exactly what I expected.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DCCoords</span><span class="p">(</span><span class="o">**</span><span class="n">json</span><span class="p">.</span><span class="nf">loads</span><span class="p">(</span><span class="n">dccoords_json</span><span class="p">))</span> <span class="o">==</span> <span class="n">dccoords</span> <span class="c1"># False
-</span><span class="nc">NTCoords</span><span class="p">(</span><span class="o">**</span><span class="n">json</span><span class="p">.</span><span class="nf">loads</span><span class="p">(</span><span class="n">ntcoords_json</span><span class="p">))</span> <span class="o">==</span> <span class="n">ntcoords</span> <span class="c1"># False
-</span><span class="n">PDCoords</span><span class="p">.</span><span class="nf">parse_raw</span><span class="p">(</span><span class="n">pdcoords_json</span><span class="p">)</span> <span class="o">==</span> <span class="n">pdcoords</span>     <span class="c1"># True
-</span>
-<span class="kn">from</span> <span class="n">google.protobuf.json_format</span> <span class="kn">import</span> <span class="n">Parse</span> <span class="k">as</span> <span class="n">JsonToMessage</span>
-<span class="nc">JsonToMessage</span><span class="p">(</span><span class="n">pbcoords_json</span><span class="p">,</span> <span class="nc">PBCoords</span><span class="p">())</span> <span class="o">==</span> <span class="n">pbcoords</span> <span class="c1"># True
-</span></code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">namedtuple</code> lost the data structure when it converted to JSON and <code class="language-plaintext highlighter-rouge">dataclasses</code> does not properly convert the types at instantiation. <code class="language-plaintext highlighter-rouge">pydantic</code> and <code class="language-plaintext highlighter-rouge">protobuf</code> both check what types every field was using and converts the data (correctly) back into that type.</p>
-
-<h3 id="smallest-possible">Smallest Possible</h3>
-
-<p>Whilst JSON is great for human-readable, easy-to-transfer data, it is not compact. For the next comparison where possible, the smallest representation was used. Deserialization was not considered as right now we’re only concerned with storing large sets of data. Using it is someone else’s job (usually me, in a few weeks time).</p>
-
-<p><code class="language-plaintext highlighter-rouge">protobuf</code> is the only non-JSON encoding. The inbuilt <code class="language-plaintext highlighter-rouge">SerializeToString</code> is very powerful and one of the core features of the library. Since the data class is compiled with a tool, and not just into python, it gives developers a huge advantage by easily creating highly optimized <strong>cross-platform</strong> data.</p>
-
-<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/size.png" alt="png" class="img-responsive" />
-<em>Size of the compressed data for a <code class="language-plaintext highlighter-rouge">Coords</code> class from the respective libraries</em></p>
-
-<p>Evidently <code class="language-plaintext highlighter-rouge">pydantic</code> is the “worst”. However, is it? <code class="language-plaintext highlighter-rouge">dataclasses</code> never converted the data to a float and as such, the raw JSON string will be missing the <code class="language-plaintext highlighter-rouge">.0</code>. With <code class="language-plaintext highlighter-rouge">2*4*15=120</code> bytes of missing data, the two are actually equal (<code class="language-plaintext highlighter-rouge">549+120 == 669</code>).</p>
-
-<p>Next, why is <code class="language-plaintext highlighter-rouge">namedtuple</code> better than <code class="language-plaintext highlighter-rouge">protobuf</code>? Isn’t protobuf “oh so highly optimized”? Well yes, but if we recall from the JSON serialization results, <code class="language-plaintext highlighter-rouge">namedtuple</code> just bungs the data into a 2D array and cannot deserialize it properly. A 2D array will always be smaller than a data structure that tries to save as much data about the object as possible. The JSON output for <code class="language-plaintext highlighter-rouge">dataclasses</code>, <code class="language-plaintext highlighter-rouge">pydantic</code>, and <code class="language-plaintext highlighter-rouge">protobuf</code> were close to identical, so a <code class="language-plaintext highlighter-rouge">2x</code> improvement is very impressive.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>To your dismay, there is no easy conclusion. I have fallen in love with the idea of using <code class="language-plaintext highlighter-rouge">protobuf</code>s, but the overhead of compilation and the weird method of creating the classes is quite off-putting. The speed and serialization benefits over the other 3 cannot be played down though.</p>
-
-<p><code class="language-plaintext highlighter-rouge">pydantic</code> performed shockingly bad, but the strict type checking and ease of use will have me coming for less performant instances.</p>
-
-<p>The benefits of <code class="language-plaintext highlighter-rouge">dataclasses</code> and <code class="language-plaintext highlighter-rouge">namedtuples</code> are as they’ve always been: both are shipped with <a href="https://github.com/python/cpython/blob/3.10/Lib/dataclasses.py"><code class="language-plaintext highlighter-rouge">cpython</code></a> and are sufficient. <code class="language-plaintext highlighter-rouge">namedtuples</code> can be created in one line and allow easy to read code, whilst <code class="language-plaintext highlighter-rouge">dataclasses</code> are more akin to <code class="language-plaintext highlighter-rouge">pydantic</code> but require more setup.</p>
-
-<p>I hope this investigation into the 4 main data class libraries in Python have helped you. If you have any libraries you think I should have included, please let me know in the <a href="#comments">comments</a>!</p>
-
-<h2 id="appendix">Appendix</h2>
-
-<script src="https://gist.github.com/iwishiwasaneagle/fd304f7d951aa6ebeb13b5715f7a6410.js"></script>
-
-<hr />
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:kiss" role="doc-endnote">
-      <p>Keep It Simple, Stupid. <a href="#fnref:kiss" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:fw" role="doc-endnote">
-      <p>This might call for more investigation in the future if this article does well. <a href="#fnref:fw" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:pickle-vs-json" role="doc-endnote">
-      <p>For a more in-depth discussion between pickle vs json, have a look <a href="https://docs.python.org/3/library/pickle.html#comparison-with-json">here</a>. <a href="#fnref:pickle-vs-json" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>
  ]]></content>
   </entry>
 
