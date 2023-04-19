@@ -6,13 +6,92 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-04-19T13:03:00Z</updated>
+  <updated>2023-04-19T14:16:58Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">Useful LaTex One-Liners For Reports/Papers/Etc.</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/useful-latex-one-liners-for-reports-papers-etc.html/?source=RSS" />
+    <id>https://janhendrikewers.uk/useful-latex-one-liners-for-reports-papers-etc</id>
+    <published>2023-04-19T14:02:00Z</published>
+    <updated>2023-04-19T14:02:00Z</updated>
+    <content type="html"><![CDATA[ <p>Some useful LaTex one-liners that I’ve accumulated over the years. You can also find these tools <a href="https://gist.github.com/iwishiwasaneagle/2f91f63f3cb0107b94b501aa284a18ca">here</a></p>
+
+<h2 id="show-all-errors-warnings-and-undefined-messages">Show all errors, warnings, and undefined messages</h2>
+
+<p>Very basic but useful to analyse a log file after compilation with location in log file for further analysis</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-iHEn</span> <span class="s2">"error|warning|undefined"</span> <span class="k">*</span>.log
+</code></pre></div></div>
+
+<h2 id="find-all-the-duplicated-labels-in-a-directory">Find all the duplicated labels in a directory</h2>
+
+<p>Useful if referencing a figure results in warnings/errors</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-ERh</span> <span class="s2">"</span><span class="se">\\\\</span><span class="s2">label</span><span class="se">\{\w</span><span class="s2">*:</span><span class="se">\w</span><span class="s2">*</span><span class="se">\}</span><span class="s2">"</span> <span class="nt">--include</span><span class="o">=</span><span class="s2">"*.tex"</span> <span class="se">\</span>
+     | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s2">" "</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">awk</span> <span class="s1">'$1&gt;1 {print $0}'</span>
+</code></pre></div></div>
+
+<h2 id="validate-referencesbib">Validate references.bib</h2>
+
+<p>We use <a href="https://github.com/Pezmc/BibLatex-Check">Pezmc/BibLatex-Check</a> for this one.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://raw.githubusercontent.com/Pezmc/BibLatex-Check/master/biblatex_check.py <span class="se">\ </span>
+    2&gt;/dev/null | python - <span class="se">\ </span>
+    <span class="nt">-b</span> <span class="si">$(</span>find ./ <span class="nt">-maxdepth</span> 1 <span class="nt">-name</span> <span class="s2">"*.bib"</span> | <span class="nb">head</span> <span class="nt">-n1</span><span class="si">)</span> <span class="se">\ </span>
+    <span class="nt">-a</span> <span class="si">$(</span>find ./ <span class="nt">-maxdepth</span> 1 <span class="nt">-name</span> <span class="s2">"*.aux"</span> | <span class="nb">head</span> <span class="nt">-n1</span><span class="si">)</span>
+</code></pre></div></div>
+
+<h2 id="find-all-the-unused-labels">Find all the unused labels</h2>
+
+<p>Calling this one a “one-liner” is pushing it, but it’s very useful nonetheless so it’s being included.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REF</span><span class="o">=(</span><span class="si">$(</span><span class="nv">IFS</span><span class="o">=</span><span class="p">;</span><span class="nb">grep</span> <span class="nt">-ERoh</span> <span class="s2">"</span><span class="se">\\\\\w</span><span class="s2">*ref</span><span class="se">\{\w</span><span class="s2">*:</span><span class="se">\w</span><span class="s2">*</span><span class="se">\}</span><span class="s2">"</span> <span class="nb">.</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> | <span class="nb">awk</span> <span class="nt">-F</span><span class="o">{</span> <span class="s1">'{print $2}'</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">'}'</span><span class="si">)</span><span class="o">)</span>
+<span class="nv">LABEL</span><span class="o">=(</span><span class="si">$(</span><span class="nv">IFS</span><span class="o">=</span><span class="p">;</span><span class="nb">grep</span> <span class="nt">-ERoh</span> <span class="s2">"</span><span class="se">\\\\</span><span class="s2">label</span><span class="se">\{\w</span><span class="s2">*:</span><span class="se">\w</span><span class="s2">*</span><span class="se">\}</span><span class="s2">"</span> <span class="nb">.</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> | <span class="nb">awk</span> <span class="nt">-F</span><span class="o">{</span> <span class="s1">'{print $2}'</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">'}'</span><span class="si">)</span><span class="o">)</span>
+<span class="k">for </span>i <span class="k">in</span> <span class="nv">$LABEL</span>
+<span class="k">do
+    </span><span class="nb">echo</span> <span class="nv">$REF</span> | <span class="nb">grep</span> <span class="nt">-iq</span> <span class="s2">" </span><span class="nv">$i</span><span class="s2"> "</span>
+    <span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 1 <span class="o">]]</span>
+    <span class="k">then
+        </span><span class="nb">printf</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[0;31mUNUSED LABEL: </span><span class="se">\0</span><span class="s2">33[0;32m</span><span class="nv">$i</span><span class="se">\0</span><span class="s2">33[0m</span><span class="se">\n</span><span class="s2">"</span>
+    <span class="k">fi
+done</span>
+</code></pre></div></div>
+
+<h2 id="get-document-rough-word-count">Get document (rough) word count</h2>
+
+<p>This doesn’t exclude referencing etc. but accurate enough for rough estimates.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdftotext main.pdf - | <span class="se">\</span>
+    <span class="nb">grep</span> <span class="nt">-ohE</span> <span class="s2">"</span><span class="se">\b</span><span class="s2">[a-zA-Z]{2,}</span><span class="se">\b</span><span class="s2">"</span> | <span class="se">\</span>
+    <span class="nb">tr</span> <span class="s1">'[:upper:]'</span> <span class="s1">'[:lower:]'</span> | <span class="se">\</span>
+    <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="o">&gt;</span> /tmp/words.txt<span class="p">;</span> pdftotext main.pdf - | <span class="se">\</span>
+    <span class="nb">grep</span> <span class="nt">-ohFf</span> /tmp/words.txt | <span class="nb">wc</span> <span class="nt">-w</span>
+</code></pre></div></div>
+
+<h2 id="spell-check">Spell check</h2>
+
+<p>Requires <code class="language-plaintext highlighter-rouge">aspell-en</code>.</p>
+
+<ol>
+  <li>Non-interactive - list of misspelled words
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">pdftotext main.pdf - | grep -ohE "\b[a-zA-Z]{2,}\b" | tr '[:upper:]' '[:lower:]' | sort | uniq | aspell list -t | sort | uniq -c</code></li>
+    </ul>
+  </li>
+  <li>Interactive spell-check - file by file
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">aspell -c -t main.tex # Replace main.tex with whatever tex file you're checking</code></li>
+    </ul>
+  </li>
+</ol>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">Easier Jekyll Post Creation Using jekyll-compose</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/easier-jekyll-post-creation-using-jekyll-compose.html/?source=RSS" />
@@ -631,70 +710,6 @@ tags: daily/&lt;% tp.date.now("YYYY/MMMM") %&gt;
 
 &lt;% tp.file.cursor(1) %&gt;
 </code></pre></div></div>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">External Library Documentation URLS for PyCharm</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/useful_pycharm_urls.html/?source=RSS" />
-    <id>https://janhendrikewers.uk/useful_pycharm_urls</id>
-    <published>2022-05-30T00:00:00Z</published>
-    <updated>2022-05-30T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>Being able to hover over modules, classes, functions, etc. of a library and seeing the documentation is always great. This post acts as a resources for you to copy/paste the external documentation URL for your favourite libraries to enable this feature. For more information how to enable this, have a look <a href="#how">here</a></p>
-
-<table>
-    <tr><th>Library</th><th>Module</th><th>URL</th></tr>
-  
-    <tr>
-    <td>Matplotlib </td>
-    <td><code> matplotlib </code></td>
-    <td><code> http://matplotlib.org/api/{module.basename}_api.html#{element.qname} </code></td>
-    </tr>
-  
-    <tr>
-    <td>Numpy </td>
-    <td><code> numpy </code></td>
-    <td><code> https://docs.scipy.org/doc/numpy/reference/generated/{element.qname}.html </code></td>
-    </tr>
-  
-    <tr>
-    <td>Pandas </td>
-    <td><code> pandas </code></td>
-    <td><code> https://pandas.pydata.org/pandas-docs/stable/generated/{element.qname}.html </code></td>
-    </tr>
-  
-    <tr>
-    <td>Scikit-Learn </td>
-    <td><code>  sklearn </code></td>
-    <td><code> https://scikit-learn.org/stable/modules/generated/{element.qname}.html#{element.qname} </code></td>
-    </tr>
-  
-    <tr>
-    <td>Scipy </td>
-    <td><code> scipy </code></td>
-    <td><code> https://docs.scipy.org/doc/scipy/reference/generated/{element.qname}.html </code></td>
-    </tr>
-  
-    <tr>
-    <td>Seaborn </td>
-    <td><code> seaborn </code></td>
-    <td><code> https://seaborn.pydata.org/generated/{module.name}.{element.name}.html#{module.name}.{element.name} </code></td>
-    </tr>
-  
-</table>
-
-<h2 id="how">How</h2>
-
-<ol>
-  <li>Go into your settings</li>
-  <li>Navigate to <code class="language-plaintext highlighter-rouge">Tools | External Documentation</code></li>
-  <li>Press <code class="language-plaintext highlighter-rouge">+</code></li>
-  <li>Input the module name and url from above</li>
-</ol>
-
-<h2 id="contribute">Contribute</h2>
-
-<p>If you have any useful URLs that you’d like added, please say so in the comments below!</p>
  ]]></content>
   </entry>
 
