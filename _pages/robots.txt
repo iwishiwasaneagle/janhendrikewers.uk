@@ -4,4 +4,4 @@ permalink: /robots.txt
 User-agent: *
 Allow: /static/pdf/cv.pdf
 Disallow: /static/*
-Sitemap: /sitemap.xml
+Sitemap: https://janhendrikewers.uk/sitemap.xml
