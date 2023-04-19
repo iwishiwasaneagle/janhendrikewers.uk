@@ -6,13 +6,36 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-04-19T12:56:03Z</updated>
+  <updated>2023-04-19T13:03:00Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">Easier Jekyll Post Creation Using jekyll-compose</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/easier-jekyll-post-creation-using-jekyll-compose.html/?source=RSS" />
+    <id>https://janhendrikewers.uk/easier-jekyll-post-creation-using-jekyll-compose</id>
+    <published>2023-04-19T12:53:00Z</published>
+    <updated>2023-04-19T12:53:00Z</updated>
+    <content type="html"><![CDATA[ <p>Today I learned about a handy tool for jekyll called <a href="https://github.com/jekyll/jekyll-compose">jekyll-compose</a>. This lets you automatically create post and draft files for jekyll with <strong>generated front-matter</strong>. This is a really cool tool and I’d reccommend anyone using jekyll to have a look!</p>
+
+<p>Is it going to save you time? Probably not. Does it remove the nuissance of manually creating posts, and moving drafts about? Yes! What a treat.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Add this to your <code class="language-plaintext highlighter-rouge">Gemfile</code></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">group</span> <span class="ss">:jekyll_plugins</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'jekyll-compose'</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>and run <code class="language-plaintext highlighter-rouge">bundle install</code></p>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">Hosting Plausible Analytics On A Raspberry Pi 4 with SSL</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL.html/?source=RSS" />
@@ -672,45 +695,6 @@ tags: daily/&lt;% tp.date.now("YYYY/MMMM") %&gt;
 <h2 id="contribute">Contribute</h2>
 
 <p>If you have any useful URLs that you’d like added, please say so in the comments below!</p>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">Taking A Step In The General Direction Of Good Git OpSec</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/taking_a_step_in_the_general_direction_of_good_git_opsec.html/?source=RSS" />
-    <id>https://janhendrikewers.uk/taking_a_step_in_the_general_direction_of_good_git_opsec</id>
-    <published>2022-05-09T00:00:00Z</published>
-    <updated>2022-05-09T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>Every morning I tend to browse a few feeds: <a href="https://reddit.com/r/programming">r/programming</a>, <a href="https://reddit.com/r/linux">r/linux</a>, and <a href="https://github.com/trending">Github Trending</a>. That’s how I stumbled across <a href="https://github.com/GitGuardian/ggshield">ggshield</a> and as a result, also <a href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a>.
-I decided to sign up for GitGuardian to see if it’d find anything feeling quite confident. Quickly my hubris was shattered with <strong>31 open secrets</strong>!</p>
-
-<p>Now, full disclosure, 13 of the 31 secrets were in a repository that a friend added me to for some help and another 15 were in private repositories. However, I would consider myself very careful with what I commit so this number was still quite shocking.</p>
-
-<h2 id="the-remedy">The Remedy</h2>
-
-<p>I had a quick look into every <em>incident</em> to see if it actually required attention. One stood out and I cannot believe I did this… I committed my SSH private key.</p>
-
-<p>Some credit where it’s due though, the commit message when deleting it was “jan you’re a moron” and I must have generated a new private key when I realized. Nonetheless, why I didn’t look into cleaning the commit message is beyond me so let’s look into that now.</p>
-
-<p>I previously mentioned the  BFG Repo-Cleaner so I quickly installed that with <code class="language-plaintext highlighter-rouge">yay -S bfg</code>. Looking at <code class="language-plaintext highlighter-rouge">bfg -h</code> I see</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--delete-folders</span> &lt;glob&gt;  delete folders with the specified names <span class="o">(</span>eg <span class="s1">'.svn'</span>, <span class="s1">'*-tmp'</span> - matches on folder name, not path within repo<span class="o">)</span>
-</code></pre></div></div>
-
-<p>which is PERFECT.</p>
-
-<p>Quickly <code class="language-plaintext highlighter-rouge">git clone --mirror REPO_URL</code> (the <code class="language-plaintext highlighter-rouge">--mirror</code> is very important) and cd into the project dir. I ran <code class="language-plaintext highlighter-rouge">bfg --delete-folders "ssh" ./</code> followed by <code class="language-plaintext highlighter-rouge">git reflog expire --expire=now --all &amp;&amp; git gc --prune=now --aggressive</code> (this big command is printed at the end of the bfg logs to ensure the updates are propagated). One final command, <code class="language-plaintext highlighter-rouge">git push</code>, and now <em>hey presto</em> it’s gone!</p>
-
-<h2 id="post-mortem">Post Mortem</h2>
-
-<p>I learnt a few things today:</p>
-
-<ol>
-  <li>No matter how careful I think I am being, I’m only human and will probably <code class="language-plaintext highlighter-rouge">git add</code> something unsavoury without thinking about it.</li>
-  <li>Monitor, monitor, and monitor. You can’t catch something if you’re not looking for it.</li>
-</ol>
-
-<p>Yes the private key had been changed but it might still be listed as an authorized key on another server. You just don’t know and as such, being proactive about it and cleaning your git history is probably a good idea.</p>
  ]]></content>
   </entry>
 
