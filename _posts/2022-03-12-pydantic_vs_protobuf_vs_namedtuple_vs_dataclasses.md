@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Pydantic vs Protobuf vs Namedtuples vs Dataclasses
+description: Comparing four of the most well known data libraries for speed, serialization performance, and automatic data type conversion/checking.
 date: "2022-03-22"
 categories: post
 tags:
