@@ -47,3 +47,18 @@ kramdown:
 exclude: 
   - vendor
   - utils
+
+jekyll_compose:
+  default_front_matter:
+    drafts:
+      categories: post
+      layout: post
+      usemathjax: false
+      description:
+      tags:
+    posts:
+      categories: post
+      layout: post
+      usemathjax: false
+      description:
+      tags:
