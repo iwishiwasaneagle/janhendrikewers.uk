@@ -1,6 +1,6 @@
 ---
 layout: post
-title: easier jekyll post creation using jekyll-compose
+title: Easier Jekyll Post Creation Using jekyll-compose
 date: 2023-04-19 13:53 +0100
 categories: post
 usemathjax: false
