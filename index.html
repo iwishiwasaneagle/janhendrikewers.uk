@@ -3,20 +3,52 @@ layout: home
 ---
 
 <section id="about">
-	<div class="container">
-	  <div class="avatar m-4">
-		<img class="img-circle" src="/static/img/{{ site.avatar }}" height=256 width=256 alt="Responsive image">
-	  </div>
-	
-	  <h1 class="fs-3">Hi 👋, I'm <text class='fw-bold'>{{ site.author }}</text>.</h1>
-	  <h3>A 2nd year PhD candidate at the <a class="plausible-event-name=Home+Page" href='https://goo.gl/maps/fWM9jdh2wmeXHZEr7'>University of Glasgow</a> </h3>
-	  <h3>🔭 I'm currently working on <a class="plausible-event-name=Home+Page" href="https://github.com/iwishiwasaneagle/jdrones">jdrones</a></h3>
-	  <h3>🌱 I'm also researching <text class='fw-bold'>Path Planning for Search and Rescue using ML</text>.</h3>
-	  <br/>
-	  <h3>Have a look at some of my working <a class="plausible-event-name=Home+Page"
-		href="/projects"> projects</a>.</h3>
-	  <h3>Or checkout any of my <a class="plausible-event-name=Home+Page" href="/blog">{{ site.posts | size }} blog posts</a> on various topics!</h3>
-	  <div class="social">
-	  {% include social.html %}</div>
-	</div>
+  <div class="container">
+    <div class="avatar m-4">
+      <img
+        class="img-circle"
+        src="/static/img/{{ site.avatar }}"
+        height="256"
+        width="256"
+        alt="Responsive image"
+      />
+    </div>
+
+    <h1 class="fs-3">
+      Hi 👋, I'm <text class="fw-bold">{{ site.author }}</text>.
+    </h1>
+    <h3>
+      A 2nd year PhD candidate at the
+      <a
+        class="plausible-event-name=Home+Page"
+        href="https://goo.gl/maps/fWM9jdh2wmeXHZEr7"
+        >University of Glasgow</a
+      >
+    </h3>
+    <h3>
+      🔭 I'm currently working on
+      <a
+        class="plausible-event-name=Home+Page"
+        href="https://github.com/iwishiwasaneagle/jdrones"
+        >jdrones</a
+      >
+    </h3>
+    <h3>
+      🌱 I'm also researching
+      <text class="fw-bold">Path Planning for Search and Rescue using ML</text>.
+    </h3>
+    <br />
+    <h3>
+      Have a look at some of my working
+      <a class="plausible-event-name=Home+Page" href="/projects"> projects</a>.
+    </h3>
+    <h3>
+      Or checkout any of my
+      <a class="plausible-event-name=Home+Page" href="/blog"
+        >{{ site.posts | size }} blog posts</a
+      >
+      on various topics!
+    </h3>
+    <div class="social">{% include social.html %}</div>
+  </div>
 </section>
