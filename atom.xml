@@ -6,13 +6,70 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-04-24T08:25:53Z</updated>
+  <updated>2023-04-24T16:54:22Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">How To Never Miss The Aurora Borealis Again!</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again.html/?source=RSS" />
+    <id>https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again</id>
+    <published>2023-04-24T16:30:00Z</published>
+    <updated>2023-04-24T16:30:00Z</updated>
+    <content type="html"><![CDATA[ <p class="center"><strong>You can access the results of this blog <a href="/aurora.html">here</a></strong></p>
+
+<p>I live in Scotland and I have been getting constant messages about the Northern Lights in the sky from my Mum. I <strong>really</strong> want to see them but have to travel out of the city to escape the light polution. I recently discovered that the National Oceanic and Atmospheric Administration (NOAA) have service that provideds up to date Aurora forecasts for both hemispheres:</p>
+
+<ul>
+  <li><a href="https://services.swpc.noaa.gov/images/aurora-forecast-northern-hemisphere.jpg">Northern</a></li>
+  <li><a href="https://services.swpc.noaa.gov/images/aurora-forecast-southern-hemisphere.jpg">Southern</a></li>
+</ul>
+
+<p>This inspired me to make a dynamically updating wallpaper for my desktop. I see this multiple times a day so should never miss another aurora borealis!</p>
+
+<h2 id="the-code">The Code</h2>
+
+<p>This is a really simple website that uses the <code class="language-plaintext highlighter-rouge">background</code> CSS properties to correctly display the image.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;style&gt;</span>
+<span class="nt">body</span> <span class="p">{</span>
+  <span class="nl">background-image</span><span class="p">:</span> <span class="sx">url('http://services.swpc.noaa.gov/images/aurora-forecast-northern-hemisphere.jpg')</span><span class="p">;</span>
+  <span class="nl">background-repeat</span><span class="p">:</span> <span class="nb">no-repeat</span><span class="p">;</span>
+  <span class="nl">background-attachment</span><span class="p">:</span> <span class="nb">fixed</span><span class="p">;</span>
+  <span class="nl">background-size</span><span class="p">:</span> <span class="n">contain</span><span class="p">;</span>
+  <span class="nl">background-position</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"refresh"</span> <span class="na">content=</span><span class="s">"900"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;meta http-equiv="refresh" content="900"&gt;</code> ensures that the image is updated every 15 minutes.</p>
+
+<h2 id="the-execution">The Execution</h2>
+
+<p>Now set your wallpaper from a URL. This is easy to do on most machines:</p>
+
+<ul>
+  <li><a href="https://www.intowindows.com/how-to-set-a-webpage-as-desktop-background-in-windows-10/">Windows</a></li>
+  <li><a href="https://store.kde.org/p/1324580">Linux KDE</a> (this is the one I use)</li>
+  <li><a href="https://www.simplehelp.net/2021/07/14/how-to-set-a-web-page-as-the-desktop-background-in-macos/">MacOS</a></li>
+  <li><a href="https://letmegooglethat.com/?q=HTML+Wallpaper+For+My+OS">All other OSes</a></li>
+</ul>
+
+<h2 id="the-result">The Result</h2>
+
+<p class="centre"><img src="/static/img/2023-04-24_aurora_wallpaper.png" alt="Screenshot of two monitors, one showing the Aurora forecast" class="img-responsive" />
+<em>Screenshot of my two monitors (left=landscape, right=potrait) showing the result</em></p>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">Useful LaTex One-Liners For Reports/Papers/Etc.</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/useful-latex-one-liners-for-reports-papers-etc.html/?source=RSS" />
@@ -626,90 +683,6 @@ This is a really important module!
 </ol>
 
 <p>And another top tip, make good use of the <a href="https://docs.python.org/3/tutorial/modules.html#importing-from-a-package"><code class="language-plaintext highlighter-rouge">__all__</code></a> variable.</p>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">Custom Obsidian Templater Daily Notes Template With Dynamic Linking</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking.html/?source=RSS" />
-    <id>https://janhendrikewers.uk/obsidian-templater-daily-notes-with-dynamic-linking</id>
-    <published>2022-08-01T00:00:00Z</published>
-    <updated>2022-08-01T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>I’ve recently started using <a href="https://obsidian.md/">Obsidian</a>’s Daily Notes feature to keep track of what I’ve been doing. From the start I wanted to use <a href="https://silentvoid13.github.io/Templater">Templater</a> to dynamically create my daily notes such that <strong>each note to link to the previous one</strong>. And I’m not talking a simple <code class="language-plaintext highlighter-rouge">-1d</code> offset. I’m talking properly analysing the available files to then pick the most recent one akin to a <a href="https://www.geeksforgeeks.org/types-of-linked-list/">Singly Linked List</a></p>
-
-<p>⚠️ First thing first, this isn’t a Templater tutorial so head to the <a href="https://silentvoid13.github.io/Templater/user-functions/overview.html">documentation</a> to learn how to do this yourself.</p>
-
-<p>🧑‍💻 Go <a href="#complete-files">here</a> for the complete code</p>
-
-<h2 id="implementation">Implementation</h2>
-
-<p>Firstly, let’s scrape the file system through the <code class="language-plaintext highlighter-rouge">app.vault</code> api and exclude any notes without <code class="language-plaintext highlighter-rouge">Daily Notes</code> folder and let’s also exclude today’s (hard-coded for now) notes name:</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">files</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">vault</span><span class="p">.</span><span class="nf">getMarkdownFiles</span><span class="p">()</span>
-    <span class="p">.</span><span class="nf">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="dl">"</span><span class="s2">Daily Notes</span><span class="dl">"</span><span class="p">))</span>
-    <span class="p">.</span><span class="nf">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="dl">"</span><span class="s2">2022-08-01</span><span class="dl">"</span><span class="p">));</span>
-</code></pre></div></div>
-
-<p>Next we’ll evaluate how long ago the file was created based on it’s <code class="language-plaintext highlighter-rouge">basename</code></p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">now</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nf">now</span><span class="p">().</span><span class="nf">valueOf</span><span class="p">();</span>
-
-  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">file</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">basename</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">file</span><span class="p">;</span>
-  <span class="p">});</span>
-</code></pre></div></div>
-
-<p>Finally we’ll sort the array and select the most recent one</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nf">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">parsed_time</span><span class="p">);</span>
-</code></pre></div></div>
-
-<h2 id="template">Template</h2>
-
-<p>Within a template we just call:</p>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;</span><span class="err">%</span> <span class="na">tp.user.tag_previous_daily_note</span><span class="err">(</span><span class="na">tp.file.title</span><span class="err">,</span> <span class="err">"</span><span class="na">YOUR</span> <span class="na">DAILY</span> <span class="na">NOTE</span> <span class="na">PATH</span><span class="err">")</span> <span class="err">%</span><span class="nt">&gt;</span>
-</code></pre></div></div>
-
-<h2 id="complete-files">Complete Files</h2>
-
-<p><code class="language-plaintext highlighter-rouge">tag_previous_daily_note.js</code></p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">tag_previous_daily_note</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="nx">files</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">vault</span><span class="p">.</span><span class="nf">getMarkdownFiles</span><span class="p">().</span><span class="nf">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="nx">path</span><span class="p">)).</span><span class="nf">filter</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="nx">filename</span><span class="p">));</span>
-
-  <span class="nx">now</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nf">now</span><span class="p">().</span><span class="nf">valueOf</span><span class="p">();</span>
-
-  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nx">file</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">file</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">basename</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">file</span><span class="p">;</span>
-  <span class="p">});</span>
-
-  <span class="nx">files</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nf">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">a</span><span class="p">.</span><span class="nx">parsed_time</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">.</span><span class="nx">parsed_time</span><span class="p">);</span>
-
-  <span class="k">return</span> <span class="nx">files</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">basename</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">tag_previous_daily_note</span><span class="p">;</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">daily_notes_template.md</code></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
-created: &lt;% tp.file.creation_date() %&gt;
-tags: daily/&lt;% tp.date.now("YYYY/MMMM") %&gt;
----
-
-# &lt;%tp.file.title%&gt;
----
-
-**Previous** [[&lt;% tp.user.tag_previous_daily_note(tp.file.title,"Daily Notes")%&gt;]]
-
----
-
-&lt;% tp.file.cursor(1) %&gt;
-</code></pre></div></div>
  ]]></content>
   </entry>
 

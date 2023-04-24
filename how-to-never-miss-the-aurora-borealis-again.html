@@ -17,9 +17,9 @@
     />
 
     
-    <meta name="description" content="Personal blog and resume for Jan-Hendrik Ewers." />
+    <meta name="description" content="Use a HTML website as your wallpaper to always stay informed on the northern lights forecast" />
      
-    <title>Using GMail's App Passwords With Paperless-NGX</title>
+    <title>How To Never Miss The Aurora Borealis Again!</title>
     
 
     <!-- Bootstrap -->
@@ -123,21 +123,17 @@
 </div>
  <div class="container">
   <div class="blog-post">
-    <h1 class="fs-3 fw-bold">Using GMail's App Passwords With Paperless-NGX</h1>
+    <h1 class="fs-3 fw-bold">How To Never Miss The Aurora Borealis Again!</h1>
   </div>
   <div class="blog-title">
     <p class="fs-5">
-      October  9, 2022 &nbsp;&nbsp; 
+      April 24, 2023 &nbsp;&nbsp; 
 
-      <span class="badge rounded-pill">paperless-ngx</span>
-
-      
-
-      <span class="badge rounded-pill">gmail</span>
+      <span class="badge rounded-pill">automation</span>
 
       
 
-      <span class="badge rounded-pill">self-hosted</span>
+      <span class="badge rounded-pill">northern lights</span>
 
       
     </p>
@@ -220,7 +216,7 @@
   <div
     class="facebook"
     title="Share this on Facebook"
-    onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx.html');"
+    onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again.html');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -231,7 +227,7 @@
   <div
     class="twitter"
     title="Share this on Twitter"
-    onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx.html&text=');"
+    onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again.html&text=');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -242,7 +238,7 @@
   <div
     class="linkedin"
     title="Share this on Linkedin"
-    onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx.html&title=&summary=&source=');"
+    onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again.html&title=&summary=&source=');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -253,7 +249,7 @@
   <div
     class="mail"
     title="Share this through Email"
-    onclick="window.open('mailto:?&body=https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx.html');"
+    onclick="window.open('mailto:?&body=https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again.html');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -270,30 +266,54 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="blogpost">
-        <p>I saw some errors in my paperless-ngx logs recently:</p>
+        <p class="center"><strong>You can access the results of this blog <a href="/aurora.html">here</a></strong></p>
 
-<pre><code class="language-log">[2022-11-09 15:33:13,556] [ERROR] [paperless_mail] 
-  Error while authenticating account paperless gmail: 
-    Response status "OK" expected, but "NO" received. 
-    Data: [b'[AUTHENTICATIONFAILED] Invalid credentials (Failure)']
-</code></pre>
+<p>I live in Scotland and I have been getting constant messages about the Northern Lights in the sky from my Mum. I <strong>really</strong> want to see them but have to travel out of the city to escape the light polution. I recently discovered that the National Oceanic and Atmospheric Administration (NOAA) have service that provideds up to date Aurora forecasts for both hemispheres:</p>
 
-<p>After doing some digging, I discovered the following that will be affecting a lot of Paperless-ngx users with dedicated gmail accounts for ingress.</p>
+<ul>
+  <li><a href="https://services.swpc.noaa.gov/images/aurora-forecast-northern-hemisphere.jpg">Northern</a></li>
+  <li><a href="https://services.swpc.noaa.gov/images/aurora-forecast-southern-hemisphere.jpg">Southern</a></li>
+</ul>
 
-<p>As of 30/05/2022, <a href="https://support.google.com/accounts/answer/6010255">Google stopped supporting the <em>Less Secure Apps</em> mode</a> which was often used to enable Paperless-NG to work with GMail via IMAP. Now, you need to enable 2FA and then generate an <em>App Password</em> (with instructions <a href="https://support.google.com/accounts/answer/185833">here</a>). This password is then used within paperless-ngx like the account password previously.</p>
+<p>This inspired me to make a dynamically updating wallpaper for my desktop. I see this multiple times a day so should never miss another aurora borealis!</p>
 
-<p>For more guidance on how to set up Paperless-ngx with automated email ingress and rules, have a look at my other article <a href="/paperless-ng_on_localy_hosted_rpi.html">here</a></p>
+<h2 id="the-code">The Code</h2>
 
-<h2 id="tips">Tips</h2>
+<p>This is a really simple website that uses the <code class="language-plaintext highlighter-rouge">background</code> CSS properties to correctly display the image.</p>
 
-<ol>
-  <li>Make sure to select <strong>Mail</strong> as the app type. You’ll then want to select <em>Other Custom Name</em> for the device type.
-<img src="/static/img/2022-11-09_gmail_with_paperless-ngx/2.png" alt="B" /></li>
-  <li>Make sure to use a meaningful name
-<img src="/static/img/2022-11-09_gmail_with_paperless-ngx/3.png" alt="C" /></li>
-  <li>The app password is only ever shown once so make sure to copy it there and then. It is made up of 16 characters. <strong>DO NOT SHARE OR RE-USE THIS PASSWORD</strong>
-<img src="/static/img/2022-11-09_gmail_with_paperless-ngx/4.png" alt="D" /></li>
-</ol>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;style&gt;</span>
+<span class="nt">body</span> <span class="p">{</span>
+  <span class="nl">background-image</span><span class="p">:</span> <span class="sx">url('http://services.swpc.noaa.gov/images/aurora-forecast-northern-hemisphere.jpg')</span><span class="p">;</span>
+  <span class="nl">background-repeat</span><span class="p">:</span> <span class="nb">no-repeat</span><span class="p">;</span>
+  <span class="nl">background-attachment</span><span class="p">:</span> <span class="nb">fixed</span><span class="p">;</span>
+  <span class="nl">background-size</span><span class="p">:</span> <span class="n">contain</span><span class="p">;</span>
+  <span class="nl">background-position</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"refresh"</span> <span class="na">content=</span><span class="s">"900"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;meta http-equiv="refresh" content="900"&gt;</code> ensures that the image is updated every 15 minutes.</p>
+
+<h2 id="the-execution">The Execution</h2>
+
+<p>Now set your wallpaper from a URL. This is easy to do on most machines:</p>
+
+<ul>
+  <li><a href="https://www.intowindows.com/how-to-set-a-webpage-as-desktop-background-in-windows-10/">Windows</a></li>
+  <li><a href="https://store.kde.org/p/1324580">Linux KDE</a> (this is the one I use)</li>
+  <li><a href="https://www.simplehelp.net/2021/07/14/how-to-set-a-web-page-as-the-desktop-background-in-macos/">MacOS</a></li>
+  <li><a href="https://letmegooglethat.com/?q=HTML+Wallpaper+For+My+OS">All other OSes</a></li>
+</ul>
+
+<h2 id="the-result">The Result</h2>
+
+<p class="centre"><img src="/static/img/2023-04-24_aurora_wallpaper.png" alt="Screenshot of two monitors, one showing the Aurora forecast" class="img-responsive" />
+<em>Screenshot of my two monitors (left=landscape, right=potrait) showing the result</em></p>
 
         <hr />
         <div class="related-posts">
@@ -302,15 +322,15 @@
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                September 25, 2021
+                February 10, 2022
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/paperless-ng_on_localy_hosted_rpi.html"
-                  >Paperless-ng On Raspberry Pi With Email And Samba</a
+                  href="/export_images_from_jupyter_notebook.html"
+                  >How To Easily Export Figures From Your Jupyter Notebooks</a
                 >
               </h6>
             </div>
@@ -319,15 +339,15 @@
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                October  3, 2021
+                January  7, 2022
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html"
-                  >Scheduling Backups To OneDrive For Paperless-ng Using RClone</a
+                  href="/how_to_make_your_blog_searchable.html"
+                  >How To Make Your Blog Searchable Using Algolia</a
                 >
               </h6>
             </div>
@@ -336,15 +356,15 @@
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                March 21, 2022
+                March 22, 2022
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/upgrading_from_paperless-ng_to_paperless_ngx.html"
-                  >Upgrading from Paperless-NG to Paperless-NGX</a
+                  href="/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html"
+                  >Pydantic vs Protobuf vs Namedtuples vs Dataclasses</a
                 >
               </h6>
             </div>
