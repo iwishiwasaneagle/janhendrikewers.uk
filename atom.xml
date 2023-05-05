@@ -6,13 +6,42 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-04-24T16:54:22Z</updated>
+  <updated>2023-05-05T15:04:47Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">A Simple Linux Counter</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/a-simple-linux-counter.html/?source=RSS" />
+    <id>https://janhendrikewers.uk/a-simple-linux-counter</id>
+    <published>2023-05-05T14:54:00Z</published>
+    <updated>2023-05-05T14:54:00Z</updated>
+    <content type="html"><![CDATA[ <p>I’m currently marking exams digitally. All the questions are merged into a single PDF so I wanted to count how many I had marked without manually going back through. I couldn’t quickly find something on StackOverflow and that’s how this very simple, but effective, counter came to be.</p>
+
+<h2 id="the-code">The Code</h2>
+
+<p>Copy-paste the following or download it here: <a href="/static/other/counter.sh"><code class="language-plaintext highlighter-rouge">counter.sh</code></a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">FILE</span><span class="o">=</span>~/.counter
+<span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$FILE</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span>
+<span class="k">then
+    </span><span class="nb">echo </span>0 <span class="o">&gt;</span> <span class="nv">$FILE</span>
+<span class="k">fi
+</span><span class="nv">C</span><span class="o">=</span><span class="k">$((</span><span class="si">$(</span><span class="nb">cat</span> <span class="nv">$FILE</span><span class="si">)</span><span class="o">+</span><span class="m">1</span><span class="k">))</span> 
+<span class="nb">echo</span> <span class="nv">$C</span> <span class="o">&gt;</span> <span class="nv">$FILE</span>
+<span class="nv">OUTPUT</span><span class="o">=</span><span class="si">$(</span>notify-send <span class="s2">"Counter incremented"</span> <span class="nv">$C</span> <span class="nt">-A</span> <span class="nv">reset</span><span class="o">=</span><span class="s1">'Reset counter'</span><span class="si">)</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$OUTPUT</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">"reset"</span> <span class="o">]</span>
+<span class="k">then
+    </span><span class="nb">rm</span> <span class="nv">$FILE</span>
+    notify-send <span class="s2">"Counter has been reset"</span>
+<span class="k">fi</span>
+</code></pre></div></div>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">How To Never Miss The Aurora Borealis Again!</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again.html/?source=RSS" />
@@ -591,98 +620,6 @@ What I really appreciate about Plausible is not invading the privacy of the peop
   <li>The app password is only ever shown once so make sure to copy it there and then. It is made up of 16 characters. <strong>DO NOT SHARE OR RE-USE THIS PASSWORD</strong>
 <img src="/static/img/2022-11-09_gmail_with_paperless-ngx/4.png" alt="D" /></li>
 </ol>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">One Python Import Quirk You Need to Know, Or Why The Heck Is That A Function?</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-do-python-imports-work.html/?source=RSS" />
-    <id>https://janhendrikewers.uk/how-do-python-imports-work</id>
-    <published>2022-09-12T00:00:00Z</published>
-    <updated>2022-09-12T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>Any budding python program has been there. You’ve just made a wonderful new project with an amazingly descriptive file structure! Well done you!</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>foo
-├── bar
-│   ├── bar.py
-│   └── __init__.py
-└── __init__.py
-</code></pre></div></div>
-
-<p>Now, <code class="language-plaintext highlighter-rouge">foo/__init__.py</code> is empty making foo a module, and since <code class="language-plaintext highlighter-rouge">foo/bar</code> also has a <code class="language-plaintext highlighter-rouge">__init__.py</code> file, it is a submodule. For the purposes of this little demonstration, the files are as follows:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># foo/bar/__init__.py
-</span><span class="kn">from</span> <span class="n">.bar</span> <span class="kn">import</span> <span class="n">bar</span>
-
-<span class="c1"># foo/bar/bar.py
-</span><span class="s">"""
-This is a really important module!
-"""</span>
-
-<span class="k">def</span> <span class="nf">bar</span><span class="p">():</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Hello, World!"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Everything works real nicely except you find yourself needing to call <code class="language-plaintext highlighter-rouge">help()</code> on the <code class="language-plaintext highlighter-rouge">bar</code> sub-submodule (i.e. <code class="language-plaintext highlighter-rouge">foo.bar.bar</code> not <code class="language-plaintext highlighter-rouge">foo.bar.bar.bar</code>). How do we do this?</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="n">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
-<span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
-
-<span class="nf">bar</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p>Well, that was expected right? Let’s try something different…</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="n">foo.bar.bar</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
-<span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
-
-<span class="nf">bar</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p>Shoot! Same again.</p>
-
-<p>How about…</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="n">foo.bar</span> <span class="k">as</span> <span class="n">b</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
-<span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">baz</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
-
-<span class="nf">baz</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p>You see what’s going on here?</p>
-
-<p>Because we’ve named our function the same as the submodule(yes, <code class="language-plaintext highlighter-rouge">bar.py</code> is being treated as a submodule within the submodule <code class="language-plaintext highlighter-rouge">bar</code>), and we’re <strong>OVERWRITING</strong> the submodule’s name in <code class="language-plaintext highlighter-rouge">foo/bar/__init__.py</code>, it’s impossible to access anything within the submodule other than <code class="language-plaintext highlighter-rouge">bar()</code>. However, with an empty init file, we could have called help on the submodule as:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="n">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
-<span class="n">Help</span> <span class="n">on</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span> <span class="ow">in</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
-
-<span class="n">NAME</span>
-    <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span> <span class="o">-</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">really</span> <span class="kn">import</span> <span class="n">module</span><span class="err">!</span>
-
-<span class="n">FUNCTIONS</span>
-    <span class="nf">bar</span><span class="p">()</span>
-
-<span class="n">FILE</span>
-    <span class="n">foo</span><span class="o">/</span><span class="n">bar</span><span class="o">/</span><span class="n">bar</span><span class="p">.</span><span class="n">py</span>
-</code></pre></div></div>
-
-<h2 id="key-takeaways">Key Takeaways</h2>
-
-<ol>
-  <li>Don’t create additional modules within your source code if not required. A good rule of thumb is that splintering your code into submodules is only necessary if a certain <em>chunk</em> needs more than 1 file</li>
-  <li>If you need to make a submodule, then use a blank <code class="language-plaintext highlighter-rouge">__init__.py</code> file if possible</li>
-  <li>And if you have to do custom imports in your init file, and if you have to have a submodule called <code class="language-plaintext highlighter-rouge">bar</code>, then name the file <code class="language-plaintext highlighter-rouge">_bar.py</code> and the function something a little more creative such as <code class="language-plaintext highlighter-rouge">Bar</code></li>
-</ol>
-
-<p>And another top tip, make good use of the <a href="https://docs.python.org/3/tutorial/modules.html#importing-from-a-package"><code class="language-plaintext highlighter-rouge">__all__</code></a> variable.</p>
  ]]></content>
   </entry>
 

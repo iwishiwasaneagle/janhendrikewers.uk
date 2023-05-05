@@ -17,9 +17,9 @@
     />
 
     
-    <meta name="description" content="Personal blog and resume for Jan-Hendrik Ewers." />
+    <meta name="description" content="A very simple linux counter that persists over sessions" />
      
-    <title>Upgrading from Paperless-NG to Paperless-NGX</title>
+    <title>A Simple Linux Counter</title>
     
 
     <!-- Bootstrap -->
@@ -123,21 +123,17 @@
 </div>
  <div class="container">
   <div class="blog-post">
-    <h1 class="fs-3 fw-bold">Upgrading from Paperless-NG to Paperless-NGX</h1>
+    <h1 class="fs-3 fw-bold">A Simple Linux Counter</h1>
   </div>
   <div class="blog-title">
     <p class="fs-5">
-      March 21, 2022 &nbsp;&nbsp; 
+      May  5, 2023 &nbsp;&nbsp; 
 
-      <span class="badge rounded-pill">paperless-ng</span>
-
-      
-
-      <span class="badge rounded-pill">raspberry-pi</span>
+      <span class="badge rounded-pill">Linux</span>
 
       
 
-      <span class="badge rounded-pill">paperless-ngx</span>
+      <span class="badge rounded-pill">Scripting</span>
 
       
     </p>
@@ -220,7 +216,7 @@
   <div
     class="facebook"
     title="Share this on Facebook"
-    onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/upgrading_from_paperless-ng_to_paperless_ngx.html');"
+    onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/a-simple-linux-counter.html');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -231,7 +227,7 @@
   <div
     class="twitter"
     title="Share this on Twitter"
-    onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/upgrading_from_paperless-ng_to_paperless_ngx.html&text=');"
+    onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/a-simple-linux-counter.html&text=');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -242,7 +238,7 @@
   <div
     class="linkedin"
     title="Share this on Linkedin"
-    onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/upgrading_from_paperless-ng_to_paperless_ngx.html&title=&summary=&source=');"
+    onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/a-simple-linux-counter.html&title=&summary=&source=');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -253,7 +249,7 @@
   <div
     class="mail"
     title="Share this through Email"
-    onclick="window.open('mailto:?&body=https://janhendrikewers.uk/upgrading_from_paperless-ng_to_paperless_ngx.html');"
+    onclick="window.open('mailto:?&body=https://janhendrikewers.uk/a-simple-linux-counter.html');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -270,83 +266,47 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="blogpost">
-        <p>As of February 2022, the paperless-ng community created a <a href="https://github.com/paperless-ngx/paperless-ngx">new fork</a> to continue development due to the inactivity on the <a href="https://github.com/jonaswinkler/paperless-ng">original repo</a> <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. This has means new docker images, new configs, etc.</p>
+        <p>I’m currently marking exams digitally. All the questions are merged into a single PDF so I wanted to count how many I had marked without manually going back through. I couldn’t quickly find something on StackOverflow and that’s how this very simple, but effective, counter came to be.</p>
 
-<p>This post serves as a quick amendment to my previous posts on how to set up paperless-ng on <a href="/paperless-ng_on_localy_hosted_rpi.html">a raspberry pi with samba</a> and with <a href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">automated backups using rclone</a>.</p>
+<h2 id="the-code">The Code</h2>
 
-<h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
+<p>Copy-paste the following or download it here: <a href="/static/other/counter.sh"><code class="language-plaintext highlighter-rouge">counter.sh</code></a></p>
 
-<ul id="markdown-toc">
-  <li><a href="#new-docker-containers" id="markdown-toc-new-docker-containers">New Docker Containers</a></li>
-  <li><a href="#new-best-practices-for-redis-broker" id="markdown-toc-new-best-practices-for-redis-broker">New Best Practices For Redis Broker</a></li>
-  <li><a href="#in-action" id="markdown-toc-in-action">In Action</a></li>
-  <li><a href="#fin" id="markdown-toc-fin"><em>Fin.</em></a></li>
-</ul>
-
-<h2 id="new-docker-containers">New Docker Containers</h2>
-
-<p>In theory, this should be a plug-and-play update as the image is identical except for the new software updates. The biggest difference is that the <a href="https://hub.docker.com/r/jonaswinkler/paperless-ng">old image</a> was hosted on <a href="https://hub.docker.com">dockerhub</a> and the <a href="https://github.com/paperless-ngx/paperless-ngx/pkgs/container/paperless-ngx">new image</a> is hosted on the <a href="https://github.com/features/packages">github container registry</a> (as per <a href="https://github.com/paperless-ngx/paperless-ngx/pull/104">#104</a>).</p>
-
-<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">150c150
-</span><span class="gd">&lt;     image: jonaswinkler/paperless-ng:latest
-</span><span class="p">---
-</span><span class="gi">&gt;     image: ghcr.io/paperless-ngx/paperless-ngx:latest
-</span></code></pre></div></div>
-
-<h2 id="new-best-practices-for-redis-broker">New Best Practices For Redis Broker</h2>
-
-<p>As of <a href="https://github.com/paperless-ngx/paperless-ngx/releases/tag/ngx-1.6.0">v1.6.0</a>, it is suggested to use <a href="https://github.com/paperless-ngx/paperless-ngx/commit/bad4be4cbc7254611e720bad8fca4517f24fe210">named volumes</a> for the redis broker.</p>
-
-<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">147a148,149
-</span><span class="gi">&gt;     volumes:
-&gt;       - redisdata:/data
-</span><span class="p">227a230,232
-</span><span class="gi">&gt;
-&gt;   volumes:
-&gt;     redisdata
-</span></code></pre></div></div>
-
-<p>I personally haven’t bothered with this, as redis is meant to be a cache and not permanent storage.</p>
-
-<h2 id="in-action">In Action</h2>
-
-<p>And just like that, I’ve upgrade from Paperless-NG 1.5.0 to Paperless-NGX 1.6.0. So far I can’t really notice any major differences <em>but that’s the point</em>. It’s a continuation of the project, not an entirely new version!</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ubuntu@ubuntu:~/paperless<span class="nv">$ </span>vim docker-compose.yml
-ubuntu@ubuntu:~/paperless<span class="nv">$ </span>docker-compose stop paperless
-Stopping paperless ... <span class="k">done
-</span>ubuntu@ubuntu:~/paperless<span class="nv">$ </span>docker-compose up <span class="nt">--no-deps</span> <span class="nt">--build</span> paperless
-279a020076a7: Pull <span class="nb">complete</span>
-...
-5624cdf6a4f1: Pull <span class="nb">complete
-</span>Digest: sha256:f2f2d77cb7898a338314a59103b1b403807a7fa479b78489edb0ebb8de477d15
-Status: Downloaded newer image <span class="k">for </span>ghcr.io/paperless-ngx/paperless-ngx:latest
-Recreating paperless ... <span class="k">done
-</span>Attaching to paperless
-paperless                 | Paperless-ngx docker container starting...
-paperless                 | Creating directory /tmp/paperless
-...
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">FILE</span><span class="o">=</span>~/.counter
+<span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$FILE</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span>
+<span class="k">then
+    </span><span class="nb">echo </span>0 <span class="o">&gt;</span> <span class="nv">$FILE</span>
+<span class="k">fi
+</span><span class="nv">C</span><span class="o">=</span><span class="k">$((</span><span class="si">$(</span><span class="nb">cat</span> <span class="nv">$FILE</span><span class="si">)</span><span class="o">+</span><span class="m">1</span><span class="k">))</span> 
+<span class="nb">echo</span> <span class="nv">$C</span> <span class="o">&gt;</span> <span class="nv">$FILE</span>
+<span class="nv">OUTPUT</span><span class="o">=</span><span class="si">$(</span>notify-send <span class="s2">"Counter incremented"</span> <span class="nv">$C</span> <span class="nt">-A</span> <span class="nv">reset</span><span class="o">=</span><span class="s1">'Reset counter'</span><span class="si">)</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$OUTPUT</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">"reset"</span> <span class="o">]</span>
+<span class="k">then
+    </span><span class="nb">rm</span> <span class="nv">$FILE</span>
+    notify-send <span class="s2">"Counter has been reset"</span>
+<span class="k">fi</span>
 </code></pre></div></div>
-
-<h2 id="fin"><em>Fin.</em></h2>
-
-<p>That’s it for <strong>now</strong>. I’m involved in a <a href="https://github.com/paperless-ngx/paperless-ngx/pull/27">PR #27</a> to use a <a href="https://github.com/iwishiwasaneagle/tika-docker">Apache Tika</a> container with ARM support. Once that gets merged I will probably update this post, as well as create a new and more in-depth longer one.</p>
-
-<p>And remember, always create a backup before changing your system! I have my <a href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">rlcone setup</a> but still like doing a quick <code class="language-plaintext highlighter-rouge">tar -czvf paperless paperless.tar.gz</code> before an upgrade <em>just in case</em>.</p>
-
-<hr />
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p>Discussions can be found in <a href="https://github.com/jonaswinkler/paperless-ng/issues/1599">#1599</a> and <a href="https://github.com/jonaswinkler/paperless-ng/issues/1632">#1632</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>
 
         <hr />
         <div class="related-posts">
           <h5>Related Posts</h5>
+          
+          <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <h6 class="text-sm-start text-md-end text-lg-end">
+                August  1, 2022
+              </h6>
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8">
+              <h6 class="text-start">
+                <a
+                  class="text-decoration-none plausible-event-name=Related+Post+Click"
+                  href="/obsidian-templater-daily-notes-with-dynamic-linking.html"
+                  >Custom Obsidian Templater Daily Notes Template With Dynamic Linking</a
+                >
+              </h6>
+            </div>
+          </div>
           
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
@@ -368,32 +328,15 @@ paperless                 | Creating directory /tmp/paperless
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                October  3, 2021
+                September 12, 2022
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html"
-                  >Scheduling Backups To OneDrive For Paperless-ng Using RClone</a
-                >
-              </h6>
-            </div>
-          </div>
-          
-          <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <h6 class="text-sm-start text-md-end text-lg-end">
-                April 19, 2023
-              </h6>
-            </div>
-            <div class="col-sm-8 col-md-8 col-lg-8">
-              <h6 class="text-start">
-                <a
-                  class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/plausible_analytics_on_a_raspberry_pi_with_SSL.html"
-                  >Hosting Plausible Analytics On A Raspberry Pi 4 with SSL</a
+                  href="/how-do-python-imports-work.html"
+                  >One Python Import Quirk You Need to Know, Or Why The Heck Is That A Function?</a
                 >
               </h6>
             </div>
