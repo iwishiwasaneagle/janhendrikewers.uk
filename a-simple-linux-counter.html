@@ -268,24 +268,8 @@
       <div class="blogpost">
         <p>I’m currently marking exams digitally. All the questions are merged into a single PDF so I wanted to count how many I had marked without manually going back through. I couldn’t quickly find something on StackOverflow and that’s how this very simple, but effective, counter came to be.</p>
 
-<h2 id="the-code">The Code</h2>
+<script src="https://gist.github.com/iwishiwasaneagle/f6ce7445146c222d894372e6a1287540.js"></script>
 
-<p>Copy-paste the following or download it here: <a href="/static/other/counter.sh"><code class="language-plaintext highlighter-rouge">counter.sh</code></a></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">FILE</span><span class="o">=</span>~/.counter
-<span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$FILE</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span>
-<span class="k">then
-    </span><span class="nb">echo </span>0 <span class="o">&gt;</span> <span class="nv">$FILE</span>
-<span class="k">fi
-</span><span class="nv">C</span><span class="o">=</span><span class="k">$((</span><span class="si">$(</span><span class="nb">cat</span> <span class="nv">$FILE</span><span class="si">)</span><span class="o">+</span><span class="m">1</span><span class="k">))</span> 
-<span class="nb">echo</span> <span class="nv">$C</span> <span class="o">&gt;</span> <span class="nv">$FILE</span>
-<span class="nv">OUTPUT</span><span class="o">=</span><span class="si">$(</span>notify-send <span class="s2">"Counter incremented"</span> <span class="nv">$C</span> <span class="nt">-A</span> <span class="nv">reset</span><span class="o">=</span><span class="s1">'Reset counter'</span><span class="si">)</span>
-<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$OUTPUT</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">"reset"</span> <span class="o">]</span>
-<span class="k">then
-    </span><span class="nb">rm</span> <span class="nv">$FILE</span>
-    notify-send <span class="s2">"Counter has been reset"</span>
-<span class="k">fi</span>
-</code></pre></div></div>
 
         <hr />
         <div class="related-posts">
@@ -294,15 +278,15 @@
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                August  1, 2022
+                January  7, 2022
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/obsidian-templater-daily-notes-with-dynamic-linking.html"
-                  >Custom Obsidian Templater Daily Notes Template With Dynamic Linking</a
+                  href="/how_to_make_your_blog_searchable.html"
+                  >How To Make Your Blog Searchable Using Algolia</a
                 >
               </h6>
             </div>
@@ -311,15 +295,15 @@
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                September 25, 2021
+                May  9, 2022
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/paperless-ng_on_localy_hosted_rpi.html"
-                  >Paperless-ng On Raspberry Pi With Email And Samba</a
+                  href="/taking_a_step_in_the_general_direction_of_good_git_opsec.html"
+                  >Taking A Step In The General Direction Of Good Git OpSec</a
                 >
               </h6>
             </div>
@@ -328,15 +312,15 @@
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                September 12, 2022
+                October  3, 2021
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/how-do-python-imports-work.html"
-                  >One Python Import Quirk You Need to Know, Or Why The Heck Is That A Function?</a
+                  href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html"
+                  >Scheduling Backups To OneDrive For Paperless-ng Using RClone</a
                 >
               </h6>
             </div>

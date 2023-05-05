@@ -6,7 +6,7 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-05-05T15:04:47Z</updated>
+  <updated>2023-05-05T15:17:45Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
@@ -21,24 +21,8 @@
     <updated>2023-05-05T14:54:00Z</updated>
     <content type="html"><![CDATA[ <p>I’m currently marking exams digitally. All the questions are merged into a single PDF so I wanted to count how many I had marked without manually going back through. I couldn’t quickly find something on StackOverflow and that’s how this very simple, but effective, counter came to be.</p>
 
-<h2 id="the-code">The Code</h2>
+<script src="https://gist.github.com/iwishiwasaneagle/f6ce7445146c222d894372e6a1287540.js"></script>
 
-<p>Copy-paste the following or download it here: <a href="/static/other/counter.sh"><code class="language-plaintext highlighter-rouge">counter.sh</code></a></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">FILE</span><span class="o">=</span>~/.counter
-<span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$FILE</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span>
-<span class="k">then
-    </span><span class="nb">echo </span>0 <span class="o">&gt;</span> <span class="nv">$FILE</span>
-<span class="k">fi
-</span><span class="nv">C</span><span class="o">=</span><span class="k">$((</span><span class="si">$(</span><span class="nb">cat</span> <span class="nv">$FILE</span><span class="si">)</span><span class="o">+</span><span class="m">1</span><span class="k">))</span> 
-<span class="nb">echo</span> <span class="nv">$C</span> <span class="o">&gt;</span> <span class="nv">$FILE</span>
-<span class="nv">OUTPUT</span><span class="o">=</span><span class="si">$(</span>notify-send <span class="s2">"Counter incremented"</span> <span class="nv">$C</span> <span class="nt">-A</span> <span class="nv">reset</span><span class="o">=</span><span class="s1">'Reset counter'</span><span class="si">)</span>
-<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$OUTPUT</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">"reset"</span> <span class="o">]</span>
-<span class="k">then
-    </span><span class="nb">rm</span> <span class="nv">$FILE</span>
-    notify-send <span class="s2">"Counter has been reset"</span>
-<span class="k">fi</span>
-</code></pre></div></div>
  ]]></content>
   </entry>
 
