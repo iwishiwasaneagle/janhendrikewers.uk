@@ -327,11 +327,11 @@
         <span class="n">json</span><span class="p">.</span><span class="n">JSONDecoder</span><span class="p">.</span><span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">object_hook</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">object_hook</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-        <span class="n">_type</span> <span class="o">=</span> <span class="n">obj</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s">'_type'</span><span class="p">)</span>
+        <span class="n">_type</span> <span class="o">=</span> <span class="n">obj</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">'</span><span class="s">_type</span><span class="sh">'</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">obj</span>
         
-        <span class="k">del</span> <span class="n">obj</span><span class="p">[</span><span class="s">'_type'</span><span class="p">]</span> <span class="c1"># Delete the `_type` key as it isn't used in the models
+        <span class="k">del</span> <span class="n">obj</span><span class="p">[</span><span class="sh">'</span><span class="s">_type</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># Delete the `_type` key as it isn't used in the models
 </span>        
         <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">.</span><span class="n">__name__</span><span class="p">:</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]}</span> <span class="c1"># Create a look-up object to avoid an if-else chain
 </span>        
