@@ -295,9 +295,9 @@ This is a really important module!
 
 <p>Everything works real nicely except you find yourself needing to call <code class="language-plaintext highlighter-rouge">help()</code> on the <code class="language-plaintext highlighter-rouge">bar</code> sub-submodule (i.e. <code class="language-plaintext highlighter-rouge">foo.bar.bar</code> not <code class="language-plaintext highlighter-rouge">foo.bar.bar.bar</code>). How do we do this?</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="n">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="n">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
 
-<span class="gp">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
 <span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
 
 <span class="nf">bar</span><span class="p">()</span>
@@ -305,9 +305,9 @@ This is a really important module!
 
 <p>Well, that was expected right? Let’s try something different…</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="n">foo.bar.bar</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="n">foo.bar.bar</span>
 
-<span class="gp">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
 <span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
 
 <span class="nf">bar</span><span class="p">()</span>
@@ -317,9 +317,9 @@ This is a really important module!
 
 <p>How about…</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="n">foo.bar</span> <span class="k">as</span> <span class="n">b</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="n">foo.bar</span> <span class="k">as</span> <span class="n">b</span>
 
-<span class="gp">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">bar</span><span class="p">)</span>
 <span class="n">Help</span> <span class="n">on</span> <span class="n">function</span> <span class="n">baz</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
 
 <span class="nf">baz</span><span class="p">()</span>
@@ -329,9 +329,9 @@ This is a really important module!
 
 <p>Because we’ve named our function the same as the submodule(yes, <code class="language-plaintext highlighter-rouge">bar.py</code> is being treated as a submodule within the submodule <code class="language-plaintext highlighter-rouge">bar</code>), and we’re <strong>OVERWRITING</strong> the submodule’s name in <code class="language-plaintext highlighter-rouge">foo/bar/__init__.py</code>, it’s impossible to access anything within the submodule other than <code class="language-plaintext highlighter-rouge">bar()</code>. However, with an empty init file, we could have called help on the submodule as:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="n">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="n">foo.bar</span> <span class="kn">import</span> <span class="n">bar</span>
 
-<span class="gp">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nf">help</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span>
 <span class="n">Help</span> <span class="n">on</span> <span class="n">module</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">.</span><span class="n">bar</span> <span class="ow">in</span> <span class="n">foo</span><span class="p">.</span><span class="n">bar</span><span class="p">:</span>
 
 <span class="n">NAME</span>
