@@ -17,9 +17,9 @@
     />
 
     
-    <meta name="description" content="Personal blog and resume for Jan-Hendrik Ewers." />
+    <meta name="description" content="Reddit keeps your comments and posts up even after deleting your account! This guide will quickly show you how to prevent this" />
      
-    <title>How To Block YouTube Shorts In Your Feed And Inbox</title>
+    <title>How To Properly Wipe Your Reddit Account</title>
     
 
     <!-- Bootstrap -->
@@ -65,24 +65,6 @@
  
 
     <!-- mathjax support -->
-    
-    <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [
-            ["$", "$"],
-            ["\\(", "\\)"],
-          ],
-        },
-        loader: { load: ["ui/lazy"] },
-      };
-    </script>
-    <script
-      type="text/javascript"
-      id="MathJax-script"
-      async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
-    ></script>
     
   </head>
 
@@ -141,25 +123,17 @@
 </div>
  <div class="container">
   <div class="blog-post">
-    <h1 class="fs-3 fw-bold">How To Block YouTube Shorts In Your Feed And Inbox</h1>
+    <h1 class="fs-3 fw-bold">How To Properly Wipe Your Reddit Account</h1>
   </div>
   <div class="blog-title">
     <p class="fs-5">
-      January 23, 2023 &nbsp;&nbsp; 
+      June 16, 2023 &nbsp;&nbsp; 
 
-      <span class="badge rounded-pill">youtube</span>
-
-      
-
-      <span class="badge rounded-pill">ublock origin</span>
+      <span class="badge rounded-pill">reddit</span>
 
       
 
-      <span class="badge rounded-pill">shorts</span>
-
-      
-
-      <span class="badge rounded-pill">block</span>
+      <span class="badge rounded-pill">automation</span>
 
       
     </p>
@@ -242,7 +216,7 @@
   <div
     class="facebook"
     title="Share this on Facebook"
-    onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html');"
+    onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account.html');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -253,7 +227,7 @@
   <div
     class="twitter"
     title="Share this on Twitter"
-    onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html&text=');"
+    onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account.html&text=');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -264,7 +238,7 @@
   <div
     class="linkedin"
     title="Share this on Linkedin"
-    onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html&title=&summary=&source=');"
+    onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account.html&title=&summary=&source=');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -275,7 +249,7 @@
   <div
     class="mail"
     title="Share this through Email"
-    onclick="window.open('mailto:?&body=https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html');"
+    onclick="window.open('mailto:?&body=https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account.html');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -292,30 +266,86 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="blogpost">
-        <p>YouTube shorts are becoming more and more prevalent on the website. I was completely okay with this until my subscriptions and feed were starting to become completely unbearable with their presence. The nature of shorts means that content creators are uploading these clips on a much higher rate than anything else resulting in this mess. Furthermore, there is NO way of doing this natively within the website. Hopefully this short guide will help someone with the same issue.</p>
+        <p>Reddit recently introduced insane API changes, akin to those introduced by twitter, that are essentially forcing all 3rd party app creators to take down their products. <a href="https://www.reddit.com/r/apolloapp/comments/144f6xm/apollo_will_close_down_on_june_30th_reddits/">Apollo</a> was the first (as far as I am aware) with my personal favourite, <a href="https://www.reddit.com/r/baconreader/">BaconReader</a> also following along. <a href="https://www.forbes.com/sites/antoniopequenoiv/2023/06/13/reddit-stands-by-controversial-api-changes-as-subreddit-protest-continues">Thousands of subreddits partook in a protest</a> but with no sign of the Reddit leadership reversing the changes (or at least adjusting them… paid API isn’t unreasonable!). Therefore, I am going to quit the site (oh no! what will they do without my doom-scrolling) but first I will completely wipe my profile.</p>
 
-<h2 id="how-to">How To</h2>
+<p>The way reddit handles account deletion means that the username is essentially disassociated from the content it has provided. This means that reddit essentially still has all your data on its site. Thus, this quick tutorial will show you how to delete your posts and your comments. After that, you can rest easy knowing that your years of shitposting aren’t going to give reddit another penny.</p>
 
-<p>First of all you need to install uBlock Origin (<a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en">Chrome</a>, <a href="https://addons.mozilla.org/en-GB/firefox/addon/ublock-origin/">Firefox</a>). Then, open the settings page via the add-on’s pop-up</p>
+<h2 id="pre-requisits">Pre-requisits</h2>
 
-<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/a.png" alt="uBlock Origin settings button" class="img-responsive" />
-<em>uBlock Origin settings button location</em></p>
+<ol>
+  <li>You must have the reddit enhancement suite installed
+    <ul>
+      <li><a href="https://addons.mozilla.org/en-GB/firefox/addon/reddit-enhancement-suite/">Firefox</a></li>
+      <li><a href="https://chrome.google.com/webstore/detail/reddit-enhancement-suite/kbmfpngjjgdllneeigpgjifpgocmfgmb">Chrome</a></li>
+      <li><a href="https://microsoftedge.microsoft.com/addons/detail/jlhgedjpndhblehblebhncfmkkpngiep">Edge</a></li>
+    </ul>
+  </li>
+  <li>I’m now assuming that you are using the <code class="language-plaintext highlighter-rouge">old.reddit.com</code> site</li>
+</ol>
 
-<p>Finally, all you need to do is import the custom filter from <a href="https://letsblock.it/filters/youtube-shorts">here</a> within the <em>My filters</em> tab.</p>
+<h2 id="how-to">How-To</h2>
 
-<h2 id="results">Results</h2>
+<p>The below works on both the <a href="https://old.reddit.com/user/me/submitted">submitted</a> and <a href="https://old.reddit.com/user/me/comments">comments</a> pages.</p>
 
-<p>This method works exceptionally well. As you can see, there are <strong>NO</strong> shorts in a subset of my subscriptions after implementing this method.</p>
+<ol>
+  <li>Open the developer console with <code class="language-plaintext highlighter-rouge">F12</code></li>
+  <li>Paste the following javascript and press enter</li>
+</ol>
 
-<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/b.png" alt="Before" class="img-responsive" />
-<em>Before</em></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">$delButtons</span> <span class="o">=</span> <span class="nf">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">.del-button .option .yes</span><span class="dl">'</span><span class="p">),</span> <span class="nx">currentTime</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">$delButtons</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">_this</span> <span class="o">=</span> <span class="nf">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="nx">currentTime</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+    <span class="nf">setTimeout</span><span class="p">(</span>
+        <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">_this</span><span class="p">.</span><span class="nf">click</span><span class="p">();</span>
+        <span class="p">},</span>
+        <span class="nx">currentTime</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div></div>
 
-<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/c.png" alt="Before" class="img-responsive" />
-<em>After</em></p>
+<p>Once you get to the end of the page, refresh and go again!</p>
+
+<p><strong>Note:</strong> from my experience, older content might take a while to show up. Once you think you have deleted everything, give it a minute and double check!</p>
 
         <hr />
         <div class="related-posts">
           <h5>Related Posts</h5>
+          
+          <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <h6 class="text-sm-start text-md-end text-lg-end">
+                October  3, 2021
+              </h6>
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8">
+              <h6 class="text-start">
+                <a
+                  class="text-decoration-none plausible-event-name=Related+Post+Click"
+                  href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html"
+                  >Scheduling Backups To OneDrive For Paperless-ng Using RClone</a
+                >
+              </h6>
+            </div>
+          </div>
+          
+          <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <h6 class="text-sm-start text-md-end text-lg-end">
+                September 25, 2021
+              </h6>
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8">
+              <h6 class="text-start">
+                <a
+                  class="text-decoration-none plausible-event-name=Related+Post+Click"
+                  href="/paperless-ng_on_localy_hosted_rpi.html"
+                  >Paperless-ng On Raspberry Pi With Email And Samba</a
+                >
+              </h6>
+            </div>
+          </div>
           
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
@@ -329,40 +359,6 @@
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
                   href="/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html"
                   >Pydantic vs Protobuf vs Namedtuples vs Dataclasses</a
-                >
-              </h6>
-            </div>
-          </div>
-          
-          <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <h6 class="text-sm-start text-md-end text-lg-end">
-                February  7, 2023
-              </h6>
-            </div>
-            <div class="col-sm-8 col-md-8 col-lg-8">
-              <h6 class="text-start">
-                <a
-                  class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/pip_install_from_private_repos.html"
-                  >Pip Install From Private GitHub Repos</a
-                >
-              </h6>
-            </div>
-          </div>
-          
-          <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <h6 class="text-sm-start text-md-end text-lg-end">
-                October  9, 2022
-              </h6>
-            </div>
-            <div class="col-sm-8 col-md-8 col-lg-8">
-              <h6 class="text-start">
-                <a
-                  class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/gmail_app_password_with_paperless-ngx.html"
-                  >Using GMail's App Passwords With Paperless-NGX</a
                 >
               </h6>
             </div>

@@ -6,13 +6,64 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-06-15T21:42:00Z</updated>
+  <updated>2023-06-16T10:09:34Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">How To Properly Wipe Your Reddit Account</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account.html/?source=RSS" />
+    <id>https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account</id>
+    <published>2023-06-16T09:41:00Z</published>
+    <updated>2023-06-16T09:41:00Z</updated>
+    <content type="html"><![CDATA[ <p>Reddit recently introduced insane API changes, akin to those introduced by twitter, that are essentially forcing all 3rd party app creators to take down their products. <a href="https://www.reddit.com/r/apolloapp/comments/144f6xm/apollo_will_close_down_on_june_30th_reddits/">Apollo</a> was the first (as far as I am aware) with my personal favourite, <a href="https://www.reddit.com/r/baconreader/">BaconReader</a> also following along. <a href="https://www.forbes.com/sites/antoniopequenoiv/2023/06/13/reddit-stands-by-controversial-api-changes-as-subreddit-protest-continues">Thousands of subreddits partook in a protest</a> but with no sign of the Reddit leadership reversing the changes (or at least adjusting them… paid API isn’t unreasonable!). Therefore, I am going to quit the site (oh no! what will they do without my doom-scrolling) but first I will completely wipe my profile.</p>
+
+<p>The way reddit handles account deletion means that the username is essentially disassociated from the content it has provided. This means that reddit essentially still has all your data on its site. Thus, this quick tutorial will show you how to delete your posts and your comments. After that, you can rest easy knowing that your years of shitposting aren’t going to give reddit another penny.</p>
+
+<h2 id="pre-requisits">Pre-requisits</h2>
+
+<ol>
+  <li>You must have the reddit enhancement suite installed
+    <ul>
+      <li><a href="https://addons.mozilla.org/en-GB/firefox/addon/reddit-enhancement-suite/">Firefox</a></li>
+      <li><a href="https://chrome.google.com/webstore/detail/reddit-enhancement-suite/kbmfpngjjgdllneeigpgjifpgocmfgmb">Chrome</a></li>
+      <li><a href="https://microsoftedge.microsoft.com/addons/detail/jlhgedjpndhblehblebhncfmkkpngiep">Edge</a></li>
+    </ul>
+  </li>
+  <li>I’m now assuming that you are using the <code class="language-plaintext highlighter-rouge">old.reddit.com</code> site</li>
+</ol>
+
+<h2 id="how-to">How-To</h2>
+
+<p>The below works on both the <a href="https://old.reddit.com/user/me/submitted">submitted</a> and <a href="https://old.reddit.com/user/me/comments">comments</a> pages.</p>
+
+<ol>
+  <li>Open the developer console with <code class="language-plaintext highlighter-rouge">F12</code></li>
+  <li>Paste the following javascript and press enter</li>
+</ol>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">$delButtons</span> <span class="o">=</span> <span class="nf">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">.del-button .option .yes</span><span class="dl">'</span><span class="p">),</span> <span class="nx">currentTime</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">$delButtons</span><span class="p">.</span><span class="nf">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">_this</span> <span class="o">=</span> <span class="nf">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="nx">currentTime</span> <span class="o">+=</span> <span class="mi">500</span><span class="p">;</span>
+    <span class="nf">setTimeout</span><span class="p">(</span>
+        <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">_this</span><span class="p">.</span><span class="nf">click</span><span class="p">();</span>
+        <span class="p">},</span>
+        <span class="nx">currentTime</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>Once you get to the end of the page, refresh and go again!</p>
+
+<p><strong>Note:</strong> from my experience, older content might take a while to show up. Once you think you have deleted everything, give it a minute and double check!</p>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">A Simple Linux Counter</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/a-simple-linux-counter.html/?source=RSS" />
@@ -571,39 +622,6 @@ What I really appreciate about Plausible is not invading the privacy of the peop
 
 <p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/c.png" alt="Before" class="img-responsive" />
 <em>After</em></p>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">Using GMail&apos;s App Passwords With Paperless-NGX</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx.html/?source=RSS" />
-    <id>https://janhendrikewers.uk/gmail_app_password_with_paperless-ngx</id>
-    <published>2022-10-09T00:00:00Z</published>
-    <updated>2022-10-09T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>I saw some errors in my paperless-ngx logs recently:</p>
-
-<pre><code class="language-log">[2022-11-09 15:33:13,556] [ERROR] [paperless_mail] 
-  Error while authenticating account paperless gmail: 
-    Response status "OK" expected, but "NO" received. 
-    Data: [b'[AUTHENTICATIONFAILED] Invalid credentials (Failure)']
-</code></pre>
-
-<p>After doing some digging, I discovered the following that will be affecting a lot of Paperless-ngx users with dedicated gmail accounts for ingress.</p>
-
-<p>As of 30/05/2022, <a href="https://support.google.com/accounts/answer/6010255">Google stopped supporting the <em>Less Secure Apps</em> mode</a> which was often used to enable Paperless-NG to work with GMail via IMAP. Now, you need to enable 2FA and then generate an <em>App Password</em> (with instructions <a href="https://support.google.com/accounts/answer/185833">here</a>). This password is then used within paperless-ngx like the account password previously.</p>
-
-<p>For more guidance on how to set up Paperless-ngx with automated email ingress and rules, have a look at my other article <a href="/paperless-ng_on_localy_hosted_rpi.html">here</a></p>
-
-<h2 id="tips">Tips</h2>
-
-<ol>
-  <li>Make sure to select <strong>Mail</strong> as the app type. You’ll then want to select <em>Other Custom Name</em> for the device type.
-<img src="/static/img/2022-11-09_gmail_with_paperless-ngx/2.png" alt="B" /></li>
-  <li>Make sure to use a meaningful name
-<img src="/static/img/2022-11-09_gmail_with_paperless-ngx/3.png" alt="C" /></li>
-  <li>The app password is only ever shown once so make sure to copy it there and then. It is made up of 16 characters. <strong>DO NOT SHARE OR RE-USE THIS PASSWORD</strong>
-<img src="/static/img/2022-11-09_gmail_with_paperless-ngx/4.png" alt="D" /></li>
-</ol>
  ]]></content>
   </entry>
 
