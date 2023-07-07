@@ -1,13 +1,15 @@
 ---
 layout: post
-title: Pydantic vs Protobuf vs Namedtuples vs Dataclasses
-description: Comparing four of the most well known data libraries for speed, serialization performance, and automatic data type conversion/checking.
+permalink: pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html
+title: Pydantic vs Protobuf vs Namedtuples vs Dataclasses. Which Python Data Class Is Best?
+description: Comparing four of the most well known pytho data class libraries for speed, serialization performance, and automatic data type conversion/checking.
 date: "2022-03-22"
 categories: post
 tags:
   - python
   - pydantic
   - protobuf
+  - performance
 ---
 
 Before my introduction to [FastAPI](https://fastapi.tiangolo.com/) I was manually crafting classes to hold data. This was completely fine, but then [pydantic](https://pydantic-docs.helpmanual.io/) changed the way I thought about this. Who wants to write a custom `__init__` class for every data type, with type checking? However, over-time I've learnt some of it's limitations and other libraries such as [protobuf](https://github.com/protocolbuffers/protobuf) or [namedtuple](https://docs.python.org/3/library/collections.html#collections.namedtuple) kept cropping up. My hunger to over-complicate everything finally made me try them all out and this post is the result of that inability to KISS[^kiss].
@@ -82,7 +84,7 @@ That's weird... `dataclasses` don't convert the field? Apparently this is expect
 One of the largest downsides of using a data class is the additional performance overhead. In my simulations, I run hundreds of thousands of trials with multiple thousand steps so any increase in computational time is noticed.
 
 {:.centre}
-![png](/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/speed.png){:class="img-responsive"}
+![Speed comparison of instantiating the different python data classes](/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/speed.png){:class="img-responsive"}
 _Mean time to instantiate a single `Coord` class in the respective libraries_
 
 This is where we can really see the overhead of converting the types from `int` to `float` in `pydantic`. However, `protobuf` does not have nearly the same problems[^fw].
@@ -167,7 +169,7 @@ Whilst JSON is great for human-readable, easy-to-transfer data, it is not compac
 `protobuf` is the only non-JSON encoding. The inbuilt `SerializeToString` is very powerful and one of the core features of the library. Since the data class is compiled with a tool, and not just into python, it gives developers a huge advantage by easily creating highly optimized **cross-platform** data.
 
 {:.centre}
-![png](/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/size.png){:class="img-responsive"}
+![Size comparison of the various serialized python data classes](/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/size.png){:class="img-responsive"}
 _Size of the compressed data for a `Coords` class from the respective libraries_
 
 Evidently `pydantic` is the "worst". However, is it? `dataclasses` never converted the data to a float and as such, the raw JSON string will be missing the `.0`. With `2*4*15=120` bytes of missing data, the two are actually equal (`549+120 == 669`).
