@@ -17,9 +17,9 @@
     />
 
     
-    <meta name="description" content="Comparing four of the most well known data libraries for speed, serialization performance, and automatic data type conversion/checking." />
+    <meta name="description" content="Comparing four of the most well known pytho data class libraries for speed, serialization performance, and automatic data type conversion/checking." />
      
-    <title>Pydantic vs Protobuf vs Namedtuples vs Dataclasses</title>
+    <title>Pydantic vs Protobuf vs Namedtuples vs Dataclasses. Which Python Data Class Is Best?</title>
     
 
     <!-- Bootstrap -->
@@ -123,7 +123,7 @@
 </div>
  <div class="container">
   <div class="blog-post">
-    <h1 class="fs-3 fw-bold">Pydantic vs Protobuf vs Namedtuples vs Dataclasses</h1>
+    <h1 class="fs-3 fw-bold">Pydantic vs Protobuf vs Namedtuples vs Dataclasses. Which Python Data Class Is Best?</h1>
   </div>
   <div class="blog-title">
     <p class="fs-5">
@@ -138,6 +138,10 @@
       
 
       <span class="badge rounded-pill">protobuf</span>
+
+      
+
+      <span class="badge rounded-pill">performance</span>
 
       
     </p>
@@ -367,7 +371,7 @@
 
 <p>One of the largest downsides of using a data class is the additional performance overhead. In my simulations, I run hundreds of thousands of trials with multiple thousand steps so any increase in computational time is noticed.</p>
 
-<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/speed.png" alt="png" class="img-responsive" />
+<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/speed.png" alt="Speed comparison of instantiating the different python data classes" class="img-responsive" />
 <em>Mean time to instantiate a single <code class="language-plaintext highlighter-rouge">Coord</code> class in the respective libraries</em></p>
 
 <p>This is where we can really see the overhead of converting the types from <code class="language-plaintext highlighter-rouge">int</code> to <code class="language-plaintext highlighter-rouge">float</code> in <code class="language-plaintext highlighter-rouge">pydantic</code>. However, <code class="language-plaintext highlighter-rouge">protobuf</code> does not have nearly the same problems<sup id="fnref:fw" role="doc-noteref"><a href="#fn:fw" class="footnote" rel="footnote">2</a></sup>.</p>
@@ -446,7 +450,7 @@
 
 <p><code class="language-plaintext highlighter-rouge">protobuf</code> is the only non-JSON encoding. The inbuilt <code class="language-plaintext highlighter-rouge">SerializeToString</code> is very powerful and one of the core features of the library. Since the data class is compiled with a tool, and not just into python, it gives developers a huge advantage by easily creating highly optimized <strong>cross-platform</strong> data.</p>
 
-<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/size.png" alt="png" class="img-responsive" />
+<p class="centre"><img src="/static/img/2022-03-22-pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses/size.png" alt="Size comparison of the various serialized python data classes" class="img-responsive" />
 <em>Size of the compressed data for a <code class="language-plaintext highlighter-rouge">Coords</code> class from the respective libraries</em></p>
 
 <p>Evidently <code class="language-plaintext highlighter-rouge">pydantic</code> is the “worst”. However, is it? <code class="language-plaintext highlighter-rouge">dataclasses</code> never converted the data to a float and as such, the raw JSON string will be missing the <code class="language-plaintext highlighter-rouge">.0</code>. With <code class="language-plaintext highlighter-rouge">2*4*15=120</code> bytes of missing data, the two are actually equal (<code class="language-plaintext highlighter-rouge">549+120 == 669</code>).</p>
