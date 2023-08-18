@@ -6,13 +6,97 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-08-16T08:18:30Z</updated>
+  <updated>2023-08-18T14:46:05Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">Pydantic 1 vs 2: A Speed Comparison</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pydantic-1-vs-2-a-benchmark-test.html/?source=RSS" />
+    <id>https://janhendrikewers.uk/pydantic-1-vs-2-a-benchmark-test</id>
+    <published>2023-08-18T13:49:00Z</published>
+    <updated>2023-08-18T13:49:00Z</updated>
+    <content type="html"><![CDATA[ <p>Back in 2022 I did <a href="/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html">a comparison of some of the most well known python data class libraries</a> in various categories. In this blog post I came to the conclusion that pydantic was only apt for less performant applications. However, with the release of <a href="https://docs.pydantic.dev/2.0/blog/pydantic-v2-final/">Pydantic v2</a> in late June of 2023 touting 5-50x speed improvements compared to v1 due to a rewrite of the <a href="https://github.com/pydantic/pydantic-core">core logic in Rust</a>.</p>
+
+<p>So in the face of these new claims, lets put it to the test.</p>
+
+<h2 id="experimental-setup">Experimental Setup</h2>
+
+<p>My workload hasn’t changed much since the last post, so I will still have a simulation based approach.</p>
+
+<p>I made two very simple data types. <code class="language-plaintext highlighter-rouge">Coord</code> relies on purely python native types, and <code class="language-plaintext highlighter-rouge">Coords</code> holds a list of the <code class="language-plaintext highlighter-rouge">Coord</code> type.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Coord</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">z</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">heading</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span>
+
+<span class="k">class</span> <span class="nc">Coords</span><span class="p">(</span><span class="n">pydantic</span><span class="p">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Coord</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>We create the $N$ length data using the same seed to ensure it’s an apples for apples comparison across the versions.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">create_data</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">rng</span><span class="p">.</span><span class="nf">random</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="mi">3</span><span class="p">)).</span><span class="nf">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">headings</span> <span class="o">=</span> <span class="n">rng</span><span class="p">.</span><span class="nf">random</span><span class="p">(</span><span class="n">N</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">idxs</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="n">snp</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span>
+        <span class="nf">map</span><span class="p">(</span>
+            <span class="sh">""</span><span class="p">.</span><span class="n">join</span><span class="p">,</span>
+            <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_letters</span><span class="p">))[</span>
+                <span class="n">rng</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_letters</span><span class="p">),</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">positions</span><span class="p">,</span> <span class="n">headings</span><span class="p">,</span> <span class="n">idxs</span><span class="p">,</span> <span class="n">tags</span>
+</code></pre></div></div>
+
+<p>This is then used to instantiate $N$ classes of <code class="language-plaintext highlighter-rouge">Coord</code> which is then used to instantiate one class of <code class="language-plaintext highlighter-rouge">Coords</code> with</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">headings</span><span class="p">,</span> <span class="n">idxs</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">position</span><span class="p">,</span> <span class="n">heading</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">headings</span><span class="p">,</span> <span class="n">idxs</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">position</span>
+        <span class="n">coords</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="nc">Coord</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">heading</span><span class="o">=</span><span class="n">heading</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nc">Coords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Every loop of this function is timed using <a href="https://docs.python.org/3/library/time.html#time.perf_counter_ns"><code class="language-plaintext highlighter-rouge">time.perf_counter_ns</code></a>.</p>
+
+<h2 id="performance">Performance</h2>
+
+<p>We start by comparing the performance from $N=1$ to $N=100$ (with $100$ repeats at every $N$) as seen below in the figure.</p>
+
+<p class="centre"><img src="/static/img/2023-08-18-pydantic-1-vs-2-a-benchmark-test/correct_dtypes.png" alt="Speed comparison of instantiating the Pydantic data classes" class="img-responsive" />
+<em>Time taken to instantiate the data classes by Pydantic version</em></p>
+
+<p>Evidently the claims are accurate! <code class="language-plaintext highlighter-rouge">v2.1.1</code> is substantially faster than <code class="language-plaintext highlighter-rouge">v1.10.8</code> over all data points with both seemingly having an $O(n)$ relationship.</p>
+
+<p>To give Pydantic something more to chew on, we’ll feed it data types that it’ll have to convert. We’ll simply pre-emptively convert <code class="language-plaintext highlighter-rouge">float</code> to <code class="language-plaintext highlighter-rouge">int</code> and vise-versa. Not the hardest task in the world but interesting nonetheless as this occurs often in my workflows.</p>
+
+<p class="centre"><img src="/static/img/2023-08-18-pydantic-1-vs-2-a-benchmark-test/incorrect_dtypes.png" alt="Speed comparison of instantiating the Pydantic data classes with incorrect data types" class="img-responsive" />
+<em>Time taken to instantiate the data classes by Pydantic version with incorrect (but castable) data types</em></p>
+
+<p>Inpsecting the above graph, this has slightly slowed down both versions but not by much.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+
+<p>Given that the Pydantic team have taken the time and effort to rewrite the core of the library in Rust, the results are no surprise. With the massive popularity of libraries like <a href="https://fastapi.tiangolo.com/">FastAPI</a> and <a href="https://www.dynaconf.com/release_notes/#coming-in-31x">Dynaconf</a> using Pydantic for core functionality, this performance improvement will help the community massively in the form of saving on compute time. However, for cases where type checking isn’t essential, <code class="language-plaintext highlighter-rouge">namedtuples</code> and <code class="language-plaintext highlighter-rouge">dataclasses</code> are probably still the way to go for raw speed. Nonetheless, I will now consider using Pydantic in more scenarios because of these speed gains and because it’s a bloody brilliant library!</p>
+
+<p>This has been a short and sweet look into Pydantic for my own use case without touching some of the other. If you have any comparisons you would like to see next please let me know in the <a href="#comments">comments</a>!</p>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">How To Properly Wipe Your Reddit Account</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account.html/?source=RSS" />
@@ -593,35 +677,6 @@ What I really appreciate about Plausible is not invading the privacy of the peop
 <h3 id="credit">Credit</h3>
 
 <p>I got most of these ideas from <a href="https://github.com/numpy/numpy/issues/14281">numpy#14281</a> but wanted to verify them for myself.</p>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">How To Block YouTube Shorts In Your Feed And Inbox</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html/?source=RSS" />
-    <id>https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed</id>
-    <published>2023-01-23T00:00:00Z</published>
-    <updated>2023-01-23T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>YouTube shorts are becoming more and more prevalent on the website. I was completely okay with this until my subscriptions and feed were starting to become completely unbearable with their presence. The nature of shorts means that content creators are uploading these clips on a much higher rate than anything else resulting in this mess. Furthermore, there is NO way of doing this natively within the website. Hopefully this short guide will help someone with the same issue.</p>
-
-<h2 id="how-to">How To</h2>
-
-<p>First of all you need to install uBlock Origin (<a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en">Chrome</a>, <a href="https://addons.mozilla.org/en-GB/firefox/addon/ublock-origin/">Firefox</a>). Then, open the settings page via the add-on’s pop-up</p>
-
-<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/a.png" alt="uBlock Origin settings button" class="img-responsive" />
-<em>uBlock Origin settings button location</em></p>
-
-<p>Finally, all you need to do is import the custom filter from <a href="https://letsblock.it/filters/youtube-shorts">here</a> within the <em>My filters</em> tab.</p>
-
-<h2 id="results">Results</h2>
-
-<p>This method works exceptionally well. As you can see, there are <strong>NO</strong> shorts in a subset of my subscriptions after implementing this method.</p>
-
-<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/b.png" alt="Before" class="img-responsive" />
-<em>Before</em></p>
-
-<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/c.png" alt="Before" class="img-responsive" />
-<em>After</em></p>
  ]]></content>
   </entry>
 

@@ -17,7 +17,7 @@
     />
 
     
-    <meta name="description" content="Comparing four of the most well known pytho data class libraries for speed, serialization performance, and automatic data type conversion/checking." />
+    <meta name="description" content="Comparing four of the most well known python data class libraries for speed, serialization performance, and automatic data type conversion/checking." />
      
     <title>Pydantic vs Protobuf vs Namedtuples vs Dataclasses. Which Python Data Class Is Best?</title>
     
@@ -281,6 +281,8 @@
       <div class="blogpost">
         <p>Before my introduction to <a href="https://fastapi.tiangolo.com/">FastAPI</a> I was manually crafting classes to hold data. This was completely fine, but then <a href="https://pydantic-docs.helpmanual.io/">pydantic</a> changed the way I thought about this. Who wants to write a custom <code class="language-plaintext highlighter-rouge">__init__</code> class for every data type, with type checking? However, over-time I’ve learnt some of it’s limitations and other libraries such as <a href="https://github.com/protocolbuffers/protobuf">protobuf</a> or <a href="https://docs.python.org/3/library/collections.html#collections.namedtuple">namedtuple</a> kept cropping up. My hunger to over-complicate everything finally made me try them all out and this post is the result of that inability to KISS<sup id="fnref:kiss" role="doc-noteref"><a href="#fn:kiss" class="footnote" rel="footnote">1</a></sup>.</p>
 
+<p><strong>Update</strong>: A speed comparison of Pydantic v1 vs v2 can be found <a href="/pydantic-1-vs-2-a-benchmark-test.html">here</a>. This post uses Pydantic v1.</p>
+
 <h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
 
 <ul id="markdown-toc">
@@ -516,6 +518,23 @@
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
+                August 18, 2023
+              </h6>
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8">
+              <h6 class="text-start">
+                <a
+                  class="text-decoration-none plausible-event-name=Related+Post+Click"
+                  href="/pydantic-1-vs-2-a-benchmark-test.html"
+                  >Pydantic 1 vs 2: A Speed Comparison</a
+                >
+              </h6>
+            </div>
+          </div>
+          
+          <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+              <h6 class="text-sm-start text-md-end text-lg-end">
                 September 25, 2021
               </h6>
             </div>
@@ -525,23 +544,6 @@
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
                   href="/paperless-ng_on_localy_hosted_rpi.html"
                   >Paperless-ng On Raspberry Pi With Email And Samba</a
-                >
-              </h6>
-            </div>
-          </div>
-          
-          <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <h6 class="text-sm-start text-md-end text-lg-end">
-                March  8, 2022
-              </h6>
-            </div>
-            <div class="col-sm-8 col-md-8 col-lg-8">
-              <h6 class="text-start">
-                <a
-                  class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/serialization_of_pydantic_data_models_with_json_whilst_preserving_type_data.html"
-                  >Serialization Of Pydantic Data Models With JSON Whilst Preserving Type Data</a
                 >
               </h6>
             </div>
