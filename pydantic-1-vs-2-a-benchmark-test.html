@@ -367,7 +367,18 @@
 
 <p>Given that the Pydantic team have taken the time and effort to rewrite the core of the library in Rust, the results are no surprise. With the massive popularity of libraries like <a href="https://fastapi.tiangolo.com/">FastAPI</a> and <a href="https://www.dynaconf.com/release_notes/#coming-in-31x">Dynaconf</a> using Pydantic for core functionality, this performance improvement will help the community massively in the form of saving on compute time. However, for cases where type checking isn’t essential, <code class="language-plaintext highlighter-rouge">namedtuples</code> and <code class="language-plaintext highlighter-rouge">dataclasses</code> are probably still the way to go for raw speed. Nonetheless, I will now consider using Pydantic in more scenarios because of these speed gains and because it’s a bloody brilliant library!</p>
 
-<p>This has been a short and sweet look into Pydantic for my own use case without touching some of the other. If you have any comparisons you would like to see next please let me know in the <a href="#comments">comments</a>!</p>
+<h2 id="future-work">Future Work?</h2>
+
+<p>I might redo the analysis undertaken in the afformentioned <a href="/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html">previous post</a>, with some more suggestions made by my readers:</p>
+
+<ul>
+  <li><a href="https://docs.pydantic.dev/latest/usage/dataclasses/">pydantic-dataclasses</a></li>
+  <li><a href="https://atom.readthedocs.io/en/latest/">atom</a></li>
+  <li>Custom <a href="https://github.com/pybind/pybind11">pybind11</a> objects</li>
+  <li>… ?</li>
+</ul>
+
+<p>If this is something you’d be interested in, please let me know in the <a href="#comments">comments</a>!</p>
 
         <hr />
         <div class="related-posts">
@@ -410,15 +421,15 @@
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                September 25, 2021
+                March  8, 2022
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/paperless-ng_on_localy_hosted_rpi.html"
-                  >Paperless-ng On Raspberry Pi With Email And Samba</a
+                  href="/serialization_of_pydantic_data_models_with_json_whilst_preserving_type_data.html"
+                  >Serialization Of Pydantic Data Models With JSON Whilst Preserving Type Data</a
                 >
               </h6>
             </div>
