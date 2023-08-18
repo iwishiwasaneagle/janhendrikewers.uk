@@ -2,7 +2,7 @@
 layout: post
 permalink: pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html
 title: Pydantic vs Protobuf vs Namedtuples vs Dataclasses. Which Python Data Class Is Best?
-description: Comparing four of the most well known pytho data class libraries for speed, serialization performance, and automatic data type conversion/checking.
+description: Comparing four of the most well known python data class libraries for speed, serialization performance, and automatic data type conversion/checking.
 date: "2022-03-22"
 categories: post
 tags:
@@ -13,6 +13,8 @@ tags:
 ---
 
 Before my introduction to [FastAPI](https://fastapi.tiangolo.com/) I was manually crafting classes to hold data. This was completely fine, but then [pydantic](https://pydantic-docs.helpmanual.io/) changed the way I thought about this. Who wants to write a custom `__init__` class for every data type, with type checking? However, over-time I've learnt some of it's limitations and other libraries such as [protobuf](https://github.com/protocolbuffers/protobuf) or [namedtuple](https://docs.python.org/3/library/collections.html#collections.namedtuple) kept cropping up. My hunger to over-complicate everything finally made me try them all out and this post is the result of that inability to KISS[^kiss].
+
+**Update**: A speed comparison of Pydantic v1 vs v2 can be found [here]({% post_url 2023-08-18-pydantic-1-vs-2-a-benchmark-test %}). This post uses Pydantic v1.
 
 {% include toc.md %}
 
