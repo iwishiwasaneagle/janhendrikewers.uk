@@ -2,7 +2,8 @@
 highlighter: rouge
 markdown: kramdown
 include:
- - _pages
+  - _pages
+plugins: ["jekyll/scholar"]
 rdiscount:
   extensions: [smart]
 permalink: /:title.html
@@ -14,7 +15,7 @@ title: Jan-Hendrik Ewers
 author: Jan-Hendrik Ewers
 description: Personal blog and resume for Jan-Hendrik Ewers.
 avatar: profile.png
-email: j.ewers.1@research.gla.ac.uk 
+email: j.ewers.1@research.gla.ac.uk
 github: iwishiwasaneagle
 twitter: jhewers
 linkedin: jh-ewers
@@ -26,24 +27,23 @@ plausible_script: 18dcc14a8dd9f785.js
 plausible_event: bd7483245a4d6b07
 
 algolia:
-  application_id: '2PA5ICUOKI'
-  index_name: 'personal_website'
-  public_key: '0959bf81c3e205f75ceb34c1fd0b378a'
-  files_to_exclude: ['blog.html', 'atom.html', 'index.html', '404.html']
-  settings:                                                                      
-    searchableAttributes:                                                        
-      - title                                                                    
-      - headings                                                                 
-      - unordered(content)                                                       
-      - unordered(tags)                                                          
-      - unordered(url)  
+  application_id: "2PA5ICUOKI"
+  index_name: "personal_website"
+  public_key: "0959bf81c3e205f75ceb34c1fd0b378a"
+  files_to_exclude: ["blog.html", "atom.html", "index.html", "404.html"]
+  settings:
+    searchableAttributes:
+      - title
+      - headings
+      - unordered(content)
+      - unordered(tags)
+      - unordered(url)
 
 # More › http://kramdown.gettalong.org/quickref.html
 # Options › http://kramdown.gettalong.org/options.html
 kramdown:
 
-
-exclude: 
+exclude:
   - vendor
   - utils
 

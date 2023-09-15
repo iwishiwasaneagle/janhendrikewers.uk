@@ -1,0 +1,23 @@
+---
+layout: page
+title: Publications
+permalink: /publications
+scholar:
+  bibliography: references.bib
+  bibliography_list_tag: ul
+  group_by: type, year
+  type_order:
+    - article
+    - inproceedings
+  details_link: ""
+  style: _bibliography/ieee.csl
+---
+
+<link rel="stylesheet" href="/static/css/publications.css" />
+
+<div class="container">
+  <h1 class="fs-3 fw-bold">Publications</h1>
+  <div class="panel panel-default">
+    <div class="panel-body">{% bibliography -T publication %}</div>
+  </div>
+</div>
