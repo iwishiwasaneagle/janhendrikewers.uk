@@ -1,0 +1,11 @@
+.pubitem {
+    margin: 2em 0;
+    line-height: 1em;
+  }
+
+.publinks {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 8px;
+}

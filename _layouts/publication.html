@@ -1,0 +1,24 @@
+---
+---
+
+<div class="pubitem">
+  <p class="pubreference">
+    {% if entry.oa %}
+    <i class="ai ai-open-access"></i>
+    {% endif %} {{reference}}
+  </p>
+  <div class="publinks">
+    <a
+      href="{% details_link entry.key %}"
+      class="publink plausible-event-name=Publications+Page"
+      ><i class="fa fa-link"></i
+    ></a>
+    {% if entry.doi %}
+    <a
+      href="https://doi.org/{{entry.doi}}"
+      class="publink plausible-event-name=Publications+Page"
+      ><i class="ai ai-doi"></i
+    ></a>
+    {% endif %}
+  </div>
+</div>

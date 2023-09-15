@@ -8,13 +8,9 @@
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="{{ site.baseurl }}static/img/favicon.ico"
+      href="/static/img/favicon.ico"
     />
-    <link
-      rel="alternate"
-      type="application/atom+xml"
-      href="{{ site.url }}/atom.xml"
-    />
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" />
 
     {% if page.description %}
     <meta name="description" content="{{ page.description }}" />
@@ -35,16 +31,8 @@
     />
 
     <!-- Custom styles for this template -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ site.baseurl }}static/css/main.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{ site.baseurl }}static/css/syntax.css"
-    />
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/syntax.css" />
     <link
       rel="preload"
       as="style"
@@ -88,6 +76,13 @@
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
     ></script>
     {% endif %}
+
+    <!-- academicons -->
+    <!-- https://jpswalsh.github.io/academicons/ -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
   </head>
 
   <!-- Main Body-->
