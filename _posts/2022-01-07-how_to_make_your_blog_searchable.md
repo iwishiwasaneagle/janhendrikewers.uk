@@ -8,66 +8,7 @@ tags:
   - search
 ---
 
-**Note**: I've decided to remove the search from the header for now because it didn't look great. A working example is found below:
-
-<!-- autocomplete.js -->
-<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic"
-/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/reset-min.css" integrity="sha256-t2ATOGCtAIZNnzER679jwcFcKYfLlw01gli6F6oszk8=" crossorigin="anonymous">
-<div id="autocomplete" class="nav-link"></div>
-
-<script>
-  const searchClient = algoliasearch(
-    '{{ site.algolia.application_id }}',
-    '{{site.algolia.public_key}}',
-  );
-  const { autocomplete, getAlgoliaResults } = window['@algolia/autocomplete-js'];
-
-  autocomplete({
-    container: '#autocomplete',
-    placeholder: 'Search for posts',
-    openOnFocus: true,
-  getSources({ query }) {
-    return [
-      {
-        sourceId: 'posts',
-        getItems() {
-          return getAlgoliaResults({
-            searchClient,
-            queries: [
-              {
-                indexName: '{{ site.algolia.index_name }}',
-                query,
-                params: {
-                  hitsPerPage: 5,
-                  snippetEllipsisText: '…',
-                },
-              },
-            ],
-          });
-        },
-        // {% raw %}
-        templates: {
-          item({ item, createElement, components }) {
-            return createElement('a', { href: item.url, class: "text-decoration-none text-body" }, createElement('div', null, 
-                components.Highlight({ hit: item, attribute: 'title', tagName: 'strong' })
-              ),
-            );
-          },
-          noResults(){
-            return 'No Results';
-          }
-
-        },
-        // {% endraw %}
-      },
-    ]}
-});
-</script>
+**Note**: The [`jekyll-algolia`](https://github.com/algolia/jekyll-algolia) plugin has been deprecated and as such, I have decided to stop supporting the search bar for this blog. The code that was used previously to show a demo search bar can be found at the [end](#code) of the post.
 
 ---
 
@@ -201,6 +142,74 @@ Algolia has built a very excellent set of tools for us casuals to play around wi
 At the time of writing this post, I have 3 published blog posts so it works very well 100% of the time as all posts are being shown. It wil be interesting to see how my setup scales over time.
 
 If you have any comments, questions, or queries, then please use the comment section below!
+
+## Code
+
+_Added on 30/12/2023_
+
+Full code that used to display an example search bar at the top of this post.
+
+```js
+<!-- autocomplete.js -->
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic"
+/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/reset-min.css" integrity="sha256-t2ATOGCtAIZNnzER679jwcFcKYfLlw01gli6F6oszk8=" crossorigin="anonymous">
+<div id="autocomplete" class="nav-link"></div>
+
+<script>
+  const searchClient = algoliasearch(
+    '{{ site.algolia.application_id }}',
+    '{{site.algolia.public_key}}',
+  );
+  const { autocomplete, getAlgoliaResults } = window['@algolia/autocomplete-js'];
+
+  autocomplete({
+    container: '#autocomplete',
+    placeholder: 'Search for posts',
+    openOnFocus: true,
+  getSources({ query }) {
+    return [
+      {
+        sourceId: 'posts',
+        getItems() {
+          return getAlgoliaResults({
+            searchClient,
+            queries: [
+              {
+                indexName: '{{ site.algolia.index_name }}',
+                query,
+                params: {
+                  hitsPerPage: 5,
+                  snippetEllipsisText: '…',
+                },
+              },
+            ],
+          });
+        },
+        // {% raw %}
+        templates: {
+          item({ item, createElement, components }) {
+            return createElement('a', { href: item.url, class: "text-decoration-none text-body" }, createElement('div', null, 
+                components.Highlight({ hit: item, attribute: 'title', tagName: 'strong' })
+              ),
+            );
+          },
+          noResults(){
+            return 'No Results';
+          }
+
+        },
+        // {% endraw %}
+      },
+    ]}
+});
+</script>
+```
+
 
 ---
 

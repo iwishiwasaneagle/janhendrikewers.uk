@@ -28,18 +28,6 @@ plausible_event: bd7483245a4d6b07
 
 bmac_url: https://www.buymeacoffee.com/janhendrikewers.uk
 
-algolia:
-  application_id: "2PA5ICUOKI"
-  index_name: "personal_website"
-  public_key: "0959bf81c3e205f75ceb34c1fd0b378a"
-  files_to_exclude: ["blog.html", "atom.html", "index.html", "404.html"]
-  settings:
-    searchableAttributes:
-      - title
-      - headings
-      - unordered(content)
-      - unordered(tags)
-      - unordered(url)
 
 # More › http://kramdown.gettalong.org/quickref.html
 # Options › http://kramdown.gettalong.org/options.html
