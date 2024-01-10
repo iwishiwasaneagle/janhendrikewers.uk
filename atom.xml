@@ -6,12 +6,12 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2023-12-30T12:11:57Z</updated>
+  <updated>2024-01-10T17:48:50Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
-  <rights type="text">Copyright © 2023 Jan-Hendrik Ewers. All rights reserved.</rights>
+  <rights type="text">Copyright © 2024 Jan-Hendrik Ewers. All rights reserved.</rights>
   
   <entry>
     <title type="text">Pydantic 1 vs 2: A Speed Comparison</title>
