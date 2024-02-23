@@ -13,9 +13,9 @@
     <link rel="alternate" type="application/atom+xml" href="/atom.xml" />
 
     
-    <meta name="description" content="Personal blog and resume for Jan-Hendrik Ewers." />
+    <meta name="description" content="Exploring our research into how drones and algorithms could reshape search and rescue operations in Scotland." />
      
-    <title>How To Block YouTube Shorts In Your Feed And Inbox</title>
+    <title>Optimising Search and Rescue: How Algorithms Could Outperform Human Pilots</title>
     
 
     <!-- Bootstrap -->
@@ -58,24 +58,6 @@
  
 
     <!-- mathjax support -->
-    
-    <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [
-            ["$", "$"],
-            ["\\(", "\\)"],
-          ],
-        },
-        loader: { load: ["ui/lazy"] },
-      };
-    </script>
-    <script
-      type="text/javascript"
-      id="MathJax-script"
-      async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
-    ></script>
     
 
     <!-- academicons -->
@@ -148,19 +130,17 @@
 </div>
  <div class="container">
   <div class="blog-post">
-    <h1 class="fs-3 fw-bold">How To Block YouTube Shorts In Your Feed And Inbox</h1>
+    <h1 class="fs-3 fw-bold">Optimising Search and Rescue: How Algorithms Could Outperform Human Pilots</h1>
   </div>
   <div class="blog-title">
     <p class="fs-5">
-       January 23, 2023 
+       February 23, 2024 
        &nbsp;&nbsp; 
-      <span class="badge rounded-pill">youtube</span>
+      <span class="badge rounded-pill">Search and Rescue</span>
       
-      <span class="badge rounded-pill">ublock origin</span>
+      <span class="badge rounded-pill">UAV</span>
       
-      <span class="badge rounded-pill">shorts</span>
-      
-      <span class="badge rounded-pill">block</span>
+      <span class="badge rounded-pill">Research</span>
        
       <a class="plausible-event-name=Buy+Me+A+Coffee+Click" href="https://www.buymeacoffee.com/janhendrikewers.uk">
     <span class="badge rounded-pill">☕️ buy me a coffee</span></a>
@@ -244,7 +224,7 @@
   <div
     class="facebook"
     title="Share this on Facebook"
-    onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html');"
+    onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://janhendrikewers.uk/optimising-search-and-rescue.html');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -255,7 +235,7 @@
   <div
     class="twitter"
     title="Share this on Twitter"
-    onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html&text=');"
+    onclick="window.open('https://twitter.com/intent/tweet?url=https://janhendrikewers.uk/optimising-search-and-rescue.html&text=');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -266,7 +246,7 @@
   <div
     class="linkedin"
     title="Share this on Linkedin"
-    onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html&title=&summary=&source=');"
+    onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://janhendrikewers.uk/optimising-search-and-rescue.html&title=&summary=&source=');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -277,7 +257,7 @@
   <div
     class="mail"
     title="Share this through Email"
-    onclick="window.open('mailto:?&body=https://janhendrikewers.uk/how_to_block_youtube_shorts_in_your_feed.html');"
+    onclick="window.open('mailto:?&body=https://janhendrikewers.uk/optimising-search-and-rescue.html');"
   >
     <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -294,26 +274,59 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="blogpost">
-        <p>YouTube shorts are becoming more and more prevalent on the website. I was completely okay with this until my subscriptions and feed were starting to become completely unbearable with their presence. The nature of shorts means that content creators are uploading these clips on a much higher rate than anything else resulting in this mess. Furthermore, there is NO way of doing this natively within the website. Hopefully this short guide will help someone with the same issue.</p>
+        <p><em>This article is a short dive into a recent journal publication of mine titled <a href="https://doi.org/10.1002/adc2.167">Optimal Path Planning Using Psychological Profiling in Drone-assisted Missing Person Search</a>.</em></p>
 
-<h2 id="how-to">How To</h2>
+<hr />
 
-<p>First of all you need to install uBlock Origin (<a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en">Chrome</a>, <a href="https://addons.mozilla.org/en-GB/firefox/addon/ublock-origin/">Firefox</a>). Then, open the settings page via the add-on’s pop-up</p>
+<p>Search and Rescue (SAR) operations are inherently time-sensitive endeavors,
+ and this urgency amplifies when it involves locating vulnerable missing individuals like children or elderly people suffering from dementia.
+Classic search operations involve hundreds, if not thousands, of man-hours combing landscapes or mind-boggingly expensive helicopters doing the same. This is where the drone steps in. It has the height-advantage of the helicopter without the associated costs. For these reasons,  Scottish Mountain Rescue (SMR) and Police Scotland Air Support Unit (PSASU) have started experimenting with their use within search.</p>
 
-<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/a.png" alt="uBlock Origin settings button" class="img-responsive" />
-<em>uBlock Origin settings button location</em></p>
+<p>Whilst modern control systems make drones flyable by just about anyone, the route flown given the reduced flight time is highly critical. A more optimal coverage of the area means a higher chance of finding the missing person. This is what we have explored in our recent research; can a computer perform this task? To answer this question we pitted a PSASU pilot versus a computer in a mock SAR mission. Our results show that the computer can outperform a skilled police officer.</p>
 
-<p>Finally, all you need to do is import the custom filter from <a href="https://letsblock.it/filters/youtube-shorts">here</a> within the <em>My filters</em> tab.</p>
+<p>Firstly, how does the drone know where to look? This part is done by modelling the probability of finding a missing person at a point by a Probability Distribution Map (PDM). This is quite literally a black and white image, where regions of higher probability are indicated by a lighter colour. <em>Lost person behavior</em> by Rober Koester provides key data-based insights into the physcological profile of a missing person, and how they are likely to behave. This allows us to create the PDM manually by identifying that, for example, a tree is present which a hiker is likely to stop at.</p>
 
-<h2 id="results">Results</h2>
+<style>
+figure
+{
+    display: inline-block;
+    width: 33%;
+    vertical-align:top;
+}
+</style>
 
-<p>This method works exceptionally well. As you can see, there are <strong>NO</strong> shorts in a subset of my subscriptions after implementing this method.</p>
+<figure>
+    <img src="/static/img/2024-02-23-optimising-search-and-rescue/prob_map_8_jackton_map.png" width="100%" alt="Base-map" />
+    <figcaption><i>Satellite image showing a field with trees and bushes. Note that the buildings were off-limits for the testing.</i></figcaption>
+</figure>
+<figure>
+    <img src="/static/img/2024-02-23-optimising-search-and-rescue/prob_map_8_jackton.png" width="100%" alt="PDM" />
+    <figcaption><i>An manullay created PDM highlighting the cluster of bushes in the south-east.</i></figcaption>
+</figure>
+<figure>
+    <img src="/static/img/2024-02-23-optimising-search-and-rescue/prob_map_8_jackton_overlay.png" width="100%" alt="PDM overlayed onto base-map" />
+    <figcaption><i>The PDM overalyed ontop of the base-map</i></figcaption>
+</figure>
 
-<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/b.png" alt="Before" class="img-responsive" />
-<em>Before</em></p>
+<p>The next step is defining the optimisation problem over the area. We do this by rewarding the accumulation of probability under the search footprint. This also discourages revisiting <em>seen</em> areas as there is no new probability to accumulate. Both the genetic algorithm and particle swarm optimisiation were compared against one-another, with Probability Accumulation-based Optimisation Genetic Algorithm (PABO GA) being the winner.</p>
 
-<p class="centre"><img src="/static/img/2023-01-23-youtube_shorts/c.png" alt="Before" class="img-responsive" />
-<em>After</em></p>
+<p class="centre"><img src="/static/img/2024-02-23-optimising-search-and-rescue/paths_ps.png" alt="Flight paths" class="img-responsive" /></p>
+
+<p>In the figure, the flight paths from the test flights can be seen. Two flights were undertaken by the PSASU pilot, and a third that attempted to closely follow a parallel swaths (aka lawnmower) pattern.
+The latter was done to demonstrate how hard it is for the pilot to closely follow a predetermined path, rather than simply exploring the area based on intuition.</p>
+
+<p class="centre"><img src="/static/img/2024-02-23-optimising-search-and-rescue/endurance_limited_time-to-find_ps.png" alt="A graph of the results" class="img-responsive" /></p>
+
+<p>Graph above clearly shows how PABO GA has a higher accumulated probability for the majority of the flight. Interstingly, all PSASU paths are very similar when viewed from this probability-based perspective. Even with varying flight times due to endurance limitations, both <em>PS ASU 1</em> and <em>2</em> finish at roughly the same total accumulated probability.</p>
+
+<p>In conclusion, this result is a clear indication that algorithms could improve the time to find a missing person and thus save lives. Whilst the experimental results are not concrete proof that humans are redundent, it does highlight the potential in fully autonomous drones used in real search missions. Future experiments should have a higher number of trials, with tighter coupling of the PDM to the pilot’s intuition.</p>
+
+<h2 id="references">References</h2>
+
+<ol class="bibliography"><li><span id="allen_cairngorm_2019">Allen, J., &amp; Bonington, C. (2019). <i>Cairngorm John: A Life in Mountain Rescue: 10th Anniversary Edition</i>. Sandstone Press Ltd.</span><a class="details" href="/bibliography/allen_cairngorm_2019.html"></a></li>
+<li><span id="carrell_flying_2022">Carrell, S. (2022). Flying to the Rescue: Scottish Mountain Teams Are Turning to Drones. <i>The Guardian</i>.</span><a class="details" href="/bibliography/carrell_flying_2022.html"></a></li>
+<li><span id="ewers_optimal_2023">Ewers, J.-H., Anderson, D., &amp; Thomson, D. (2023). Optimal Path Planning Using Psychological Profiling in Drone-assisted Missing Person Search. <i>Advanced Control for Applications</i>, e167. https://doi.org/10.1002/adc2.167</span><a class="details" href="/bibliography/ewers_optimal_2023.html"></a></li>
+<li><span id="koester_lost_2008">Koester, R. J. (2008). <i>Lost Person Behavior: A Search and Rescue Guide on Where to Look for Land, Air, and Water</i>. dbS Productions.</span><a class="details" href="/bibliography/koester_lost_2008.html"></a></li></ol>
 
         <hr />
         <div class="related-posts">
@@ -354,15 +367,15 @@
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                March  8, 2022
+                March  7, 2023
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/serialization_of_pydantic_data_models_with_json_whilst_preserving_type_data.html"
-                >Serialization Of Pydantic Data Models With JSON Whilst Preserving Type Data</a>
+                  href="/how_your_psychological_profile_is_used_in_a_mountain_rescue_search.html"
+                >How Your Psychological Profile Is Used In A Mountain Rescue Search</a>
               </h6>
             </div>
           </div>

@@ -6,13 +6,75 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2024-01-25T00:31:04Z</updated>
+  <updated>2024-02-23T22:46:39Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2024 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">Optimising Search and Rescue: How Algorithms Could Outperform Human Pilots</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/optimising-search-and-rescue.html/?source=RSS" />
+    <id>https://janhendrikewers.uk/optimising-search-and-rescue</id>
+    <published>2024-02-23T00:00:00Z</published>
+    <updated>2024-02-23T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p><em>This article is a short dive into a recent journal publication of mine titled <a href="https://doi.org/10.1002/adc2.167">Optimal Path Planning Using Psychological Profiling in Drone-assisted Missing Person Search</a>.</em></p>
+
+<hr />
+
+<p>Search and Rescue (SAR) operations are inherently time-sensitive endeavors,
+ and this urgency amplifies when it involves locating vulnerable missing individuals like children or elderly people suffering from dementia.
+Classic search operations involve hundreds, if not thousands, of man-hours combing landscapes or mind-boggingly expensive helicopters doing the same. This is where the drone steps in. It has the height-advantage of the helicopter without the associated costs. For these reasons,  Scottish Mountain Rescue (SMR) and Police Scotland Air Support Unit (PSASU) have started experimenting with their use within search.</p>
+
+<p>Whilst modern control systems make drones flyable by just about anyone, the route flown given the reduced flight time is highly critical. A more optimal coverage of the area means a higher chance of finding the missing person. This is what we have explored in our recent research; can a computer perform this task? To answer this question we pitted a PSASU pilot versus a computer in a mock SAR mission. Our results show that the computer can outperform a skilled police officer.</p>
+
+<p>Firstly, how does the drone know where to look? This part is done by modelling the probability of finding a missing person at a point by a Probability Distribution Map (PDM). This is quite literally a black and white image, where regions of higher probability are indicated by a lighter colour. <em>Lost person behavior</em> by Rober Koester provides key data-based insights into the physcological profile of a missing person, and how they are likely to behave. This allows us to create the PDM manually by identifying that, for example, a tree is present which a hiker is likely to stop at.</p>
+
+<style>
+figure
+{
+    display: inline-block;
+    width: 33%;
+    vertical-align:top;
+}
+</style>
+
+<figure>
+    <img src="/static/img/2024-02-23-optimising-search-and-rescue/prob_map_8_jackton_map.png" width="100%" alt="Base-map" />
+    <figcaption><i>Satellite image showing a field with trees and bushes. Note that the buildings were off-limits for the testing.</i></figcaption>
+</figure>
+<figure>
+    <img src="/static/img/2024-02-23-optimising-search-and-rescue/prob_map_8_jackton.png" width="100%" alt="PDM" />
+    <figcaption><i>An manullay created PDM highlighting the cluster of bushes in the south-east.</i></figcaption>
+</figure>
+<figure>
+    <img src="/static/img/2024-02-23-optimising-search-and-rescue/prob_map_8_jackton_overlay.png" width="100%" alt="PDM overlayed onto base-map" />
+    <figcaption><i>The PDM overalyed ontop of the base-map</i></figcaption>
+</figure>
+
+<p>The next step is defining the optimisation problem over the area. We do this by rewarding the accumulation of probability under the search footprint. This also discourages revisiting <em>seen</em> areas as there is no new probability to accumulate. Both the genetic algorithm and particle swarm optimisiation were compared against one-another, with Probability Accumulation-based Optimisation Genetic Algorithm (PABO GA) being the winner.</p>
+
+<p class="centre"><img src="/static/img/2024-02-23-optimising-search-and-rescue/paths_ps.png" alt="Flight paths" class="img-responsive" /></p>
+
+<p>In the figure, the flight paths from the test flights can be seen. Two flights were undertaken by the PSASU pilot, and a third that attempted to closely follow a parallel swaths (aka lawnmower) pattern.
+The latter was done to demonstrate how hard it is for the pilot to closely follow a predetermined path, rather than simply exploring the area based on intuition.</p>
+
+<p class="centre"><img src="/static/img/2024-02-23-optimising-search-and-rescue/endurance_limited_time-to-find_ps.png" alt="A graph of the results" class="img-responsive" /></p>
+
+<p>Graph above clearly shows how PABO GA has a higher accumulated probability for the majority of the flight. Interstingly, all PSASU paths are very similar when viewed from this probability-based perspective. Even with varying flight times due to endurance limitations, both <em>PS ASU 1</em> and <em>2</em> finish at roughly the same total accumulated probability.</p>
+
+<p>In conclusion, this result is a clear indication that algorithms could improve the time to find a missing person and thus save lives. Whilst the experimental results are not concrete proof that humans are redundent, it does highlight the potential in fully autonomous drones used in real search missions. Future experiments should have a higher number of trials, with tighter coupling of the PDM to the pilot’s intuition.</p>
+
+<h2 id="references">References</h2>
+
+<ol class="bibliography"><li><span id="allen_cairngorm_2019">Allen, J., &amp; Bonington, C. (2019). <i>Cairngorm John: A Life in Mountain Rescue: 10th Anniversary Edition</i>. Sandstone Press Ltd.</span><a class="details" href="/bibliography/allen_cairngorm_2019.html"></a></li>
+<li><span id="carrell_flying_2022">Carrell, S. (2022). Flying to the Rescue: Scottish Mountain Teams Are Turning to Drones. <i>The Guardian</i>.</span><a class="details" href="/bibliography/carrell_flying_2022.html"></a></li>
+<li><span id="ewers_optimal_2023">Ewers, J.-H., Anderson, D., &amp; Thomson, D. (2023). Optimal Path Planning Using Psychological Profiling in Drone-assisted Missing Person Search. <i>Advanced Control for Applications</i>, e167. https://doi.org/10.1002/adc2.167</span><a class="details" href="/bibliography/ewers_optimal_2023.html"></a></li>
+<li><span id="koester_lost_2008">Koester, R. J. (2008). <i>Lost Person Behavior: A Search and Rescue Guide on Where to Look for Land, Air, and Water</i>. dbS Productions.</span><a class="details" href="/bibliography/koester_lost_2008.html"></a></li></ol>
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">Pydantic 1 vs 2: A Speed Comparison</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pydantic-1-vs-2-a-benchmark-test.html/?source=RSS" />
@@ -612,82 +674,6 @@ What I really appreciate about Plausible is not invading the privacy of the peop
   </li>
   <li>Treat your PATs like a password. DO NOT SHARE</li>
 </ul>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">Exploring Faster Alternatives To np.clip</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/exploring_faster_np_clip.html/?source=RSS" />
-    <id>https://janhendrikewers.uk/exploring_faster_np_clip</id>
-    <published>2023-01-24T00:00:00Z</published>
-    <updated>2023-01-24T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>I was profiling some code I had written where <code class="language-plaintext highlighter-rouge">np.clip</code> was being called a couple hundreds of millions of times. The profiler was flagging some weird related functions that seemed unimportant so I delved deeper. Turns out that as of numpy 1.17, the <code class="language-plaintext highlighter-rouge">np.clip</code> has been substantially slower than previously which has been documented <a href="https://github.com/numpy/numpy/issues/14281">here</a>. This caught my curiosity and after some experimentation I found two substantially faster methods which in turn sped up my code by $50\%$!</p>
-
-<p>Below is my log of what I tried, but if you just want results then <a href="#conclusion">here</a> is your link.</p>
-
-<p><strong>Note</strong>: These tests were undertaken using numpy version <code class="language-plaintext highlighter-rouge">1.23.5</code>.</p>
-
-<h2 id="scalar">Scalar</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">VMIN</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
-<span class="n">VMAX</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="n">X_scalar</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">rand</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="nf">clip</span><span class="p">(</span><span class="n">X_scalar</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
-<span class="o">&gt;</span> <span class="mf">11.3</span> <span class="n">µs</span> <span class="err">±</span> <span class="mi">202</span> <span class="n">ns</span> <span class="n">per</span> <span class="nf">loop </span><span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Testing the baseline gave us a fairly decent time of $11.3\mu s$.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">umath</span><span class="p">.</span><span class="nf">maximum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">umath</span><span class="p">.</span><span class="nf">minimum</span><span class="p">(</span><span class="n">X_scalar</span><span class="p">,</span> <span class="n">VMAX</span><span class="p">),</span> <span class="n">VMIN</span><span class="p">)</span>
-<span class="o">&gt;</span> <span class="mf">2.25</span> <span class="n">µs</span> <span class="err">±</span> <span class="mf">64.6</span> <span class="n">ns</span> <span class="n">per</span> <span class="nf">loop </span><span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>However, we quickly got huge gains by using max/min functions directly.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="nf">min</span><span class="p">([</span><span class="n">X_scalar</span><span class="p">,</span> <span class="n">VMAX</span><span class="p">]),</span> <span class="n">VMIN</span><span class="p">])</span>
-<span class="o">&gt;</span> <span class="mf">8.74</span> <span class="n">µs</span> <span class="err">±</span> <span class="mi">141</span> <span class="n">ns</span> <span class="n">per</span> <span class="nf">loop </span><span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Using the normal max/min functions proved still faster but not nearly as fast as calling the <code class="language-plaintext highlighter-rouge">umath</code> functions directly.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">VMIN</span> <span class="k">if</span> <span class="n">X_scalar</span> <span class="o">&lt;</span> <span class="n">VMIN</span> <span class="k">else</span> <span class="n">VMAX</span> <span class="k">if</span> <span class="n">X_scalar</span> <span class="o">&gt;</span> <span class="n">VMAX</span> <span class="k">else</span> <span class="n">X_scalar</span>
-<span class="o">&gt;</span> <span class="mf">75.2</span> <span class="n">ns</span> <span class="err">±</span> <span class="mf">7.8</span> <span class="n">ns</span> <span class="n">per</span> <span class="nf">loop </span><span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>For scalars, there is not much faster than direct logic in python it seems. Huge gains!</p>
-
-<h2 id="array">Array</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">X_array</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">rand</span><span class="p">(</span><span class="mi">50000</span><span class="p">)</span> <span class="o">-</span> <span class="n">VMAX</span><span class="p">)</span>
-</code></pre></div></div>
-<p>Again, testing the baseline:</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="nf">clip</span><span class="p">(</span><span class="n">X_array</span><span class="p">,</span> <span class="n">VMIN</span><span class="p">,</span> <span class="n">VMAX</span><span class="p">)</span>
-<span class="o">&gt;</span> <span class="mi">172</span> <span class="n">µs</span> <span class="err">±</span> <span class="mi">646</span> <span class="n">ns</span> <span class="n">per</span> <span class="nf">loop </span><span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>This gave us a very slow time of $172\mu s$ which isn’t good enough. Since using the usual min/max functions proved fruitless in the scalar case, we skip it here.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">umath</span><span class="p">.</span><span class="nf">maximum</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">umath</span><span class="p">.</span><span class="nf">minimum</span><span class="p">(</span><span class="n">X_array</span><span class="p">,</span> <span class="n">VMAX</span><span class="p">),</span> <span class="n">VMIN</span><span class="p">)</span>
-<span class="o">&gt;</span> <span class="mf">40.9</span> <span class="n">µs</span> <span class="err">±</span> <span class="mi">388</span> <span class="n">ns</span> <span class="n">per</span> <span class="nf">loop </span><span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Again, the <code class="language-plaintext highlighter-rouge">umath</code> functions were faster.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="nf">asarray</span><span class="p">([</span><span class="n">VMIN</span> <span class="k">if</span> <span class="n">Xi</span> <span class="o">&lt;</span> <span class="n">VMIN</span> <span class="k">else</span> <span class="n">VMAX</span> <span class="k">if</span> <span class="n">Xi</span> <span class="o">&gt;</span> <span class="n">VMAX</span> <span class="k">else</span> <span class="n">Xi</span> <span class="k">for</span> <span class="n">Xi</span> <span class="ow">in</span> <span class="n">X_array</span><span class="p">])</span>
-<span class="o">&gt;</span> <span class="mi">10</span> <span class="n">ms</span> <span class="err">±</span> <span class="mi">140</span> <span class="n">µs</span> <span class="n">per</span> <span class="nf">loop </span><span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">100</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>And (as expected honestly) the raw python variation was horribly slow.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>For scalars, using <code class="language-plaintext highlighter-rouge">VMIN if X &lt; VMIN else VMAX if X &gt; VMAX else X</code> is 150x faster than normal <code class="language-plaintext highlighter-rouge">np.clip</code>. However, using raw python for arrays is (expectedly) horrible. For this case, using <code class="language-plaintext highlighter-rouge">np.core.umath.maximum(np.core.umath.minimum(X, VMAX), VMIN)</code> is roughly 4x faster than <code class="language-plaintext highlighter-rouge">np.clip</code>.</p>
-
-<h3 id="credit">Credit</h3>
-
-<p>I got most of these ideas from <a href="https://github.com/numpy/numpy/issues/14281">numpy#14281</a> but wanted to verify them for myself.</p>
  ]]></content>
   </entry>
 
