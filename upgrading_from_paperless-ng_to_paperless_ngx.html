@@ -13,6 +13,8 @@
     <link rel="alternate" type="application/atom+xml" href="/atom.xml" />
 
     
+
+    
     <meta name="description" content="Personal blog and resume for Jan-Hendrik Ewers." />
      
     <title>Upgrading from Paperless-NG to Paperless-NGX</title>
@@ -274,9 +276,9 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="blogpost">
-        <p>As of February 2022, the paperless-ng community created a <a href="https://github.com/paperless-ngx/paperless-ngx">new fork</a> to continue development due to the inactivity on the <a href="https://github.com/jonaswinkler/paperless-ng">original repo</a> <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. This has means new docker images, new configs, etc.</p>
+        <p>As of February 2022, the paperless-ng community created a <a href="https://github.com/paperless-ngx/paperless-ngx">new fork</a> to continue development due to the inactivity on the <a href="https://github.com/jonaswinkler/paperless-ng">original repo</a> <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>. This has meant new docker images, new configs, etc.</p>
 
-<p>This post serves as a quick amendment to my previous posts on how to set up paperless-ng on <a href="/paperless-ng_on_localy_hosted_rpi.html">a raspberry pi with samba</a> and with <a href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">automated backups using rclone</a>.</p>
+<p>This post serves as a quick amendment to my previous posts on how to set up paperlessng on <a href="/paperless-ng_on_localy_hosted_rpi.html">a raspberry pi with samba</a> and with <a href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">automated backups using rclone</a>.</p>
 
 <h3 class="no_toc" id="table-of-contents">Table of Contents</h3>
 
@@ -338,6 +340,8 @@ paperless                 | Creating directory /tmp/paperless
 
 <p>And remember, always create a backup before changing your system! I have my <a href="/scheduled-off-site-backups-for-paperless-ng-using-rclone.html">rlcone setup</a> but still like doing a quick <code class="language-plaintext highlighter-rouge">tar -czvf paperless paperless.tar.gz</code> before an upgrade <em>just in case</em>.</p>
 
+<p>For more guidance on how to set up Paperless-ngx with automated email ingress and rules, have a look at my other article: <a href="/gmail_app_password_with_paperless-ngx.html">Using GMail’s App Passwords With Paperless-NGX</a>.</p>
+
 <hr />
 
 <div class="footnotes" role="doc-endnotes">
@@ -387,15 +391,15 @@ paperless                 | Creating directory /tmp/paperless
           <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
             <div class="col-sm-4 col-md-4 col-lg-4">
               <h6 class="text-sm-start text-md-end text-lg-end">
-                March 22, 2022
+                October  9, 2022
               </h6>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
               <h6 class="text-start">
                 <a
                   class="text-decoration-none plausible-event-name=Related+Post+Click"
-                  href="/pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html"
-                >Pydantic vs Protobuf vs Namedtuples vs Dataclasses. Which Python Data Class Is Best?</a>
+                  href="/gmail_app_password_with_paperless-ngx.html"
+                >Using GMail's App Passwords With Paperless-NGX</a>
               </h6>
             </div>
           </div>
