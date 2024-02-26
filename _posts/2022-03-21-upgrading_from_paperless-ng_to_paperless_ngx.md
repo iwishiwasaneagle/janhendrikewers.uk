@@ -69,6 +69,8 @@ That's it for **now**. I'm involved in a [PR #27][pr-27] to use a [Apache Tika][
 
 And remember, always create a backup before changing your system! I have my [rlcone setup][paperless-ng-with-automated-backups] but still like doing a quick `tar -czvf paperless paperless.tar.gz` before an upgrade _just in case_.
 
+For more guidance on how to set up Paperless-ngx with automated email ingress and rules, have a look at my other article: [Using GMail's App Passwords With Paperless-NGX]({% post_url 2022-11-09-gmail_app_password_with_paperless-ngx %}).
+
 ---
 
 [^1]: Discussions can be found in [#1599](https://github.com/jonaswinkler/paperless-ng/issues/1599) and [#1632](https://github.com/jonaswinkler/paperless-ng/issues/1632).
