@@ -29,7 +29,7 @@ class C(pydantic.BaseModel):
     baz: Union[A,B]
 ```
 
-If we were then to serialize and deserialize an instance of `C` with `baz` holding a `B` object, the resultant `C` class would actually be holding a `A` object at `baz` after all is said and done. This is because json doesn't hold type information by design which forces Pydantic to pick either `A` or `B` based on order listed in the type definition.
+If we were then to serialize from pydantic to json, and then deserialize back from json to pydantic, an instance of `C` with `baz` holding a `B` object, the resultant `C` class would actually be holding a `A` object at `baz` after all is said and done. This is because json doesn't hold type information by design which forces Pydantic to pick either `A` or `B` based on order listed in the type definition.
 
 ```python
 c = C(baz=B(foo=0.1, bar=0.2))
