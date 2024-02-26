@@ -14,7 +14,7 @@ I was profiling some code I had written where `np.clip` was being called a coupl
 
 Below is my log of what I tried, but if you just want results then [here](#conclusion) is your link.
 
-**Note**: These tests were undertaken using numpy version `1.23.5`.
+**Note**: These tests were undertaken using numpy version `1.23.5`. np clip might have been updated since.
 
 ## Scalar
 
