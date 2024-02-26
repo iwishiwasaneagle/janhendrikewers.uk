@@ -9,9 +9,9 @@ tags:
   - paperless-ngx
 ---
 
-As of February 2022, the paperless-ng community created a [new fork][paperless-ngx] to continue development due to the inactivity on the [original repo][jonaswinkler-ng] [^1]. This has means new docker images, new configs, etc.
+As of February 2022, the paperless-ng community created a [new fork][paperless-ngx] to continue development due to the inactivity on the [original repo][jonaswinkler-ng] [^1]. This has meant new docker images, new configs, etc.
 
-This post serves as a quick amendment to my previous posts on how to set up paperless-ng on [a raspberry pi with samba][paperless-ng-on-locally-hosted-pi] and with [automated backups using rclone][paperless-ng-with-automated-backups].
+This post serves as a quick amendment to my previous posts on how to set up paperlessng on [a raspberry pi with samba][paperless-ng-on-locally-hosted-pi] and with [automated backups using rclone][paperless-ng-with-automated-backups].
 
 {% include toc.md %}
 
