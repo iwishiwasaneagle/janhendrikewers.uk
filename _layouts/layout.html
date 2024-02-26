@@ -12,6 +12,10 @@
     />
     <link rel="alternate" type="application/atom+xml" href="/atom.xml" />
 
+    {% if page.noindex %}
+    <meta name="robots" content="noindex">
+    {% endif %}
+
     {% if page.description %}
     <meta name="description" content="{{ page.description }}" />
     {% else %}
