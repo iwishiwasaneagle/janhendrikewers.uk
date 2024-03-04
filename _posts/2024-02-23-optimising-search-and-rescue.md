@@ -12,7 +12,7 @@ tags:
 scholar:
   bibliography: 2024_02_23.bib
   bibliography_list_tag: ol
-  details_link: ""
+  details_link: false
 ---
 
 _This article is a short dive into a recent journal publication of mine titled [Optimal Path Planning Using Psychological Profiling in Drone-assisted Missing Person Search](https://doi.org/10.1002/adc2.167)._
