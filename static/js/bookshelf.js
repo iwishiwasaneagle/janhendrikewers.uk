@@ -8,17 +8,16 @@ function randomChoice(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-function getInitials(fullName){
+function getInitials(fullName) {
   const allNames = fullName.trim().split(' ');
   const initials = allNames.reduce((acc, curr, index) => {
-    if(index === 0 || index === allNames.length - 1){
+    if (index === 0 || index === allNames.length - 1) {
       acc = `${acc}${curr.charAt(0).toUpperCase()}`;
     }
     return acc;
   }, '');
   return initials;
 }
-
 
 let spines = Object.values(document.getElementsByClassName("spine"));
 let spinesauthors = Object.values(document.getElementsByClassName("spine-author"));
@@ -56,4 +55,17 @@ spines.map(function (s, i) {
   spinesauthors[i].innerText = getInitials(spinesauthors[i].innerText);
 
   tops[i].style.top = `${280 - randomHeight}px`;
+});
+
+
+// lazy load the book covers on hover
+let books = Object.values(document.getElementsByClassName("book"));
+books.map(function (b, i) {
+  b.onmouseover = function () {
+    let covers = b.getElementsByClassName("cover");
+    Array.from(covers).map(function (c, i) {
+      c.style.backgroundImage = "url(" + c.getAttribute("img") + ")";
+    }
+    )
+  };
 });
