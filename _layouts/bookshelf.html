@@ -28,7 +28,11 @@ layout: page
       </div>
       <div class="side top"></div>
       <div
-        img="{{book.cover}}"
+        {% if book.cover_path %}
+          img =/static/img/bookshelf/{{book.cover_path}}
+        {% elsif book.cover %}
+          img="{{book.cover}}"
+        {% endif %}
         class="side cover"
         style="cursor: pointer;"
         onclick="window.location='https://www.goodreads.com/search?q={{book.title}}';"
