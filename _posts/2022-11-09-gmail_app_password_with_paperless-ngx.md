@@ -25,6 +25,7 @@ As of 30/05/2022, [Google stopped supporting the _Less Secure Apps_ mode](https:
 For more guidance on how to set up Paperless-ngx with automated email ingress and rules, have a look at my other articles 
   - [Paperless-ng On Raspberry Pi With Email And Samba]({% post_url 2021-09-25-paperless-ng_on_localy_hosted_rpi %})
   - [Upgrading from Paperless-NG to Paperless-NGX]({% post_url 2022-03-21-upgrading_from_paperless-ng_to_paperless_ngx %})
+  - [Scheduling Backups To OneDrive For Paperless-ng Using RClone]({% post_url 2021-10-03-scheduled-off-site-backups-for-paperless-ng-using-rclone %})
 
 ## Tips
 
