@@ -98,6 +98,14 @@ body {
   background-color: #555273;
 }
 
+/* Carbonads
+-------------------------------------------------- */
+#carbonads {
+    justify-content: center;
+    width:100%;
+    display: flex;
+} 
+
 /* Footer 
 -------------------------------------------------- */
 footer {
