@@ -6,13 +6,108 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2024-04-23T15:43:10Z</updated>
+  <updated>2024-04-23T16:07:57Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
   </author>
   <rights type="text">Copyright © 2024 Jan-Hendrik Ewers. All rights reserved.</rights>
   
+  <entry>
+    <title type="text">Enhance Your Website with a Functional CSS Bookshelf</title>
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/bookshelf_for_personal_website.html/?source=RSS" />
+    <id>https://janhendrikewers.uk/bookshelf_for_personal_website</id>
+    <published>2024-04-23T00:00:00Z</published>
+    <updated>2024-04-23T00:00:00Z</updated>
+    <content type="html"><![CDATA[ <p>Building a website allows you to showcase your skills and interests, but sometimes, a static page can feel impersonal.  One way to add personality and visual interest is by incorporating a bookshelf element.  This blog post will guide you through creating a functional bookshelf using CSS (<code class="language-plaintext highlighter-rouge">bookshelf.css</code>), JavaScript (<code class="language-plaintext highlighter-rouge">bookshelf.js</code>), and HTML (<code class="language-plaintext highlighter-rouge">index.html</code>).</p>
+
+<p>The source files can be found at <a href="https://github.com/iwishiwasaneagle/virtual-bookshelf">iwishiwasaneagle/virtual-bookshelf</a> and an implementation can be found at <a href="https://github.com/iwishiwasaneagle/janhendrikewers.uk">iwishiwasaneagle/janhendrikewers.uk</a> or at <a href="https://github.com/petargyurov/petargyurov.github.io">petargyurov/petargyurov.github.io</a> without lazy-loading.</p>
+
+<h2 id="step-1-defining-the-bookshelf-with-css">Step 1: Defining the Bookshelf with CSS</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">bookshelf.css</code> file is the heart of the visual style.  Here, you’ll define the look and feel of every bookshelf component, from the shelf itself to the individual books. The provided code offers a starting point, allowing you to customize the appearance to match your website’s overall design.</p>
+
+<p>The CSS uses CSS variables (<code class="language-plaintext highlighter-rouge">--pyramid</code>, <code class="language-plaintext highlighter-rouge">--stairs</code>, etc.) to define different spine patterns.  These variables are easily interchangeable, allowing you to experiment with various looks without modifying large sections of code. Here’s an example snippet showcasing a variable definition and its usage:</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">:root</span> <span class="p">{</span>
+  <span class="py">--pyramid</span><span class="p">:</span> <span class="n">linear-gradient</span><span class="p">(</span>
+    <span class="m">315deg</span><span class="p">,</span>
+    <span class="nb">transparent</span> <span class="m">75%</span><span class="p">,</span>
+    <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span> <span class="m">255</span><span class="p">,</span> <span class="m">255</span><span class="p">,</span> <span class="m">0.1</span><span class="p">)</span> <span class="m">0</span>
+  <span class="p">),</span>
+  <span class="n">linear-gradient</span><span class="p">(</span>
+    <span class="m">45deg</span><span class="p">,</span>
+    <span class="nb">transparent</span> <span class="m">75%</span><span class="p">,</span>
+    <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span> <span class="m">255</span><span class="p">,</span> <span class="m">255</span><span class="p">,</span> <span class="m">0.1</span><span class="p">)</span> <span class="m">0</span>
+  <span class="p">),</span>
+  <span class="n">linear-gradient</span><span class="p">(</span>
+    <span class="m">135deg</span><span class="p">,</span>
+    <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span> <span class="m">255</span><span class="p">,</span> <span class="m">255</span><span class="p">,</span> <span class="m">0.2</span><span class="p">)</span> <span class="m">166px</span><span class="p">,</span>
+    <span class="nb">transparent</span> <span class="m">0</span>
+  <span class="p">),</span>
+  <span class="n">linear-gradient</span><span class="p">(</span>
+    <span class="m">45deg</span><span class="p">,</span>
+    <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0.1</span><span class="p">)</span> <span class="m">75%</span><span class="p">,</span>
+    <span class="nb">transparent</span> <span class="m">0</span>
+  <span class="p">);</span>
+  <span class="nl">background-size</span><span class="p">:</span> <span class="m">20px</span> <span class="m">20px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.spine</span> <span class="p">{</span>
+  <span class="nl">background-image</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="n">--tartan</span><span class="p">);</span> <span class="c">/* Uses the --tartan variable */</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="step-2-building-the-bookshelf-structure-with-html">Step 2: Building the Bookshelf Structure with HTML</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">index.html</code> file serves as the foundation for your webpage and defines the basic structure of the bookshelf.  The provided code includes the structure for a single book, but you can easily duplicate this structure to populate your shelf with as many books as you’d like.</p>
+
+<p>Each book is constructed using HTML’s <code class="language-plaintext highlighter-rouge">div</code> element.  These nested elements define the various parts of the book, including the cover, spine, top, and even designated areas for the title and author. Here’s an example snippet showing the HTML structure for a single book:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"book"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"side spine"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"spine-title"</span><span class="nt">&gt;</span>Blade Runner<span class="nt">&lt;/span&gt;</span>
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"spine-author"</span><span class="nt">&gt;</span>RS<span class="nt">&lt;/span&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"side top"</span><span class="nt">&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"side cover"</span> <span class="na">img=</span><span class="s">"https://janhendrikewers.uk/static/img/bookshelf/1.jpg"</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<h2 id="step-3-adding-interactivity-with-javascript">Step 3: Adding Interactivity with JavaScript</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">bookshelf.js</code> file injects functionality into your bookshelf, making it more engaging for visitors. The provided script accomplishes two key tasks:</p>
+
+<ol>
+  <li><strong>Randomizing Book Appearance:</strong>  This script adds variety to your bookshelf by assigning random heights, patterns (for the spine), and colors to each book. This creates a more dynamic and visually interesting display.</li>
+  <li><strong>Lazy Loading Book Covers:</strong>  This is a performance optimization technique.  The script delays loading the book cover images until the user hovers their mouse over a specific book. This can significantly improve the initial load time of your webpage, especially if you have many books with large cover images.</li>
+</ol>
+
+<p>Here’s an example snippet demonstrating how the script retrieves CSS variables and assigns random values:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">availablePatterns</span> <span class="o">=</span> <span class="p">[</span><span class="dl">"</span><span class="s2">argyle</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">tartan</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">stairs</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">pyramid</span><span class="dl">"</span><span class="p">];</span>
+
+<span class="nx">spines</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="nf">function </span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">randomPattern</span> <span class="o">=</span> <span class="nf">randomChoice</span><span class="p">(</span><span class="nx">availablePatterns</span><span class="p">);</span>
+  <span class="nx">s</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundImage</span> <span class="o">=</span> <span class="s2">`var(</span><span class="p">${</span><span class="nx">randomPattern</span><span class="p">}</span><span class="s2">)`</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="step-4-integrating-the-files">Step 4: Integrating the Files</h2>
+
+<p>Now that you have an understanding of what the different files do, it’s time to connect them and bring your bookshelf to life! This is a highly application-specific process so I would recommend taking what you need from the below files:</p>
+
+<ul>
+  <li><a href="https://github.com/iwishiwasaneagle/virtual-bookshelf/blob/main/bookshelf.css">bookshelf.css</a></li>
+  <li><a href="https://github.com/iwishiwasaneagle/virtual-bookshelf/blob/main/bookshelf.js">bookshelf.js</a></li>
+  <li><a href="https://github.com/iwishiwasaneagle/virtual-bookshelf/blob/main/index.html">index.html</a></li>
+</ul>
+
+<p>This what how I did <a href="https://janhendrikewers.uk/bookshelf">mine</a> using jekyll and a <a href="https://github.com/iwishiwasaneagle/janhendrikewers.uk/blob/master/_data/bookshelf.csv"><code class="language-plaintext highlighter-rouge">bookshelf.csv</code></a> file: <a href="https://github.com/iwishiwasaneagle/janhendrikewers.uk/blob/master/_layouts/bookshelf.html">bookshelf.html</a></p>
+
+ ]]></content>
+  </entry>
+
   <entry>
     <title type="text">Optimising Search and Rescue: How Algorithms Could Outperform Human Pilots</title>
     <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/optimising-search-and-rescue.html/?source=RSS" />
@@ -634,46 +729,6 @@ What I really appreciate about Plausible is not invading the privacy of the peop
     </li>
   </ol>
 </div>
- ]]></content>
-  </entry>
-
-  <entry>
-    <title type="text">Pip Install From Private GitHub Repos</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pip_install_from_private_repos.html/?source=RSS" />
-    <id>https://janhendrikewers.uk/pip_install_from_private_repos</id>
-    <published>2023-02-07T00:00:00Z</published>
-    <updated>2023-02-07T00:00:00Z</updated>
-    <content type="html"><![CDATA[ <p>I’m currently working on a <a href="https://github.com/iwishiwasaneagle/jdrones">library</a> that I’m not quite ready yet to open source. I use it for research, and as such need to be able to install it on other machines. Originally I was just cloning the repo and setting <code class="language-plaintext highlighter-rouge">PYTHONPATH</code> everywhere but this quickly became cumbersome. Below are the methods that I’ve discovered to install the library.</p>
-
-<h2 id="https">HTTPS</h2>
-
-<p>So you don’t want to set up SSH with a private key and all that jazz. Simply have a look at <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">this</a> guide to create a private access token (PAT) with <strong>read</strong> access to the private repo.</p>
-
-<p>Then run the following</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>git+https://<span class="nv">$USERNAME</span>:<span class="nv">$PAT</span>@github.com/<span class="nv">$GH_USER</span>/<span class="nv">$REPO</span>.git@<span class="nv">$VERSION</span>
-</code></pre></div></div>
-
-<p>Some other guides online either omit the $USERNAME because it’s a new requirement or it used to work, but this is the only way it works for me these days <strong>without</strong> asking for my password.</p>
-
-<h2 id="ssh">SSH</h2>
-
-<p>This is by far the easiest method, but it does require that <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh">SSH is linked to your github account</a>. If SSH is correctly set up, then run the following</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>git+ssh://git@github.com/<span class="nv">$GH_USER</span>/<span class="nv">$REPO</span>.git@<span class="nv">$VERSION</span>
-</code></pre></div></div>
-
-<h2 id="extra-info">Extra Info</h2>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">$VERSION</code> can be a branch or tag</li>
-  <li>PATs should <strong>always</strong> have the <strong>minimum</strong> permissions possible
-    <ul>
-      <li>GitHub’s new <a href="https://github.com/settings/tokens?type=beta">fine-grained tokens</a> give you per-repo control</li>
-    </ul>
-  </li>
-  <li>Treat your PATs like a password. DO NOT SHARE</li>
-</ul>
  ]]></content>
   </entry>
 
