@@ -24,7 +24,7 @@ let spinesauthors = Object.values(document.getElementsByClassName("spine-author"
 let covers = Object.values(document.getElementsByClassName("cover"));
 let tops = Object.values(document.getElementsByClassName("top"));
 
-let availablePatterns = ["argyle", "tartan"]; // we could probably get these programatically
+let availablePatterns = ["argyle", "tartan", "stairs", "pyramid"]; // we could probably get these programatically
 let availableColours = [
   "maroon",
   "darkgreen",
