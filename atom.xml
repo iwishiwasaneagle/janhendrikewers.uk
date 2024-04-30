@@ -6,7 +6,7 @@
   
   <link href="https://janhendrikewers.uk/"/>
   <id>https://janhendrikewers.uk/</id>
-  <updated>2024-04-28T11:52:55Z</updated>
+  <updated>2024-04-30T10:30:35Z</updated>
   <author>
     <name>Jan-Hendrik Ewers</name>
     <email>j.ewers.1@research.gla.ac.uk</email>
@@ -15,7 +15,7 @@
   
   <entry>
     <title type="text">Enhance Your Website with a Functional CSS Bookshelf</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/bookshelf_for_personal_website.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/bookshelf_for_personal_website.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/bookshelf_for_personal_website</id>
     <published>2024-04-23T00:00:00Z</published>
     <updated>2024-04-23T00:00:00Z</updated>
@@ -110,7 +110,7 @@
 
   <entry>
     <title type="text">Optimising Search and Rescue: How Algorithms Could Outperform Human Pilots</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/optimising-search-and-rescue.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/optimising-search-and-rescue.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/optimising-search-and-rescue</id>
     <published>2024-02-23T00:00:00Z</published>
     <updated>2024-02-23T00:00:00Z</updated>
@@ -172,7 +172,7 @@ The latter was done to demonstrate how hard it is for the pilot to closely follo
 
   <entry>
     <title type="text">Pydantic 1 vs 2: A Speed Comparison</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pydantic-1-vs-2-a-benchmark-test.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/pydantic-1-vs-2-a-benchmark-test.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/pydantic-1-vs-2-a-benchmark-test</id>
     <published>2023-08-18T13:49:00Z</published>
     <updated>2023-08-18T13:49:00Z</updated>
@@ -267,7 +267,7 @@ The latter was done to demonstrate how hard it is for the pilot to closely follo
 
   <entry>
     <title type="text">How To Properly Wipe Your Reddit Account</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/how-to-properly-wipe-your-reddit-account</id>
     <published>2023-06-16T09:41:00Z</published>
     <updated>2023-06-16T09:41:00Z</updated>
@@ -318,7 +318,7 @@ The latter was done to demonstrate how hard it is for the pilot to closely follo
 
   <entry>
     <title type="text">A Simple Linux Counter</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/a-simple-linux-counter.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/a-simple-linux-counter.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/a-simple-linux-counter</id>
     <published>2023-05-05T14:54:00Z</published>
     <updated>2023-05-05T14:54:00Z</updated>
@@ -331,7 +331,7 @@ The latter was done to demonstrate how hard it is for the pilot to closely follo
 
   <entry>
     <title type="text">How To Never Miss The Aurora Borealis Again!</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/how-to-never-miss-the-aurora-borealis-again</id>
     <published>2023-04-24T16:30:00Z</published>
     <updated>2023-04-24T16:30:00Z</updated>
@@ -388,7 +388,7 @@ The latter was done to demonstrate how hard it is for the pilot to closely follo
 
   <entry>
     <title type="text">Useful LaTex One-Liners For Reports/Papers/Etc.</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/useful-latex-one-liners-for-reports-papers-etc.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/useful-latex-one-liners-for-reports-papers-etc.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/useful-latex-one-liners-for-reports-papers-etc</id>
     <published>2023-04-19T14:02:00Z</published>
     <updated>2023-04-19T14:02:00Z</updated>
@@ -467,7 +467,7 @@ done</span>
 
   <entry>
     <title type="text">Easier Jekyll Post Creation Using jekyll-compose</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/easier-jekyll-post-creation-using-jekyll-compose.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/easier-jekyll-post-creation-using-jekyll-compose.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/easier-jekyll-post-creation-using-jekyll-compose</id>
     <published>2023-04-19T12:53:00Z</published>
     <updated>2023-04-19T12:53:00Z</updated>
@@ -490,7 +490,7 @@ done</span>
 
   <entry>
     <title type="text">Hosting Plausible Analytics On A Raspberry Pi 4 with SSL</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/plausible_analytics_on_a_raspberry_pi_with_SSL</id>
     <published>2023-04-19T00:00:00Z</published>
     <updated>2023-04-19T00:00:00Z</updated>
@@ -682,7 +682,7 @@ What I really appreciate about Plausible is not invading the privacy of the peop
 
   <entry>
     <title type="text">How Your Psychological Profile Is Used In A Mountain Rescue Search</title>
-    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_your_psychological_profile_is_used_in_a_mountain_rescue_search.html/?source=RSS" />
+    <link rel="alternate" type="text/html" href="https://janhendrikewers.uk/how_your_psychological_profile_is_used_in_a_mountain_rescue_search.html/?utm_source=janhendrikewers.uk&utm_medium=RSS" />
     <id>https://janhendrikewers.uk/how_your_psychological_profile_is_used_in_a_mountain_rescue_search</id>
     <published>2023-03-07T00:00:00Z</published>
     <updated>2023-03-07T00:00:00Z</updated>
