@@ -20,5 +20,12 @@
       ><i class="ai ai-doi"></i
     ></a>
     {% endif %}
+    {% if entry.publisher == "arXiv" and entry.eprint %}
+    <a
+      href="https://arxiv.org/abs/{{entry.eprint}}"
+      class="publink plausible-event-name=Publications+Page"
+      ><i class="ai ai-arxiv"></i
+    ></a>
+    {% endif %}
   </div>
 </div>
