@@ -6,7 +6,7 @@ include:
 plugins: ["jekyll/scholar"]
 rdiscount:
   extensions: [smart]
-permalink: /:title.html
+permalink: /:title
 port: 3000
 
 # edit here to achieve your personal greatness
