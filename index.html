@@ -2,6 +2,31 @@
 layout: home
 ---
 
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "dateCreated": "2021-07-22T09:00:00-00:00",
+    "dateModified": "{{ site.time | date_to_xmlschema }}",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "{{site.author}}",
+      "image": "{{site.url}}/static/img/{{site.avatar}}",
+      "sameAs": [
+        "http://github.com/{{ site.github }}",
+        "http://twitter.com/{{ site.twitter }}",
+        "http://linkedin.com/in/{{ site.linkedin }}",
+        "https://orcid.org/{{ site.orcid }}"
+      ],
+      "interactionStatistics":[
+      {
+          "@type": "InteractionCounter",
+          "interactionType": "https://schema.org/WriteAction:",
+          "userInteractionCount": {{ site.posts | size }}
+        }]
+  }
+  </script>
+
 <section id="about">
   <div class="container">
     <div class="avatar m-4">
