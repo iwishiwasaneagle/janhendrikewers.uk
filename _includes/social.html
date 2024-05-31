@@ -46,6 +46,12 @@
     >
       <i class="ai ai-orcid"></i>
     </a>
+    {% endif %} {% if site.google_scholar %}
+    <a
+      class="plausible-event-name=Home+Page"
+      href="https://scholar.google.com/citations?user={{ site.google_scholar }}"
+      ><i class="fa-brands fa-google-scholar"></i>
+    </a>
     {% endif %}
   </h4>
 </div>
