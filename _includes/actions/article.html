@@ -1,0 +1,22 @@
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "{{ include.title }}",
+      "image": [
+        {% for image in include.images %}
+            "{{image}}"
+            {% if forloop.last != true %}
+                ,
+            {% endif %}
+        {% endfor %}
+       ],
+      "datePublished": "{{ include.date | date: '%Y-%m-%d'}}",
+      "dateModified":  "{{ include.date | date: '%Y-%m-%d'}}",
+      "author": [{
+          "@type": "Person",
+          "name": "Jan-Hendrik Ewers",
+          "url": "https://janhendrikewers,uk"
+        }]
+    }
+    </script>
