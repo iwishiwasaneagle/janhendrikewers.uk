@@ -11,8 +11,8 @@
             {% endif %}
         {% endfor %}
        ],
-      "datePublished": "{{ include.date | date: '%Y-%m-%d'}}",
-      "dateModified":  "{{ include.date | date: '%Y-%m-%d'}}",
+      "datePublished": "{{ include.date | date_to_xmlschema }}",
+      "dateModified":  "{{ include.date | date_to_xmlschema }}",
       "author": [{
           "@type": "Person",
           "name": "Jan-Hendrik Ewers",
