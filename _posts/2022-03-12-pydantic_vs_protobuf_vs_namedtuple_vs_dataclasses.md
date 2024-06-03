@@ -1,6 +1,5 @@
 ---
 layout: post
-permalink: pydantic_vs_protobuf_vs_namedtuple_vs_dataclasses.html
 title: Pydantic vs Protobuf vs Namedtuples vs Dataclasses. Which Python Data Class Is Best?
 description: Comparing four of the most well known python data class libraries for speed, serialization performance, and automatic data type conversion/checking.
 date: "2022-03-22"
