@@ -2,8 +2,6 @@
 layout: post
 title: 'Say No to Latex Bloat: A Docker Approach'
 date: 2024-05-31
-categories: post
-usemathjax: false
 description: 'Bloating your system with Latex packages?
  Use Docker to create a self-contained environment for Latex, keeping your system clean and lean. This post guides you through building a custom Docker image and using it to call Latex tools from anywhere on your system.' 
 tags:

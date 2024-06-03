@@ -1,9 +1,16 @@
 ---
 layout: layout
 permalink: none
+breadcrumb: 
+  name: Blog
+  url: /blog
 ---
 
 {% include actions/article.html title=page.title date=page.date images=page.images %}
+
+{% include actions/breadcrumbs.html 
+    page_name=page.title
+%}
 
 <div class="container">
   <div class="blog-post">
