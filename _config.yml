@@ -45,3 +45,6 @@ defaults:
     values:
       categories: post
       usemathjax: false
+      breadcrumb:
+        name: Blog
+        url: /blog
