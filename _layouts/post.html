@@ -3,13 +3,17 @@ layout: layout
 permalink: none
 ---
 
-{% include actions/article.html title=page.title date=page.date images=page.images %}
-
-{% include actions/breadcrumbs.html 
+<script type="application/ld+json">
+[
+{% include actions/article.json title=page.title date=page.date images=page.images %}
+,
+{% include actions/breadcrumbs.json 
     root_name=page.breadcrumb.name
     root_url=page.breadcrumb.url
     page_name=page.title
 %}
+]
+</script>
 
 <div class="container">
   <div class="blog-post">

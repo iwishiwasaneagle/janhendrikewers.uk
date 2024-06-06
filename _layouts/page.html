@@ -2,11 +2,13 @@
 layout: layout
 ---
 
-{% include actions/breadcrumbs.html 
+<script type="application/ld+json">
+{% include actions/breadcrumbs.json 
     root_name="Homepage"
     root_url=""
     page_name=page.title
 %}
+</script>
 
 
 {{ content }}
