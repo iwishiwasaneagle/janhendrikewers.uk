@@ -1,19 +1,17 @@
-<script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "{{ include.root_name }}",
-                "item": "{{ site.url }}{{ include.root_url }}"
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "{{ include.page_name }}"
-            }
-        ]
-    }
-</script>
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{{ include.root_name }}",
+            "item": "{{ site.url }}{{ include.root_url }}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{{ include.page_name }}"
+        }
+    ]
+}
