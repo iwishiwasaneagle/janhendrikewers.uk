@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gem "jekyll", "~> 4.3.2"
 gem "csv", "~> 3.3"
 gem "logger", "~> 1.6"
+gem "base64", "~> 0.2.0"
 
 # Required for LSI
 gem "classifier-reborn", "~> 2.3.0"
