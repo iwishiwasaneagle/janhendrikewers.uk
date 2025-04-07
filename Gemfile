@@ -10,5 +10,5 @@ gem "observer", "~> 0.1.2"
 gem "classifier-reborn", "~> 2.3.0"
 
 group :jekyll_plugins do
-  gem "jekyll-scholar", "~> 7.1.3"
+  gem "jekyll-scholar", "~> 7.2.0"
 end
