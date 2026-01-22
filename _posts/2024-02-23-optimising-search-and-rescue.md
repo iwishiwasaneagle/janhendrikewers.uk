@@ -10,7 +10,7 @@ tags:
     - UAV
     - Research
 scholar:
-  bibliography: 2024_02_23.bib
+  bibliography: 2024-02-23-optimising-search-and-rescue.bib
   bibliography_list_tag: ol
   details_link: false
 ---
