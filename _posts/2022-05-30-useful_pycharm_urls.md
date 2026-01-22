@@ -11,19 +11,14 @@ tags:
 
 Being able to hover over modules, classes, functions, etc. of a library and seeing the documentation is always great. This post acts as a resources for you to copy/paste the external documentation URL for your favourite libraries to enable this feature. For more information how to enable this, have a look [here](#how)
 
-{% assign items = site.data.pycharm_urls %}
-{% assign sorteditems = items | sort: 'Library' %}
-
-<table>
-    <tr><th>Library</th><th>Module</th><th>URL</th></tr>
-  {% for row in sorteditems %}
-    <tr>
-    <td>{{ row.Library}}</td>
-    <td><code>{{ row.Module}}</code></td>
-    <td><code>{{ row.URL}}</code></td>
-    </tr>
-  {% endfor %}
-</table>
+| Library      | Module     | URL                                                                                                 |
+| ------------ | ---------- | --------------------------------------------------------------------------------------------------- |
+| Numpy        | numpy      | https://docs.scipy.org/doc/numpy/reference/generated/{element.qname}.html                           |
+| Scipy        | scipy      | https://docs.scipy.org/doc/scipy/reference/generated/{element.qname}.html                           |
+| Scikit-Learn | sklearn    | https://scikit-learn.org/stable/modules/generated/{element.qname}.html#{element.qname}              |
+| Pandas       | pandas     | https://pandas.pydata.org/pandas-docs/stable/generated/{element.qname}.html                         |
+| Matplotlib   | matplotlib | http://matplotlib.org/api/{module.basename}_api.html#{element.qname}                                |
+| Seaborn      | seaborn    | https://seaborn.pydata.org/generated/{module.name}.{element.name}.html#{module.name}.{element.name} |
 
 ## How
 
